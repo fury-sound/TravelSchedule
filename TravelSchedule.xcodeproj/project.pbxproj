@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B9C0F5FC2D42D42C00FB4A2E /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */; };
+		B9C0F5FF2D42D43C00FB4A2E /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B9C0F5E62D42D3D600FB4A2E /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,16 +28,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C0F5FC2D42D42C00FB4A2E /* OpenAPIRuntime in Frameworks */,
+				B9C0F5FF2D42D43C00FB4A2E /* OpenAPIURLSession in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B9313A562D42D68A00353B5B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B9C0F5DD2D42D3D600FB4A2E = {
 			isa = PBXGroup;
 			children = (
 				B9C0F5E82D42D3D600FB4A2E /* TravelSchedule */,
+				B9313A562D42D68A00353B5B /* Frameworks */,
 				B9C0F5E72D42D3D600FB4A2E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,12 +74,15 @@
 			buildRules = (
 			);
 			dependencies = (
+				B9C0F6012D42D4A100FB4A2E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B9C0F5E82D42D3D600FB4A2E /* TravelSchedule */,
 			);
 			name = TravelSchedule;
 			packageProductDependencies = (
+				B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */,
+				B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */,
 			);
 			productName = TravelSchedule;
 			productReference = B9C0F5E62D42D3D600FB4A2E /* TravelSchedule.app */;
@@ -94,6 +112,11 @@
 			);
 			mainGroup = B9C0F5DD2D42D3D600FB4A2E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B9C0F5F72D42D41A00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				B9C0F5FA2D42D42C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				B9C0F5FD2D42D43C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9C0F5E72D42D3D600FB4A2E /* Products */;
 			projectDirPath = "";
@@ -123,6 +146,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B9C0F6012D42D4A100FB4A2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B9C0F6002D42D4A100FB4A2E /* OpenAPIGenerator */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B9C0F5F22D42D3D700FB4A2E /* Debug */ = {
@@ -258,8 +288,10 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -267,9 +299,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.zvonarevva.Yandex.TravelSchedule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -287,8 +323,10 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,9 +334,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.zvonarevva.Yandex.TravelSchedule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -324,6 +366,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B9C0F5F72D42D41A00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
+		B9C0F5FA2D42D42C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
+		B9C0F5FD2D42D43C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9C0F5FA2D42D42C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9C0F5FD2D42D43C00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+		B9C0F6002D42D4A100FB4A2E /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9C0F5F72D42D41A00FB4A2E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B9C0F5DE2D42D3D600FB4A2E /* Project object */;
 }
