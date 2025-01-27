@@ -19,6 +19,7 @@ struct ContentView: View {
         }
         .onAppear() {
             Task {
+// раскомментировать для запуска соответствующих сервисов
 //                try betweenStations()
 //                try stationSchedule()
 //                try nearestStations()
