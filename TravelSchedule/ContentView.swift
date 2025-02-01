@@ -10,13 +10,29 @@ import OpenAPIURLSession
 import OpenAPIRuntime
 
 struct ContentView: View {
+
+    @State var color = Color.blue
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Привет, Яндекс Расписание!")
+                .padding()
+                .foregroundColor(color)
+            Button("Нажми меня!"){
+                if color == .blue
+                {
+                    color = .red
+                }
+                else {
+                    color = .blue
+                }
+//                color = .black
+            }
         }
+//        .foregroundStyle(.red)
+
         .onAppear() {
             Task {
 // раскомментировать для запуска соответствующих сервисов
