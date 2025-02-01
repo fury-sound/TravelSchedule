@@ -310,9 +310,9 @@ paths:
   /v3.0/thread/:
     get:
       tags:
-      - getRouteStations
+      - getStationOnRoute
       summary: список станций следования
-      operationId: getRouteStations
+      operationId: getStationOnRoute
       parameters:
         - name: apikey
           in: query
@@ -332,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stations'
+                $ref: '#/components/schemas/Stations_on_route'
         "400":
           description: Неверный запрос
         "401":
@@ -475,6 +475,120 @@ paths:
           description: Ошибка сервера 
 components:
   schemas:
+    Stations_on_route:
+      type: object
+      properties:
+        except_days:
+          type: string
+        arrival_date:
+          type: string
+        from:
+          type: string
+        uid:
+          type: string
+        title: 
+          type: string
+        interval: 
+          type: object
+          $ref: '#/components/schemas/Interval'
+        departure_date:
+          type: string
+        start_time:
+          type: string
+        number:
+          type: string
+        short_title:
+          type: string
+        days:
+          type: string
+        to:
+          type: string
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        transport_type:
+          type: string
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stops'
+        vehicle:
+          type: string
+        start_date:
+          type: string
+        transport_subtype:
+          $ref: '#/components/schemas/Transport_subtype'
+        express_type:
+          type: string
+    Stops:
+      type: object
+      properties:
+        arrival:
+          type: string
+        departure:
+          type: string
+        duration:
+          type: number
+        stop_time:
+          type: number  
+        station:
+          $ref: '#/components/schemas/Station'
+        terminal:
+          type: string
+        platform:
+          type: string  
+    Interval:
+      type: object
+      properties:
+        density:
+          type: string
+          description: Описание периодичности движения в свободной форме
+        begin_time:
+          type: string
+          description: Дата и время начала движения по нитке. Всегда указывается в часовом поясе станции отправления.
+        end_time:
+          type: string
+          description: Дата и время окончания движения по нитке. Всегда указывается в часовом поясе станции отправления.
+    Station:
+      type: object
+      properties:
+        codes:
+          $ref: '#/components/schemas/StationCode'
+        code:
+          type: string
+          description: Код станции в системе кодирования Яндекс Расписаний
+        title:
+          type: string
+        station_type:
+          type: string
+        type:
+          type: string
+        station_type_name:
+          type: string
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        transport_type:
+          type: string
+        distance:
+          type: number
+        majority:
+          type: integer
+        type_choices:
+          $ref: '#/components/schemas/Type_choices'
+    Stations:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        stations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Station'
     Station_list:
       type: object
       properties:
@@ -525,6 +639,9 @@ components:
     StationCode:
       type: string
       properties:
+        express:
+          type: string
+          description: Код станции в системе кодирования Экспресс-3
         yandex:
           type: string
           description: Код станции в системе кодирования Яндекс Расписаний
@@ -824,27 +941,6 @@ components:
         title:
           type: string
           description: Название направления (расшифровка кода) 
-    Interval:
-      type: object
-      properties:
-        density:
-          type: string
-          description: Описание периодичности движения в свободной форме
-        begin_time:
-          type: string
-          description: Дата и время начала движения по нитке. Всегда указывается в часовом поясе станции отправления.
-        end_time:
-          type: string
-          description: Дата и время окончания движения по нитке. Всегда указывается в часовом поясе станции отправления.
-    Stations:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        stations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Station'
     Pagination:
       type: object
       properties:
@@ -921,35 +1017,6 @@ components:
         type:
           type: string
           description: station или settlement   
-    Station:
-      type: object
-      properties:
-        type:
-          type: string
-        title:
-          type: string
-        short_title:
-          type: string
-        popular_title:
-          type: string
-        code:
-          $ref: '#/components/schemas/StationCode'
-        lat:
-          type: number
-        lng:
-          type: number
-        station_type:
-          type: string
-        station_type_name:
-          type: string
-        transport_type:
-          type: string
-        distance:
-          type: number
-        majority:
-          type: integer
-        type_choices:
-          $ref: '#/components/schemas/Type_choices'
     Type_choices:
       type: object
       properties:

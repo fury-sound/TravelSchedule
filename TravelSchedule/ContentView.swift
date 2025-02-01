@@ -19,16 +19,35 @@ struct ContentView: View {
         }
         .onAppear() {
             Task {
+// раскомментировать для запуска соответствующих сервисов
 //                try betweenStations()
 //                try stationSchedule()
 //                try nearestStations()
 //                try nearestSettlement()
 //                try carriers()
 //                try showCopyrightInfo()
-                try showAllStations()
+                try showStationsOnRoute()
+//                try showAllStations()
             }
         }
         .padding()
+    }
+
+    func showStationsOnRoute() throws {
+        let client = Client(
+            serverURL: try! Servers.Server1.url(),
+            transport: URLSessionTransport()
+        )
+
+        let service = StationOnRouteService(
+            client: client,
+            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
+        )
+
+        Task {
+            let stations = try await service.getStationsOnRoute(uid: "empty_0_f9813109t9878648_175")
+            print(stations)
+        }
     }
 
     func showAllStations() throws {
