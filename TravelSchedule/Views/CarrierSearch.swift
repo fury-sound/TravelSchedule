@@ -61,11 +61,18 @@ struct CarrierSearch: View {
                         .ignoresSafeArea(.all)
                     }
                 }
-                Spacer()
+                if #available(iOS 18.0, *) {
+                    Spacer()
+                    .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+                } else {
+                    Spacer()
+                    .toolbar(.hidden, for: .tabBar) // deprecated
+                }
                 ButtonView(filterConnection: $filterConnection)
             }
         }
-        .toolbarVisibility(.hidden, for: .tabBar)
+
+        .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -122,13 +129,13 @@ struct CustomLabel: View {
 }
 
 #Preview {
-    @Previewable @State var fromField = "Москва (Ярославский вокзал)"
-    @Previewable @State var toField = "Санкт-Петербург (Балтийский вокзал)"
+    @State var fromField = "Москва (Ярославский вокзал)"
+    @State var toField = "Санкт-Петербург (Балтийский вокзал)"
         //    let routeCarrierDataModel = RouteCarrierData()
     CarrierSearch(fromField: $fromField, toField: $toField)
 }
 
 #Preview {
-    @Previewable @State var filterConnection: Bool? = false
+    @State var filterConnection: Bool? = false
     ButtonView(filterConnection: $filterConnection)
 }

@@ -105,11 +105,11 @@ struct StationList: View {
 
 #Preview {
         //    @Previewable @EnvironmentObject var routeDirection: RouteDirection
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel() //[RouteView.stationView(CityList.moscow)]
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = ""
-    @Previewable @State var toField = ""
+    @State var whereField = 0
+    @State var fromField = ""
+    @State var toField = ""
         //    @Previewable @State var path = NavigationPath()
     StationSelection(header: (CityList.moscow, 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    @Previewable @State var routeData = RouteData()

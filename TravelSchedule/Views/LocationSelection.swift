@@ -40,14 +40,28 @@ struct LocationSelection: View {
                         insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
                         removal: .move(edge: .trailing)))
 //                    .navigationTitle(headerText)
-            }.toolbarVisibility(.hidden, for: .tabBar)
+            }
+
+//            .toolbar(.hidden, for: .tabBar) // deprecated
+//            .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
                 .navigationBarBackButtonHidden(true)
+//.navigationBarBackButtonHidden(true)
                 .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         BackButtonView()
                     }
                 }
+            if #available(iOS 18.0, *) {
+                Text("")
+                    .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+            } else {
+                Text("")
+                    .toolbar(.hidden, for: .tabBar) // deprecated
+            }
+//                .onAppear {
+//                    print("on appear")
+//                }
         }
     }
 }
@@ -117,8 +131,8 @@ struct CityListTable: View {
 }
 
 #Preview {
-    @Previewable @State var noInternetError = true
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var noInternetError = true
+    @State var path = [RouteView.stationView(CityList.moscow)]
     LocationSelection(
         headerText: "Выбор города",
         path: $path
@@ -126,7 +140,7 @@ struct CityListTable: View {
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel()
         //    @Previewable @State var model = NavigationPath()
         //    @Previewable @State var routeData = RouteData()
@@ -137,7 +151,7 @@ struct CityListTable: View {
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel()
         //    @Previewable @State var model = NavigationPath()
         //    @Previewable @State var routeData = RouteData()

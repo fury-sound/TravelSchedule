@@ -85,20 +85,20 @@ struct FromToView: View {
 
 #Preview {
         //    @Previewable @State var model = NavigationModel()
-    @Previewable @State var path = [RouteView.locationView]
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = ""
-    @Previewable @State var toField = ""
+    @State var path = [RouteView.locationView]
+    @State var whereField = 0
+    @State var fromField = ""
+    @State var toField = ""
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
     FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.locationView]
+    @State var path = [RouteView.locationView]
         //    @Previewable @State var model = NavigationModel()
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = "Москва (Курский вокзал)"
-    @Previewable @State var toField = "Москва (Белорусский вокзал)"
+    @State var whereField = 0
+    @State var fromField = "Москва (Курский вокзал)"
+    @State var toField = "Москва (Белорусский вокзал)"
     FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
 }

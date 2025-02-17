@@ -181,7 +181,7 @@ struct RadioButtonStyle: ToggleStyle {
 
 
 #Preview {
-    @Previewable @State var filterConnection: Bool? = false
+    @State var filterConnection: Bool? = false
     RouteSettings(filterConnection: $filterConnection)
 }
 
