@@ -96,8 +96,9 @@ struct StationList: View {
                         })
                 }
                 .listRowSeparator(.hidden)
+                .padding([.top, .bottom], 10)
             }
-
+            .listStyle(.plain)
         }
     }
 }

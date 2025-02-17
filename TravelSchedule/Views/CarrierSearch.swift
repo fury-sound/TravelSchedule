@@ -52,36 +52,39 @@ struct CarrierSearch: View {
                     VStack {
                         List {
                             ForEach(filterResults, id: \.self) { details in
-                                RouteInfo(routeDetailsCarrier: details)
+                                ZStack {
+                                    RouteInfo(routeDetailsCarrier: details)
+                                }
+
                             }
                             .listRowSeparator(.hidden)
                         }
-                        .padding(.vertical, -5)
-                        .listStyle(.plain)
                         .ignoresSafeArea(.all)
+                        .padding(.vertical, -5)
+                        .padding(.trailing, -18)
+                        .foregroundStyle(Color.clear, Color.clear)
+                        .listStyle(.plain)
+                        .scrollIndicators(.hidden)
                     }
                 }
-                if #available(iOS 18.0, *) {
-                    Spacer()
-                    .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
-                } else {
-                    Spacer()
-                    .toolbar(.hidden, for: .tabBar) // deprecated
-                }
+                Spacer()
                 ButtonView(filterConnection: $filterConnection)
             }
         }
-
-        .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 BackButtonView()
             }
         }
-            //        .onAppear {
-            //            print("filterConnection in CarrierSearch", filterConnection)
-            //        }
+        if #available(iOS 18.0, *) {
+            Text("")
+                .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+        } else {
+            Text("")
+                .toolbar(.hidden, for: .tabBar) // deprecated
+        }
+
     }
 }
 
@@ -104,13 +107,10 @@ struct ButtonView: View {
             .foregroundStyle(.white)
             .background(.ypBlueUniversal)
             .clipShape(.rect(cornerRadius: 16))
-                //                    .sheet
             .font(.system(size: 17, weight: .bold))
             .padding([.top, .bottom], 10)
             .padding([.leading, .trailing], 16)
-                //            .simultaneousGesture(TapGesture().onEnded{
-                //                print("filterConnection in ButtonView", filterConnection)
-                //            })
+
         }
     }
 }

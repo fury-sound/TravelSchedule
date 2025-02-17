@@ -21,7 +21,6 @@ struct FromToView: View {
                 VStack(alignment: .center) {
                     List {
                         Button(action: {
-//                            print("clicked, 0")
                             whereField = 0
                             path.append(.locationView)
                         }) {
@@ -36,7 +35,6 @@ struct FromToView: View {
                             }
                             }
                         Button(action: {
-//                            print("clicked, 1")
                             whereField = 1
                             path.append(.locationView)
                         }) {
@@ -57,10 +55,8 @@ struct FromToView: View {
                 .listStyle(.plain)
             }
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .padding(.top, 19)
-            .padding(.bottom, 19)
+            .padding([.top, .bottom], 19)
             Button(action: {
-//                print("Button pressed")
                 if fromField != "Откуда" && toField != "Откуда" {
                     let temp = fromField
                     fromField = toField

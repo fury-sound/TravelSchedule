@@ -13,11 +13,11 @@ struct MainTabView: View {
         TabView {
             ContentView()
                 .tabItem {
-                    Label("Journal", systemImage: "arrow.up.message.fill")
+                    Label("", systemImage: "arrow.up.message.fill")
                 }
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
+                    Label("", systemImage: "gearshape.fill")
                 }
         }
         .tint(.ypBlack)
