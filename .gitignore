@@ -13,3 +13,5 @@ Pods/
 *.xcscmblueprint
 *.temp
 playground.xcworkspace
+FromToView1.swift
+NewView.swift

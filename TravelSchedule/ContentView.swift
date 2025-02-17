@@ -1,191 +1,87 @@
-//
-//  ContentView.swift
-//  TravelSchedule
-//
-//  Created by Valery Zvonarev on 23.01.2025.
-//
+    //
+    //  ContentView.swift
+    //  TravelSchedule
+    //
+    //  Created by Valery Zvonarev on 23.01.2025.
+    //
 
 import SwiftUI
 import OpenAPIURLSession
 import OpenAPIRuntime
 
 struct ContentView: View {
+    let travelServices = TravelServices()
+    @State private var fromField: String = "Откуда"
+    @State private var toField: String = "Куда"
+    @State private var whereField: Int = 0
+
+        //    @State private var searchString: String = ""
+        //    @Binding var whereField: Int
+        //    var whereField: Int
+        //    @State var path = NavigationPath()
+        //    @State var navModel = NavigationModel()
+    @StateObject var navModel = NavigationModel()
+        //    @Environment(CityList.self) var cityList
+
+//    var BackButtonView: some View {
+//            Button(action: {
+//                print("Back")
+//            })
+//            {
+//                Image(systemName: "chevron.left")
+//                    .foregroundColor(.ypBlack)
+//            }
+//    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack(path: $navModel.path) {
+            VStack {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    StoryView()
+                }.frame(height: 140)
+                    .padding(.bottom, 20)
+                FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+                    .navigationDestination(for: RouteView.self) { routeView in
+                        switch routeView {
+                            case .locationView:
+                                LocationSelection(headerText: "Выбор города", path: $navModel.path)
+                                    //                                    .searchable(text: $searchString, prompt: "Поиск города")
+                            case .stationView(let city):
+                                StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+                        }
+                    }
+                    //                Button(action: {CarrierSearch()}, label: "Найти")
+
+                if fromField != "Откуда" && toField != "Куда" {
+                    NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
+                        Text("Найти")
+                            .font(.system(size: 17, weight: .bold))
+                            .padding()
+                            .frame(width: 150, height: 60)
+                            .background(.ypBlueUniversal)
+                            .foregroundStyle(.white)
+                            .clipShape(.rect(cornerRadius: 16))
+                    }
+                    .padding([.top, .bottom], 16)
+                    .padding([.leading, .trailing], 8)
+                }
+                Spacer()
+            }
         }
+        .navigationBarBackButtonHidden(true)
+
         .onAppear() {
             Task {
-// раскомментировать для запуска соответствующих сервисов
-//                try betweenStations()
-//                try stationSchedule()
-//                try nearestStations()
-//                try nearestSettlement()
-//                try carriers()
-//                try showCopyrightInfo()
-                try showStationsOnRoute()
-//                try showAllStations()
-            }
-        }
-        .padding()
-    }
-
-    func showStationsOnRoute() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = StationOnRouteService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            let stations = try await service.getStationsOnRoute(uid: "empty_0_f9813109t9878648_175")
-            print(stations)
-        }
-    }
-
-    func showAllStations() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = AllStationService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            do {
-                let allStationInfo = try await service.getAllStationList()
-            // закомментировано, поскольку вешает XCode; полученный json выводится в файл
-            // print(allStationInfo)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func showCopyrightInfo() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = CopyrightService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            do {
-                let copyrightData = try await service.getCopyright()
-                print(copyrightData)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func stationSchedule() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = ScheduleByStationService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            do {
-                let stations = try await service.getScheduleByStation(station: "s9600213")
-                print(stations)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func nearestStations() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = NearestStationsService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            let stations = try await service.getNearestStations(lat: 59.864177, lng: 30.319163, distance: 25)
-            print(stations)
-        }
-    }
-
-    func nearestSettlement() throws {
-        let client = Client(
-        serverURL: try! Servers.Server1.url(),
-        transport: URLSessionTransport()
-        )
-
-        let service = NearestSettlementService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            let settlement = try await service.getNearestSettlement(lat: 59.864177, lng: 30.319163)
-            print(settlement)
-        }
-    }
-
-    func carriers() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = CarrierByCodeService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            do {
-                let myCarrier = try await service.getCarrierByCode(code: 680)
-                print(myCarrier)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func betweenStations() throws {
-        let client = Client(
-            serverURL: try! Servers.Server1.url(),
-            transport: URLSessionTransport()
-        )
-
-        let service = ScheduleBetweenStationsService(
-            client: client,
-            apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
-        )
-
-        Task {
-            do {
-                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
-                print(scheduleBetweenStations)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
+                    // раскомментировать для запуска соответствующих сервисов
+                    //                try betweenStations()
+                    //                try stationSchedule()
+                    //                try nearestStations()
+                    //                try nearestSettlement()
+                    //                try carriers()
+                    //                try travelServices.showCopyrightInfo()
+                    //                try showCopyrightInfo()
+                    //                try showStationsOnRoute()
+                    //                try showAllStations()
             }
         }
     }
@@ -194,3 +90,42 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
+
+/*
+
+ //        VStack(spacing: 16) {
+
+ //            HStack(alignment: .top) {
+ //            }.ignoresSafeArea(.all)
+ //            .ignoresSafeArea()
+ //            .frame(maxHeight: .infinity)
+ //            LazyHStack(alignment: .top, spacing: 5) {
+ //            LazyHStack {
+ //                .ypBlueUniversal
+ //                Rectangle()
+ ////                    .frame(width: 92, height: 140)
+ //                Rectangle()
+ ////                    .frame(width: 92, height: 140)
+ //            }.frame(maxHeight: 100)
+ //                .background(Color.gray)
+ //            Spacer(minLength: 44)
+ //            FromToView()
+ //            Spacer()
+
+ //                .padding()
+ //        }.frame(maxHeight: .infinity, alignment: .top)
+
+ //                FromToView(path: $navModel.path, fromField: $fromField, toField: $toField)
+ //                    .navigationDestination(for: RouteFieldStatus.self) { routeStatus in
+ //                        switch routeStatus {
+ //                            case .from:
+ //                                if $navModel.path.isEmpty {
+ //                                    LocationSelection(headerText: "Выбор города", path: $navModel.path)
+ //                                } else {
+ //                                    StationSelection(header: city, path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+ //                                }
+ //                            case .to:
+ //                        }
+ //                    }
+ */
