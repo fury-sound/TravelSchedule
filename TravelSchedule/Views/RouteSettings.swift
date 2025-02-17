@@ -87,6 +87,12 @@ struct RouteSettings: View {
                 .padding(.bottom, 16)
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView()
+            }
+        }
         .padding(16)
         .onAppear {
 //            print("filterConnection in .onAppear", filterConnection)

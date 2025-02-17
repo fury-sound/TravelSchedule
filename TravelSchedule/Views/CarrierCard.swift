@@ -43,6 +43,12 @@ struct CarrierCard: View {
             }
             .padding([.leading, .bottom], 16)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    BackButtonView()
+                }
+            }
             Spacer()
 //                .onAppear {
 //                    print(carrierDetails.imageNameLarge,

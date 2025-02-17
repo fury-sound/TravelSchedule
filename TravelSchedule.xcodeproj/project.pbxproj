@@ -7,18 +7,63 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B955804F2D58EE2800A0262D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B955803E2D58EE2800A0262D /* Preview Assets.xcassets */; };
+		B95580502D58EE2800A0262D /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = B95580402D58EE2800A0262D /* openapi.yaml */; };
+		B95580512D58EE2800A0262D /* openapi-generator-config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = B95580412D58EE2800A0262D /* openapi-generator-config.yaml */; };
+		B95580522D58EE2800A0262D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95580442D58EE2800A0262D /* Assets.xcassets */; };
+		B95580552D58EE2800A0262D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95580462D58EE2800A0262D /* ContentView.swift */; };
+		B955805C2D58EE2800A0262D /* TravelScheduleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B955804D2D58EE2800A0262D /* TravelScheduleApp.swift */; };
 		B9C0F5FC2D42D42C00FB4A2E /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */; };
 		B9C0F5FF2D42D43C00FB4A2E /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B955803E2D58EE2800A0262D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B95580402D58EE2800A0262D /* openapi.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
+		B95580412D58EE2800A0262D /* openapi-generator-config.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "openapi-generator-config.yaml"; sourceTree = "<group>"; };
+		B95580442D58EE2800A0262D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B95580462D58EE2800A0262D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B955804D2D58EE2800A0262D /* TravelScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleApp.swift; sourceTree = "<group>"; };
+		B95580602D58FFF800A0262D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B9C0F5E62D42D3D600FB4A2E /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B95580832D591A7400A0262D /* Exceptions for "ViewModel" folder in "TravelSchedule" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentViewViewModel.swift,
+				RouteCarrierData.swift,
+				RouteData.swift,
+				StoryViewViewModel.swift,
+				TravelServices.swift,
+			);
+			target = B9C0F5E52D42D3D600FB4A2E /* TravelSchedule */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B9C0F5E82D42D3D600FB4A2E /* TravelSchedule */ = {
+		B955805D2D58EE3A00A0262D /* Services */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TravelSchedule;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B955807E2D5919CA00A0262D /* ViewModel */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B95580832D591A7400A0262D /* Exceptions for "ViewModel" folder in "TravelSchedule" target */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B955807F2D5919DF00A0262D /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B95580802D5919E900A0262D /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -43,10 +88,44 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B955803F2D58EE2800A0262D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B955803E2D58EE2800A0262D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B95580422D58EE2800A0262D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B95580402D58EE2800A0262D /* openapi.yaml */,
+				B95580412D58EE2800A0262D /* openapi-generator-config.yaml */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B955804E2D58EE2800A0262D /* TravelSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				B95580802D5919E900A0262D /* Models */,
+				B955807E2D5919CA00A0262D /* ViewModel */,
+				B955807F2D5919DF00A0262D /* Views */,
+				B95580602D58FFF800A0262D /* Info.plist */,
+				B955803F2D58EE2800A0262D /* Preview Content */,
+				B95580422D58EE2800A0262D /* Resources */,
+				B95580442D58EE2800A0262D /* Assets.xcassets */,
+				B955805D2D58EE3A00A0262D /* Services */,
+				B95580462D58EE2800A0262D /* ContentView.swift */,
+				B955804D2D58EE2800A0262D /* TravelScheduleApp.swift */,
+			);
+			path = TravelSchedule;
+			sourceTree = "<group>";
+		};
 		B9C0F5DD2D42D3D600FB4A2E = {
 			isa = PBXGroup;
 			children = (
-				B9C0F5E82D42D3D600FB4A2E /* TravelSchedule */,
+				B955804E2D58EE2800A0262D /* TravelSchedule */,
 				B9313A562D42D68A00353B5B /* Frameworks */,
 				B9C0F5E72D42D3D600FB4A2E /* Products */,
 			);
@@ -77,7 +156,9 @@
 				B9C0F6012D42D4A100FB4A2E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				B9C0F5E82D42D3D600FB4A2E /* TravelSchedule */,
+				B955805D2D58EE3A00A0262D /* Services */,
+				B955807F2D5919DF00A0262D /* Views */,
+				B95580802D5919E900A0262D /* Models */,
 			);
 			name = TravelSchedule;
 			packageProductDependencies = (
@@ -132,6 +213,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B955804F2D58EE2800A0262D /* Preview Assets.xcassets in Resources */,
+				B95580502D58EE2800A0262D /* openapi.yaml in Resources */,
+				B95580512D58EE2800A0262D /* openapi-generator-config.yaml in Resources */,
+				B95580522D58EE2800A0262D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +227,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B95580552D58EE2800A0262D /* ContentView.swift in Sources */,
+				B955805C2D58EE2800A0262D /* TravelScheduleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +378,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 15.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -326,7 +413,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 15.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

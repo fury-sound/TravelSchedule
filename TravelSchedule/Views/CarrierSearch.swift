@@ -66,6 +66,12 @@ struct CarrierSearch: View {
             }
         }
         .toolbarVisibility(.hidden, for: .tabBar)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView()
+            }
+        }
             //        .onAppear {
             //            print("filterConnection in CarrierSearch", filterConnection)
             //        }

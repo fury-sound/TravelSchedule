@@ -36,6 +36,9 @@ struct LocationSelection: View {
                 CityListTable(path: $path, searchString: $searchString)
                     //            CityListTable(path: $path)
                     .font(.system(size: 17, weight: .regular))
+                    .transition(.asymmetric(
+                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
+                        removal: .move(edge: .trailing)))
 //                    .navigationTitle(headerText)
             }.toolbarVisibility(.hidden, for: .tabBar)
                 .navigationBarBackButtonHidden(true)
@@ -48,6 +51,7 @@ struct LocationSelection: View {
         }
     }
 }
+
 
 struct BackButtonView: View {
     @Environment(\.presentationMode) var presentationMode

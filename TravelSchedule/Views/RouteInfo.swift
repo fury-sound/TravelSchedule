@@ -15,7 +15,6 @@ struct RouteInfo: View {
     var body: some View {
 //        NavigationStack {
             NavigationLink(destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails)) {
-
                 ZStack {
                     RoundedRectangle(cornerRadius: 24)
                         .fill(Color.ypLightGray)

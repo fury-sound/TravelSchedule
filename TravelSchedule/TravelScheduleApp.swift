@@ -10,14 +10,15 @@ import SwiftUI
 @main
 struct TravelScheduleApp: App {
 //    @State var routeDirection = RouteDirection()
-    @StateObject var routeDirection = RouteDirection()
+//    @StateObject var routeDirection = RouteDirection()
 
     var body: some Scene {
         WindowGroup {
             SplashScreen()
 //                .environment(routeDirection)
-                .environmentObject(routeDirection)
+//                .environmentObject(routeDirection)
 //            ContentView()
+//            MainTabView()
         }
     }
 }

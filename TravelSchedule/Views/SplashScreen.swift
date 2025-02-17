@@ -17,7 +17,7 @@ struct SplashScreen: View {
             } else {
                 Rectangle()
                     .background(Color.ypBlack)
-                Image("SplashScreen")
+                Image("ypSplashScreen")
                     .resizable()
                     .ignoresSafeArea(.all)
                     .scaledToFill()
