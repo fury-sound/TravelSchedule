@@ -20,39 +20,42 @@ struct LocationSelection: View {
         //    @ObservedObject var routeData: RouteData
 
     var body: some View {
-        if noInternetError == true {
-            VStack {
-                NoInternetView()
-            }
-        } else if serverError == true {
-            VStack {
-                ServerErrorView()
-            }
-        } else {
-            VStack {
-                    //            SearchBar(searchText: $searchString)
-                CityListTable(path: $path, searchString: $searchString)
-                    //            CityListTable(path: $path)
-                    .font(.system(size: 17, weight: .regular))
-//                    .transition(.asymmetric(
-//                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
-//                        removal: .move(edge: .trailing)))
-            }
-                .navigationBarBackButtonHidden(true)
-                .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        BackButtonView()
-                    }
+        VStack {
+            if noInternetError == true {
+                VStack {
+                    NoInternetView()
                 }
-            if #available(iOS 18.0, *) {
-                Text("")
-                    .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+            } else if serverError == true {
+                VStack {
+                    ServerErrorView()
+                }
             } else {
-                Text("")
-                    .toolbar(.hidden, for: .tabBar) // deprecated
+                VStack {
+                        //            SearchBar(searchText: $searchString)
+                    CityListTable(path: $path, searchString: $searchString)
+                        //            CityListTable(path: $path)
+                        .font(.system(size: 17, weight: .regular))
+    //                    .transition(.asymmetric(
+    //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
+    //                        removal: .move(edge: .trailing)))
+                }
+                    .navigationBarBackButtonHidden(true)
+                    .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            BackButtonView()
+                        }
+                    }
+                if #available(iOS 18.0, *) {
+                    Text("")
+                        .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+                } else {
+                    Text("")
+                        .toolbar(.hidden, for: .tabBar) // deprecated
+                }
             }
         }
+            .background(Color.ypWhite)
     }
 }
 
@@ -113,6 +116,7 @@ struct CityListTable: View {
                                 path.append(.stationView(city))
                             })
                     }
+                    .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .padding([.top, .bottom], 10)
                 }.listStyle(.plain)

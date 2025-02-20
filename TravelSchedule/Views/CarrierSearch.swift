@@ -58,6 +58,7 @@ struct CarrierSearch: View {
 
                             }
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
                         }
                         .ignoresSafeArea(.all)
                         .padding(.vertical, -5)
@@ -71,6 +72,7 @@ struct CarrierSearch: View {
                 ButtonView(filterConnection: $filterConnection)
             }
         }
+        .background(Color.ypWhite)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -90,11 +92,13 @@ struct CarrierSearch: View {
 
 struct ButtonView: View {
     @Binding var filterConnection: Bool?
+    @State private var isRouteSettingsViewActive: Bool = false
 
     var body: some View {
         VStack {
             Spacer()
-            NavigationLink(destination: RouteSettings(filterConnection: $filterConnection)) {
+        NavigationLink(destination: RouteSettings(filterConnection: $filterConnection, isActive: $isRouteSettingsViewActive)) {
+            VStack {
                 if filterConnection == nil {
                     Text("Уточнить время")
                         .padding(.vertical, 20)
@@ -110,7 +114,14 @@ struct ButtonView: View {
             .font(.system(size: 17, weight: .bold))
             .padding([.top, .bottom], 10)
             .padding([.leading, .trailing], 16)
-
+            .offset(y: isRouteSettingsViewActive ? 0 : 200)
+            .opacity(isRouteSettingsViewActive ? 1 : 0)
+            }
+        }
+        .onAppear(){
+            withAnimation(.easeInOut(duration: 0.5)) {
+                isRouteSettingsViewActive = true
+            }
         }
     }
 }

@@ -9,11 +9,9 @@ import SwiftUI
 
 struct RouteInfo: View {
     let screenSize = UIScreen.main.bounds
-        //    let routeDetailsCarrier: RouteDetailsCarrier
     @State var routeDetailsCarrier: RouteDetailsCarrier
 
     var body: some View {
-//        NavigationStack {
             NavigationLink(destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails)) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 24)
@@ -23,7 +21,7 @@ struct RouteInfo: View {
                                 HStack {
                                     Image(routeDetailsCarrier.carrierDetails.imageNameSmall)
                                     VStack(alignment: .leading) {
-                                        Text(routeDetailsCarrier.carrierDetails.id.rawValue)
+                                        Text(routeDetailsCarrier.carrierDetails.name.rawValue)
                                             .foregroundColor(Color.black)
                                             .font(.system(size: 17, weight: .regular))
                                         if let connection = routeDetailsCarrier.connection {
@@ -61,22 +59,10 @@ struct RouteInfo: View {
                         )
                 }
                 .frame(maxWidth: .infinity, minHeight: screenSize.height / 7, maxHeight: screenSize.height / 7)
-//                .onTapGesture {
-//                    print("tapped")
-//                    NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-//                }
             }
         }
-//        NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-//    }
 }
-    //        .navigationDestination(for: <#T##Hashable.Type#>, destination: <#T##(Hashable) -> View#>)
-    //        .onTapGesture {
-    //            print("tapped")
-    //            NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //        }
-    //    }
-    //}
+
 
 #Preview {
     let routeCarrierData = RouteCarrierData()
@@ -89,3 +75,19 @@ struct RouteInfo: View {
     @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.mockRouteArray[2]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
+
+
+    //                .onTapGesture {
+    //                    print("tapped")
+    //                    NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
+    //                }
+    //        NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
+    //    }
+
+    //        .navigationDestination(for: <#T##Hashable.Type#>, destination: <#T##(Hashable) -> View#>)
+    //        .onTapGesture {
+    //            print("tapped")
+    //            NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
+    //        }
+    //    }
+//}

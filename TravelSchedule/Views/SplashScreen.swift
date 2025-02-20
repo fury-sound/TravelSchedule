@@ -21,7 +21,6 @@ struct SplashScreen: View {
                     .resizable()
                     .ignoresSafeArea(.all)
                     .scaledToFill()
-//                    .frame(width: .infinity, height: .infinity)
             }
         }
         .onAppear {

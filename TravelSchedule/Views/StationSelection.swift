@@ -23,28 +23,31 @@ struct StationSelection: View {
         //    @Binding var directionField: String?
 
     var body: some View {
-        if noInternetError == true {
-            VStack {
-                NoInternetView()
-            }
-        } else if serverError == true {
-            VStack {
-                ServerErrorView()
-            }
-        } else {
-            Text(header.0.cityName)
-            VStack {
-                SearchBar(searchText: $searchString)
-                StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString)
-            }
-            .navigationBarBackButtonHidden(true)
-            .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    BackButtonView()
+        VStack {
+            if noInternetError == true {
+                VStack {
+                    NoInternetView()
+                }
+            } else if serverError == true {
+                VStack {
+                    ServerErrorView()
+                }
+            } else {
+    //            Text(header.0.cityName)
+                VStack {
+                    SearchBar(searchText: $searchString)
+                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString)
+                }
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButtonView()
+                    }
                 }
             }
         }
+        .background(Color.ypWhite)
     }
 }
 
@@ -82,7 +85,6 @@ struct StationList: View {
             Spacer()
         } else {
             List {
-                    //            ForEach(city.0.stations, id: \.self) { station in
                 ForEach(filteredStations, id: \.self) { station in
                     NavigationLink(station, value: station)
                         .foregroundStyle(.ypBlack, .ypBlack)
@@ -95,6 +97,7 @@ struct StationList: View {
                             path = []
                         })
                 }
+                .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
                 .padding([.top, .bottom], 10)
             }

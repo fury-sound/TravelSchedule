@@ -23,17 +23,8 @@ struct ContentView: View {
     @StateObject var navModel = NavigationModel()
         //    @Environment(CityList.self) var cityList
 
-//    var BackButtonView: some View {
-//            Button(action: {
-//                print("Back")
-//            })
-//            {
-//                Image(systemName: "chevron.left")
-//                    .foregroundColor(.ypBlack)
-//            }
-//    }
-
     var body: some View {
+
         NavigationStack(path: $navModel.path) {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -45,12 +36,10 @@ struct ContentView: View {
                         switch routeView {
                             case .locationView:
                                 LocationSelection(headerText: "Выбор города", path: $navModel.path)
-                                    //                                    .searchable(text: $searchString, prompt: "Поиск города")
                             case .stationView(let city):
                                 StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
                         }
                     }
-                    //                Button(action: {CarrierSearch()}, label: "Найти")
 
                 if fromField != "Откуда" && toField != "Куда" {
                     NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
@@ -59,14 +48,16 @@ struct ContentView: View {
                             .padding()
                             .frame(width: 150, height: 60)
                             .background(.ypBlueUniversal)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.ypWhiteUniversal)
                             .clipShape(.rect(cornerRadius: 16))
                     }
+                    .background(Color.clear)
                     .padding([.top, .bottom], 16)
                     .padding([.leading, .trailing], 8)
                 }
                 Spacer()
             }
+            .background(Color.ypWhite)
         }
         .navigationBarBackButtonHidden(true)
 
@@ -84,6 +75,7 @@ struct ContentView: View {
                     //                try showAllStations()
             }
         }
+        .background(Color.red)
     }
 }
 

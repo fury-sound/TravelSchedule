@@ -15,6 +15,8 @@ struct TravelScheduleApp: App {
     var body: some Scene {
         WindowGroup {
             SplashScreen()
+                .background(Color.ypWhite)
+                .ignoresSafeArea()
 //                .environment(routeDirection)
 //                .environmentObject(routeDirection)
 //            ContentView()

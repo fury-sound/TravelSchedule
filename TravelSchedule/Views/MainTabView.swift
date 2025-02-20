@@ -19,6 +19,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label("", systemImage: "gearshape.fill")
                 }
+                .background(Color.green)
         }
         .tint(.ypBlack)
     }
