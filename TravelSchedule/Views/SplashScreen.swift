@@ -17,11 +17,10 @@ struct SplashScreen: View {
             } else {
                 Rectangle()
                     .background(Color.ypBlack)
-                Image("SplashScreen")
+                Image("ypSplashScreen")
                     .resizable()
                     .ignoresSafeArea(.all)
                     .scaledToFill()
-//                    .frame(width: .infinity, height: .infinity)
             }
         }
         .onAppear {

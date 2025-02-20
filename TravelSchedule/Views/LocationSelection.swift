@@ -20,34 +20,45 @@ struct LocationSelection: View {
         //    @ObservedObject var routeData: RouteData
 
     var body: some View {
-            //        Text("")
-            //        CityListTable(path: $path, routeData: routeData)
-        if noInternetError == true {
-            VStack {
-                NoInternetView()
-            }
-        } else if serverError == true {
-            VStack {
-                ServerErrorView()
-            }
-        } else {
-            VStack {
-                    //            SearchBar(searchText: $searchString)
-                CityListTable(path: $path, searchString: $searchString)
-                    //            CityListTable(path: $path)
-                    .font(.system(size: 17, weight: .regular))
-//                    .navigationTitle(headerText)
-            }.toolbarVisibility(.hidden, for: .tabBar)
-                .navigationBarBackButtonHidden(true)
-                .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        BackButtonView()
-                    }
+        VStack {
+            if noInternetError == true {
+                VStack {
+                    NoInternetView()
                 }
+            } else if serverError == true {
+                VStack {
+                    ServerErrorView()
+                }
+            } else {
+                VStack {
+                        //            SearchBar(searchText: $searchString)
+                    CityListTable(path: $path, searchString: $searchString)
+                        //            CityListTable(path: $path)
+                        .font(.system(size: 17, weight: .regular))
+    //                    .transition(.asymmetric(
+    //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
+    //                        removal: .move(edge: .trailing)))
+                }
+                    .navigationBarBackButtonHidden(true)
+                    .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            BackButtonView()
+                        }
+                    }
+                if #available(iOS 18.0, *) {
+                    Text("")
+                        .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+                } else {
+                    Text("")
+                        .toolbar(.hidden, for: .tabBar) // deprecated
+                }
+            }
         }
+            .background(Color.ypWhite)
     }
 }
+
 
 struct BackButtonView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -105,16 +116,18 @@ struct CityListTable: View {
                                 path.append(.stationView(city))
                             })
                     }
+                    .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-                }.listStyle(.inset)
+                    .padding([.top, .bottom], 10)
+                }.listStyle(.plain)
             }
         }
     }
 }
 
 #Preview {
-    @Previewable @State var noInternetError = true
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var noInternetError = true
+    @State var path = [RouteView.stationView(CityList.moscow)]
     LocationSelection(
         headerText: "Выбор города",
         path: $path
@@ -122,7 +135,7 @@ struct CityListTable: View {
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel()
         //    @Previewable @State var model = NavigationPath()
         //    @Previewable @State var routeData = RouteData()
@@ -133,7 +146,7 @@ struct CityListTable: View {
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel()
         //    @Previewable @State var model = NavigationPath()
         //    @Previewable @State var routeData = RouteData()

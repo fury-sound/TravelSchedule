@@ -20,23 +20,25 @@ struct FromToView: View {
             HStack {
                 VStack(alignment: .center) {
                     List {
-                        Button(action: {
-//                            print("clicked, 0")
-                            whereField = 0
-                            path.append(.locationView)
-                        }) {
-                            if fromField == "Откуда" {
-                                Text(fromField)
-                                    .foregroundStyle(Color.gray)
-                                    .lineLimit(1)
-                            } else {
-                                Text(fromField)
-                                    .foregroundStyle(Color.ypBlack)
-                                    .lineLimit(1)
+                        HStack {
+                            Button(action: {
+                                whereField = 0
+                                path.append(.locationView)
+                            }) {
+                                if fromField == "Откуда" {
+                                    Text(fromField)
+                                        .foregroundStyle(Color.gray)
+                                        .lineLimit(1)
+                                } else {
+                                    Text(fromField)
+                                        .foregroundStyle(Color.black)
+                                        .lineLimit(1)
+                                }
                             }
-                            }
+                            .scrollContentBackground(.hidden)
+                        }
+                        .listRowBackground(Color.white)
                         Button(action: {
-//                            print("clicked, 1")
                             whereField = 1
                             path.append(.locationView)
                         }) {
@@ -46,10 +48,11 @@ struct FromToView: View {
                                     .lineLimit(1)
                             } else {
                                 Text(toField)
-                                    .foregroundStyle(Color.ypBlack)
+                                    .foregroundStyle(Color.black)
                                     .lineLimit(1)
                             }
-                            }
+                        }
+                        .listRowBackground(Color.white)
                         .listRowSeparator(.hidden)
                         Spacer()
                     }
@@ -57,10 +60,8 @@ struct FromToView: View {
                 .listStyle(.plain)
             }
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .padding(.top, 19)
-            .padding(.bottom, 19)
+            .padding([.top, .bottom], 20)
             Button(action: {
-//                print("Button pressed")
                 if fromField != "Откуда" && toField != "Откуда" {
                     let temp = fromField
                     fromField = toField
@@ -85,22 +86,34 @@ struct FromToView: View {
 
 #Preview {
         //    @Previewable @State var model = NavigationModel()
-    @Previewable @State var path = [RouteView.locationView]
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = ""
-    @Previewable @State var toField = ""
+    @State var path = [RouteView.locationView]
+    @State var whereField = 0
+    @State var fromField = ""
+    @State var toField = ""
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
     FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
 }
 
 #Preview {
-    @Previewable @State var path = [RouteView.locationView]
+    @State var path = [RouteView.locationView]
         //    @Previewable @State var model = NavigationModel()
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = "Москва (Курский вокзал)"
-    @Previewable @State var toField = "Москва (Белорусский вокзал)"
+    @State var whereField = 0
+    @State var fromField = "Москва (Курский вокзал)"
+    @State var toField = "Москва (Белорусский вокзал)"
     FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
+        .preferredColorScheme(.dark)
+}
+
+#Preview {
+    @State var path = [RouteView.locationView]
+        //    @Previewable @State var model = NavigationModel()
+    @State var whereField = 0
+    @State var fromField = "Москва (Курский вокзал)"
+    @State var toField = "Москва (Белорусский вокзал)"
+    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+        //    FromToView(path: $path, fromField: $fromField, toField: $toField)
+        .preferredColorScheme(.light)
 }
 
 

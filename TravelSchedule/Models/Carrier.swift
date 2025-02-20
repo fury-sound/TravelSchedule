@@ -10,12 +10,13 @@ import Foundation
 enum CarrierID: String, CaseIterable {
     case rzd = "РЖД"
     case fgk = "ФГК"
-    case uralLogistika = "Урал-логистика"
+    case uralLogistika = "Урал логистика"
 }
 
 struct CarrierDetails: Identifiable, Hashable {
-    var id: CarrierID
-    var name: String
+    var id: UUID
+    var name: CarrierID
+    var nameLong: String
     var imageNameSmall: String
     var imageNameLarge: String?
     var email: String?

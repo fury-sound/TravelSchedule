@@ -23,107 +23,116 @@ struct RouteSettings: View {
     ]
     @State private var withConnection: String = ""
     @Binding var filterConnection: Bool?
+    @Binding var isActive: Bool
+
+    var body: some View {
+
+        VStack {
+            VStack(alignment: .leading) {
+                Text("Время отправления")
+                    .font(.system(size: 24, weight: .bold))
+                    .padding([.top, .bottom], 16)
+                VStack {
+                    Toggle(isOn: $isMorning) {
+                        Text(periods[0])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .toggleStyle(CheckboxToggleStyle())
+                    .padding([.top, .bottom], 19)
+                    Toggle(isOn: $isDay) {
+                        Text(periods[1])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .toggleStyle(CheckboxToggleStyle())
+                    .padding([.top, .bottom], 19)
+                    Toggle(isOn: $isEvening) {
+                        Text(periods[2])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .toggleStyle(CheckboxToggleStyle())
+                    .padding([.top, .bottom], 19)
+                    Toggle(isOn: $isNight) {
+                        Text(periods[3])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .toggleStyle(CheckboxToggleStyle())
+                    .padding([.top, .bottom], 19)
+                }
+                Text("Показывать варианты с пересадками")
+                    .lineLimit(2)
+                    .font(.system(size: 24, weight: .bold))
+                    .padding([.top, .bottom], 16)
+                VStack {
+                    Toggle(isOn: $isYes) {
+                        Text(yesNo[0])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .simultaneousGesture(TapGesture().onEnded{
+                        filterConnection = true
+                    })
+                    .tag(0)
+                    .toggleStyle(RadioButtonStyle(tag: 0, isYes: $isYes, isNo: $isNo))
+                    .padding([.top, .bottom], 19)
+                    Toggle(isOn: $isNo) {
+                        Text(yesNo[1])
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                    .simultaneousGesture(TapGesture().onEnded{
+                        filterConnection = false
+                    })
+                    .tag(1)
+                    .toggleStyle(RadioButtonStyle(tag: 1, isYes: $isYes, isNo: $isNo))
+                    .padding([.top, .bottom], 19)
+                }
+            }
+            .navigationBarBackButtonHidden(true)
+            .padding(16)
+            .onAppear {
+                switch filterConnection {
+                    case true:
+                        isYes = true
+                    case false:
+                        isNo = true
+                    default:
+                        isYes = false
+                        isNo = false
+                }
+            }
+            Spacer()
+            if isYes || isNo {
+                VStack {
+                    ApplyButtonView()
+                }
+            }
+        }
+        .background(Color.ypWhite)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView()
+            }
+        }
+    }
+}
+
+struct ApplyButtonView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
 
-        VStack(alignment: .leading) {
-            Text("Время отправления")
-                .font(.system(size: 24, weight: .bold))
-            VStack {
-                Toggle(isOn: $isMorning) {
-                    Text(periods[0])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .toggleStyle(CheckboxToggleStyle())
-                .padding(.bottom, 16)
-                Toggle(isOn: $isDay) {
-                    Text(periods[1])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .toggleStyle(CheckboxToggleStyle())
-                .padding(.bottom, 16)
-                Toggle(isOn: $isEvening) {
-                    Text(periods[2])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .toggleStyle(CheckboxToggleStyle())
-                .padding(.bottom, 16)
-                Toggle(isOn: $isNight) {
-                    Text(periods[3])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .toggleStyle(CheckboxToggleStyle())
-                .padding(.bottom, 16)
-            }
-            Text("Показывать варианты с пересадками")
-                .lineLimit(2)
-                .font(.system(size: 24, weight: .bold))
-            VStack {
-                Toggle(isOn: $isYes) {
-                    Text(yesNo[0])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .simultaneousGesture(TapGesture().onEnded{
-                    filterConnection = true
-//                    print("tag 0", filterConnection)
-//                    print(filterConnection)
-                })
-                .tag(0)
-                .toggleStyle(RadioButtonStyle(tag: 0, isYes: $isYes, isNo: $isNo))
-                .padding(.bottom, 16)
-                Toggle(isOn: $isNo) {
-                    Text(yesNo[1])
-                        .font(.system(size: 17, weight: .medium))
-                }
-                .simultaneousGesture(TapGesture().onEnded{
-                    filterConnection = false
-//                    print("tag 1", filterConnection)
-//                    print(filterConnection)
-                })
-
-                .tag(1)
-                .toggleStyle(RadioButtonStyle(tag: 1, isYes: $isYes, isNo: $isNo))
-                .padding(.bottom, 16)
-            }
+        VStack {
+            Text("Применить")
+                .font(.system(size: 17, weight: .bold))
+                .padding(.vertical, 20)
+                .frame(maxWidth: .infinity, maxHeight: 60)
+                .background(.ypBlueUniversal)
+                .foregroundStyle(.white)
+                .clipShape(.rect(cornerRadius: 16))
         }
-        .padding(16)
-        .onAppear {
-//            print("filterConnection in .onAppear", filterConnection)
-            switch filterConnection {
-                case true:
-                    isYes = true
-                case false:
-                    isNo = true
-                default:
-                    isYes = false
-                    isNo = false
-            }
+        .padding([.top, .bottom], 10)
+        .padding([.leading, .trailing], 16)
+        .onTapGesture {
+            dismiss()
         }
-//        .padding([.top, .horizontal], 16)
-        Spacer()
-        if isYes || isNo {
-            VStack {
-                    //            Spacer()
-//                NavigationLink(destination: RouteSettings(filterConnection: $filterConnection)) {
-                VStack {
-                    Text("Применить")
-                        .font(.system(size: 17, weight: .bold))
-                        .padding(.vertical, 20)
-                        .frame(maxWidth: .infinity, maxHeight: 60)
-                        .background(.ypBlueUniversal)
-                        .foregroundStyle(.white)
-                        .clipShape(.rect(cornerRadius: 16))
-                }
-                .padding([.top, .bottom], 10)
-                .padding([.leading, .trailing], 16)
-                .onTapGesture {
-//                    print("filterConnection", filterConnection)
-                    dismiss()
-                }
-            }
-        }
-
     }
 }
 
@@ -172,17 +181,17 @@ struct RadioButtonStyle: ToggleStyle {
     }
 }
 
-
-
-#Preview {
-    @Previewable @State var filterConnection: Bool? = false
-    RouteSettings(filterConnection: $filterConnection)
+#Preview("Параметры маршрута") {
+    @State var filterConnection: Bool? = false
+    @State var isActive: Bool = true
+    RouteSettings(filterConnection: $filterConnection, isActive: $isActive)
 }
 
-#Preview {
+#Preview("Forms and Sections") {
     RouteSettingsWithForm()
 }
 
+//MARK: тестирование использования формы и ее секций, 2-й превью
 struct RouteSettingsWithForm: View {
     @State private var isMorning = false
     @State private var isDay = false

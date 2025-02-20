@@ -52,33 +52,53 @@ struct CarrierSearch: View {
                     VStack {
                         List {
                             ForEach(filterResults, id: \.self) { details in
-                                RouteInfo(routeDetailsCarrier: details)
+                                ZStack {
+                                    RouteInfo(routeDetailsCarrier: details)
+                                }
+
                             }
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
                         }
-                        .padding(.vertical, -5)
-                        .listStyle(.plain)
                         .ignoresSafeArea(.all)
+                        .padding(.vertical, -5)
+                        .padding(.trailing, -18)
+                        .foregroundStyle(Color.clear, Color.clear)
+                        .listStyle(.plain)
+                        .scrollIndicators(.hidden)
                     }
                 }
                 Spacer()
                 ButtonView(filterConnection: $filterConnection)
             }
         }
-        .toolbarVisibility(.hidden, for: .tabBar)
-            //        .onAppear {
-            //            print("filterConnection in CarrierSearch", filterConnection)
-            //        }
+        .background(Color.ypWhite)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView()
+            }
+        }
+        if #available(iOS 18.0, *) {
+            Text("")
+                .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
+        } else {
+            Text("")
+                .toolbar(.hidden, for: .tabBar) // deprecated
+        }
+
     }
 }
 
 struct ButtonView: View {
     @Binding var filterConnection: Bool?
+    @State private var isRouteSettingsViewActive: Bool = false
 
     var body: some View {
         VStack {
             Spacer()
-            NavigationLink(destination: RouteSettings(filterConnection: $filterConnection)) {
+        NavigationLink(destination: RouteSettings(filterConnection: $filterConnection, isActive: $isRouteSettingsViewActive)) {
+            VStack {
                 if filterConnection == nil {
                     Text("Уточнить время")
                         .padding(.vertical, 20)
@@ -91,13 +111,17 @@ struct ButtonView: View {
             .foregroundStyle(.white)
             .background(.ypBlueUniversal)
             .clipShape(.rect(cornerRadius: 16))
-                //                    .sheet
             .font(.system(size: 17, weight: .bold))
             .padding([.top, .bottom], 10)
             .padding([.leading, .trailing], 16)
-                //            .simultaneousGesture(TapGesture().onEnded{
-                //                print("filterConnection in ButtonView", filterConnection)
-                //            })
+            .offset(y: isRouteSettingsViewActive ? 0 : 200)
+            .opacity(isRouteSettingsViewActive ? 1 : 0)
+            }
+        }
+        .onAppear(){
+            withAnimation(.easeInOut(duration: 0.5)) {
+                isRouteSettingsViewActive = true
+            }
         }
     }
 }
@@ -116,13 +140,13 @@ struct CustomLabel: View {
 }
 
 #Preview {
-    @Previewable @State var fromField = "Москва (Ярославский вокзал)"
-    @Previewable @State var toField = "Санкт-Петербург (Балтийский вокзал)"
+    @State var fromField = "Москва (Ярославский вокзал)"
+    @State var toField = "Санкт-Петербург (Балтийский вокзал)"
         //    let routeCarrierDataModel = RouteCarrierData()
     CarrierSearch(fromField: $fromField, toField: $toField)
 }
 
 #Preview {
-    @Previewable @State var filterConnection: Bool? = false
+    @State var filterConnection: Bool? = false
     ButtonView(filterConnection: $filterConnection)
 }

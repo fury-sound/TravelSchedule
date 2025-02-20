@@ -23,28 +23,31 @@ struct StationSelection: View {
         //    @Binding var directionField: String?
 
     var body: some View {
-        if noInternetError == true {
-            VStack {
-                NoInternetView()
-            }
-        } else if serverError == true {
-            VStack {
-                ServerErrorView()
-            }
-        } else {
-            Text(header.0.cityName)
-            VStack {
-                SearchBar(searchText: $searchString)
-                StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString)
-            }
-            .navigationBarBackButtonHidden(true)
-            .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    BackButtonView()
+        VStack {
+            if noInternetError == true {
+                VStack {
+                    NoInternetView()
+                }
+            } else if serverError == true {
+                VStack {
+                    ServerErrorView()
+                }
+            } else {
+    //            Text(header.0.cityName)
+                VStack {
+                    SearchBar(searchText: $searchString)
+                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString)
+                }
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButtonView()
+                    }
                 }
             }
         }
+        .background(Color.ypWhite)
     }
 }
 
@@ -82,7 +85,6 @@ struct StationList: View {
             Spacer()
         } else {
             List {
-                    //            ForEach(city.0.stations, id: \.self) { station in
                 ForEach(filteredStations, id: \.self) { station in
                     NavigationLink(station, value: station)
                         .foregroundStyle(.ypBlack, .ypBlack)
@@ -95,9 +97,11 @@ struct StationList: View {
                             path = []
                         })
                 }
+                .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
+                .padding([.top, .bottom], 10)
             }
-
+            .listStyle(.plain)
         }
     }
 }
@@ -105,11 +109,11 @@ struct StationList: View {
 
 #Preview {
         //    @Previewable @EnvironmentObject var routeDirection: RouteDirection
-    @Previewable @State var path = [RouteView.stationView(CityList.moscow)]
+    @State var path = [RouteView.stationView(CityList.moscow)]
         //    @Previewable @State var model = NavigationModel() //[RouteView.stationView(CityList.moscow)]
-    @Previewable @State var whereField = 0
-    @Previewable @State var fromField = ""
-    @Previewable @State var toField = ""
+    @State var whereField = 0
+    @State var fromField = ""
+    @State var toField = ""
         //    @Previewable @State var path = NavigationPath()
     StationSelection(header: (CityList.moscow, 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    @Previewable @State var routeData = RouteData()

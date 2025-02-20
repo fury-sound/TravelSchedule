@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
 
     var body: some View {
         TabView {
             ContentView()
                 .tabItem {
-                    Label("Journal", systemImage: "arrow.up.message.fill")
+                    Label("", systemImage: "arrow.up.message.fill")
                 }
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
+                    Label("", systemImage: "gearshape.fill")
                 }
+                .background(Color.green)
         }
         .tint(.ypBlack)
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 
