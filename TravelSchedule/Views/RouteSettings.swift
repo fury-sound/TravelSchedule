@@ -98,7 +98,6 @@ struct RouteSettings: View {
                         isNo = false
                 }
             }
-            .background(Color.ypWhite)
             Spacer()
             if isYes || isNo {
                 VStack {
@@ -106,6 +105,7 @@ struct RouteSettings: View {
                 }
             }
         }
+        .background(Color.ypWhite)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 BackButtonView()

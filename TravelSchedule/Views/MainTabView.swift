@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
 
     var body: some View {
         TabView {
@@ -22,6 +24,7 @@ struct MainTabView: View {
                 .background(Color.green)
         }
         .tint(.ypBlack)
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 
