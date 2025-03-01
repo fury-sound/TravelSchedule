@@ -89,17 +89,13 @@ struct ContentView: View {
                             Text("")
                                 .backgroundStyle(Color.clear)
                                 .foregroundStyle(.clear, .clear)
-                                .listRowBackground(Color.clear)
                                 .hidden()
-                                .listRowSeparator(.hidden)
                                 .toolbarVisibility(showFullImage ? .hidden : .visible, for: .tabBar) // for iOS 18.0
                         } else {
                             Text("")
                                 .backgroundStyle(Color.clear)
                                 .foregroundStyle(.clear, .clear)
-                                .listRowBackground(Color.clear)
                                 .hidden()
-                                .listRowSeparator(.hidden)
                                 .toolbar(showFullImage ? .hidden : .visible, for: .tabBar) // deprecated
                         }
                     }
