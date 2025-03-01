@@ -17,10 +17,10 @@ struct FromToView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            HStack {
-                VStack(alignment: .center) {
+            HStack(alignment: .center) {
+                VStack {
                     List {
-                        HStack {
+//                        HStack {
                             Button(action: {
                                 whereField = 0
                                 path.append(.locationView)
@@ -36,8 +36,9 @@ struct FromToView: View {
                                 }
                             }
                             .scrollContentBackground(.hidden)
-                        }
-                        .listRowBackground(Color.white)
+                            .listRowBackground(Color.white)
+                            .padding(.top, 8)
+//                        }
                         Button(action: {
                             whereField = 1
                             path.append(.locationView)
@@ -54,13 +55,14 @@ struct FromToView: View {
                         }
                         .listRowBackground(Color.white)
                         .listRowSeparator(.hidden)
+                        .padding(.top, 4)
                         Spacer()
                     }
                 }
                 .listStyle(.plain)
             }
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .padding([.top, .bottom], 20)
+            .padding([.top, .bottom], 16)
             Button(action: {
                 if fromField != "Откуда" && toField != "Откуда" {
                     let temp = fromField

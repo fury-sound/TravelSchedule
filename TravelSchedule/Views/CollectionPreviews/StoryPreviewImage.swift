@@ -7,29 +7,13 @@
 
 import SwiftUI
 
-enum NavDests {
-    case gallery
-}
-
 struct StoryPreviewImage: View {
     var previewImage: String
-    //    @State var showFullImage: Bool = false
     @Binding var didSee: Bool
     @Binding var showFullImage: Bool
     @Binding var selectedStorySetIndex: Int
     @Binding var selectedTab: Int
     var imageBig: String = "big1"
-
-//    func overlayView(didSee: Bool) -> some View {
-//        if didSee == true {
-//            RoundedRectangle(cornerRadius: 15)
-////                .opacity(0.5)
-//                .stroke(.clear, lineWidth: 0)
-//        } else {
-//            RoundedRectangle(cornerRadius: 15)
-//                .stroke(.ypBlueUniversal, lineWidth: 4)
-//        }
-//    }
 
     var body: some View {
 
@@ -38,12 +22,6 @@ struct StoryPreviewImage: View {
                 Image(previewImage)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .opacity(0.5)
-
-//                    .overlay(
-//                        overlayView(didSee: didSee)
-                        //                    didSee ? RoundedRectangle(cornerRadius: 15).stroke(.ypBlueUniversal, lineWidth: 4) as! RoundedRectangle : RoundedRectangle(cornerRadius: 15)
-
-//                    )
             } else {
                 Image(previewImage)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -65,12 +43,6 @@ struct StoryPreviewImage: View {
     }
 }
 
-//#Preview("show full false") {
-////    @State var showFullImage: Bool = false
-////    @State var selectedStorySetIndex: Int = 0
-//    StoryPreviewImage(previewImage: "Preview1")
-//}
-
 #Preview("show full false") {
     @State var showFullImage: Bool = false
     @State var selectedStorySetIndex: Int = 0
@@ -86,12 +58,6 @@ struct StoryPreviewImage: View {
     @State var didSee: Bool = true
     StoryPreviewImage(previewImage: "Preview1", didSee: $didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
 }
-
-//#Preview("show full true") {
-//    @State var showFullImage: Bool = true
-//    @State var selectedStorySetIndex: Int = 0
-//    StoryPreviewImage(previewImage: "Preview1", showFullImage: .constant(true), selectedStorySetIndex: $selectedStorySetIndex)
-//}
 
 
 
