@@ -9,9 +9,9 @@
 import SwiftUICore
 import SwiftUI
 
-struct PreviewImage: Hashable {
-//    var id: ObjectIdentifier
-    let previewImageName: String
-//    let imageName: String
-//    let previewImage = Image(previewImageName)
-}
+//struct PreviewImage: Hashable {
+////    var id: ObjectIdentifier
+//    let previewImageName: String
+////    let imageName: String
+////    let previewImage = Image(previewImageName)
+//}

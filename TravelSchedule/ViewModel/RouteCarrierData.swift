@@ -9,9 +9,9 @@ import Foundation
 
 final class RouteCarrierData: ObservableObject {
 
-    let carrierRzd: CarrierDetails = CarrierDetails(id: .rzd, name: "OАO РЖД", imageNameSmall: "rzd")
-    let carrierFgk: CarrierDetails = CarrierDetails(id: .fgk, name: "OАO ФГК", imageNameSmall: "fgk")
-    let carrierUral: CarrierDetails = CarrierDetails(id: .uralLogistika, name: "OАO Урал логистика", imageNameSmall: "urallogistic")
+    let carrierRzd: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "OАO РЖД", imageNameSmall: "rzd")
+    let carrierFgk: CarrierDetails = CarrierDetails(id: UUID(), name: .fgk, nameLong: "OАO ФГК", imageNameSmall: "fgk")
+    let carrierUral: CarrierDetails = CarrierDetails(id: UUID(), name: .uralLogistika, nameLong: "OАO Урал логистика", imageNameSmall: "urallogistic")
     var mockRouteArray: [RouteDetailsCarrier] = []
 
     init() {
