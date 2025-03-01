@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+let titleText: String = "Text Text Text Text Text Text Text Text Text Text Text Text "
+let descriptionText: String = "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"
+
 final class StoryViewViewModel: ObservableObject {
 
     var previewImages: [String] = []
@@ -19,6 +22,8 @@ final class StoryViewViewModel: ObservableObject {
     let previewImage7Model = PreviewImage(previewImageName: "Preview7")
     let previewImage8Model = PreviewImage(previewImageName: "Preview8")
     let previewImage9Model = PreviewImage(previewImageName: "Preview9")
+
+    var storiesCollection: [SingleStoryModel] = []
 
 //    let previewImage2 = PreviewImage(previewImageName: "Preview2")
 //    let previewImage3 = PreviewImage(previewImageName: "Preview3")
@@ -51,6 +56,18 @@ final class StoryViewViewModel: ObservableObject {
             previewImage8,
             previewImage9
         ]
+
+        let singleStory1 = SingleStoryModel(previewImageTitle: previewImage1, imageTitle: ["big1", "big2"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory2 = SingleStoryModel(previewImageTitle: previewImage2, imageTitle: ["big3", "big4"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory3 = SingleStoryModel(previewImageTitle: previewImage3, imageTitle: ["big5", "big6"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory4 = SingleStoryModel(previewImageTitle: previewImage4, imageTitle: ["big7", "big8"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory5 = SingleStoryModel(previewImageTitle: previewImage5, imageTitle: ["big9", "big10"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory6 = SingleStoryModel(previewImageTitle: previewImage6, imageTitle: ["big11", "big12"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory7 = SingleStoryModel(previewImageTitle: previewImage7, imageTitle: ["big13", "big14"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory8 = SingleStoryModel(previewImageTitle: previewImage8, imageTitle: ["big15", "big16"], didSee: false, titleText: titleText, description: descriptionText)
+        let singleStory9 = SingleStoryModel(previewImageTitle: previewImage9, imageTitle: ["big17", "big18"], didSee: false, titleText: titleText, description: descriptionText)
+
+        self.storiesCollection = [singleStory1, singleStory2, singleStory3, singleStory4, singleStory5, singleStory6, singleStory7, singleStory8, singleStory9]
     }
 }
 
