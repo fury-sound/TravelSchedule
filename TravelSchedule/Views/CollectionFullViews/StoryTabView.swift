@@ -97,6 +97,7 @@ struct StoryTabView: View {
             .padding(.top, 60)
             .padding(.trailing, 15)
         }
+//        .ignoresSafeArea()
         .onAppear {
             configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
             timer = ContentView.createTimer(configuration: configuration)
@@ -184,7 +185,6 @@ struct StoryTabView: View {
                             }
                         }
                 }
-
         )
     }
 }
