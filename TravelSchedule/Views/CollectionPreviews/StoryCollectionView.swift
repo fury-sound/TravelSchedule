@@ -13,7 +13,6 @@ struct StoryCollectionView: View {
     @Binding var showFullImage: Bool
     @Binding var selectedStorySetIndex: Int
     @Binding var selectedTab: Int
-//    @State private var didSee: Bool = false
 
     private func handleTap(on index: Int) {
         selectedStorySetIndex = index
@@ -27,25 +26,12 @@ struct StoryCollectionView: View {
                     .onTapGesture {
                         handleTap(on: index)
                             withAnimation(.easeInOut(duration: 2)) {
-//                        withAnimation(.spring(duration: 2)) {
                             showFullImage = true
                         }
                     }
             }
             .padding(.horizontal, 6)
         }
-//        .onAppear {
-//            print("in onAppear, selectedTab", selectedTab)
-////            print(selectedStorySetIndex)
-//        }
-//        .onDisappear() {
-//            print("in disAppear, selectedTab", selectedTab)
-////            print(selectedStorySetIndex)
-//        }
-//        .onTapGesture {
-//            print("in selectedTab", selectedTab)
-//        }
-
     }
 }
 
@@ -56,8 +42,4 @@ struct StoryCollectionView: View {
     StoryCollectionView(viewModel: $viewModel, showFullImage: .constant(false), selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
 }
 
-//#Preview {
-//    @State var viewModel = StoryViewViewModel()
-//    StoryCollectionView(viewModel: $viewModel)
-//}
 

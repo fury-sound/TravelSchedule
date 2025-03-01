@@ -17,11 +17,6 @@ struct StoryImageViewFull: View {
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-//                    .scaleEffect(showFullImage ? 1 : 0.8)
-//                    .opacity((showFullImage ? 1 : 0))
-    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                ProgressView()
-//            }
             VStack {
                 Text(titleText)
                     .font(.bold34)
@@ -37,7 +32,6 @@ struct StoryImageViewFull: View {
             .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(Color.ypBlack)
         .background(Color.ypBlack.opacity(showFullImage ? 1 : 0))
     }
 }
