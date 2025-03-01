@@ -28,6 +28,7 @@ struct StoryTabView: View {
         if selectedStorySetIndex > 0 {
             selectedStorySetIndex -= 1
             viewModel.storiesCollection[selectedStorySetIndex].didSee = true
+            progress = 0
         } else {
             showFullImage = false
         }
@@ -37,6 +38,7 @@ struct StoryTabView: View {
         if selectedStorySetIndex < viewModel.storiesCollection.count - 1 {
             selectedStorySetIndex += 1
             viewModel.storiesCollection[selectedStorySetIndex].didSee = true
+            progress = 0
         } else {
             showFullImage = false
         }
@@ -97,7 +99,6 @@ struct StoryTabView: View {
             .padding(.top, 60)
             .padding(.trailing, 15)
         }
-//        .ignoresSafeArea()
         .onAppear {
             configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
             timer = ContentView.createTimer(configuration: configuration)
@@ -108,7 +109,6 @@ struct StoryTabView: View {
         }
         .onReceive(timer) { _ in
             timerTick()
-
         }
         .onTapGesture { value in
             offset = value.x
@@ -200,6 +200,8 @@ struct StoryTabView: View {
 
     StoryTabView(viewModel: $viewModel, currentStory: $currentStory, showFullImage: $showFullImage, selectedTab: $selectedTab, selectedStorySetIndex: $selectedStorySetIndex, timer: $timer, configuration: $configuration)
 }
+
+
 
 //#Preview {
 //        @State var showFullImage: Bool = true

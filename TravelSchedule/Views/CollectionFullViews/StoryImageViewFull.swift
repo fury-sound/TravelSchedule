@@ -32,8 +32,8 @@ struct StoryImageViewFull: View {
             .padding(.horizontal, 16)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.ypBlack)
-//        .background(Color.ypBlack.opacity(showFullImage ? 1 : 0))
+//        .background(Color.ypBlack)
+        .background(Color.ypBlack.opacity(showFullImage ? 1 : 0))
     }
 }
 
