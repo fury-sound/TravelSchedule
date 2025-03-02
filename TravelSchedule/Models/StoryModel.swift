@@ -15,8 +15,8 @@ struct PreviewImage: Hashable {
 }
 
 struct SingleStoryModel: Hashable {
-    let previewImageTitle: String
-    let imageTitle: [String]
+    let previewImageTitle: ImageResource
+    let imageTitle: [ImageResource]
     var didSee: Bool
     let titleText: String?
     let description: String?

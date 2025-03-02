@@ -20,7 +20,7 @@ struct FromToView: View {
             HStack(alignment: .center) {
                 VStack {
                     List {
-//                        HStack {
+                        HStack {
                             Button(action: {
                                 whereField = 0
                                 path.append(.locationView)
@@ -36,9 +36,11 @@ struct FromToView: View {
                                 }
                             }
                             .scrollContentBackground(.hidden)
-                            .listRowBackground(Color.white)
-                            .padding(.top, 8)
-//                        }
+                        }
+                        .listRowBackground(Color.white)
+                        .padding(.top, 8)
+//                        .padding(.bottom, )
+                        .background(Color.white)
                         Button(action: {
                             whereField = 1
                             path.append(.locationView)
@@ -55,12 +57,16 @@ struct FromToView: View {
                         }
                         .listRowBackground(Color.white)
                         .listRowSeparator(.hidden)
-                        .padding(.top, 4)
-                        Spacer()
+//                        .listRowInsets(EdgeInsets(top: 50, leading: 0, bottom: 0, trailing: 0))
+                        .padding(.vertical, 8 )
+//                        Spacer()
                     }
+                    .frame(height: 100)
                 }
+//                .padding(.top, 0.0)
                 .listStyle(.plain)
             }
+//            .foregroundStyle(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .padding([.top, .bottom], 16)
             Button(action: {

@@ -8,28 +8,22 @@
 import SwiftUI
 
 struct StoryPreviewImage: View {
-    var previewImage: String
+    var previewImage: ImageResource
     @Binding var didSee: Bool
     @Binding var showFullImage: Bool
     @Binding var selectedStorySetIndex: Int
     @Binding var selectedTab: Int
-    var imageBig: String = "big1"
 
     var body: some View {
 
         ZStack(alignment: .bottomTrailing) {
-            if didSee == true {
-                Image(previewImage)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .opacity(0.5)
-            } else {
-                Image(previewImage)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(.ypBlueUniversal, lineWidth: 4)
-                    )
-            }
+            Image(previewImage)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .opacity(didSee ? 0.5 : 1)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(didSee ? Color.clear : .ypBlueUniversal, lineWidth: 4)
+                )
 
             Text("Text Text Text Text Text Text T...")
                 .foregroundColor(Color.white)
@@ -48,7 +42,7 @@ struct StoryPreviewImage: View {
     @State var selectedStorySetIndex: Int = 0
     @State var selectedTab = 0
     @State var didSee: Bool = false
-    StoryPreviewImage(previewImage: "Preview1", didSee: $didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
+    StoryPreviewImage(previewImage: .preview2, didSee: $didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
 }
 
 #Preview("show full true") {
@@ -56,7 +50,7 @@ struct StoryPreviewImage: View {
     @State var selectedStorySetIndex: Int = 0
     @State var selectedTab = 0
     @State var didSee: Bool = true
-    StoryPreviewImage(previewImage: "Preview1", didSee: $didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
+    StoryPreviewImage(previewImage: .preview1, didSee: $didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
 }
 
 

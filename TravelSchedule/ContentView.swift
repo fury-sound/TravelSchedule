@@ -31,7 +31,7 @@ struct ContentView: View {
     @State private var showFullImage: Bool = false
     @State private var selectedStorySetIndex: Int = 0
     @State private var selectedTab: Int = 0
-    @State private var currentStory = SingleStoryModel(previewImageTitle: "Preview1", imageTitle: ["big1", "big2"], didSee: false, titleText: titleText, description: descriptionText)
+    @State private var currentStory = SingleStoryModel(previewImageTitle: .preview1, imageTitle: [.big1, .big2], didSee: false, titleText: titleText, description: descriptionText)
     @State private var viewModel = StoryViewViewModel()
     @State var configuration: StoryConfiguration = StoryConfiguration(storiesCount: 2, secondsPerStory: 5, timerTickInternal: 0.25)
     @State var timer: Timer.TimerPublisher = Timer.TimerPublisher(interval: 5, runLoop: .main, mode: .common)
@@ -51,7 +51,7 @@ struct ContentView: View {
                         StoryCollectionView(viewModel: $viewModel, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
                     }
                     .frame(height: 140)
-                    .padding(.init(top: 24, leading: 16, bottom: 20, trailing: 0))
+                    .padding(.init(top: 24, leading: 0, bottom: 20, trailing: 0))
                     FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
                         .navigationDestination(for: RouteView.self) { routeView in
                             switch routeView {
@@ -77,6 +77,9 @@ struct ContentView: View {
                         .padding([.leading, .trailing], 8)
                     }
                     Spacer()
+//                    Divider()
+//                        .padding(.bottom, 10)
+//                        .opacity(showFullImage ? 0 : 1)
                 }
                 .background(Color.ypWhite)
                 ZStack {
@@ -87,14 +90,10 @@ struct ContentView: View {
 
                         if #available(iOS 18.0, *) {
                             Text("")
-                                .backgroundStyle(Color.clear)
-                                .foregroundStyle(.clear, .clear)
                                 .hidden()
                                 .toolbarVisibility(showFullImage ? .hidden : .visible, for: .tabBar) // for iOS 18.0
                         } else {
                             Text("")
-                                .backgroundStyle(Color.clear)
-                                .foregroundStyle(.clear, .clear)
                                 .hidden()
                                 .toolbar(showFullImage ? .hidden : .visible, for: .tabBar) // deprecated
                         }

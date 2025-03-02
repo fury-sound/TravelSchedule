@@ -22,7 +22,13 @@ struct StoryCollectionView: View {
     var body: some View {
         LazyHStack {
             ForEach(viewModel.storiesCollection.indices, id: \.self) { index in
-                StoryPreviewImage(previewImage: viewModel.storiesCollection[index].previewImageTitle, didSee: $viewModel.storiesCollection[index].didSee, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
+                StoryPreviewImage(
+                    previewImage: viewModel.storiesCollection[index].previewImageTitle,
+                    didSee: $viewModel.storiesCollection[index].didSee,
+                    showFullImage: $showFullImage,
+                    selectedStorySetIndex: $selectedStorySetIndex,
+                    selectedTab: $selectedTab
+                )
                     .onTapGesture {
                         handleTap(on: index)
                             withAnimation(.easeInOut(duration: 2)) {

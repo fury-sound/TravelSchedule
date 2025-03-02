@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StoryView: View {
-    var currentImage: String = "big1"
+    var currentImage: ImageResource = .big1
     @Binding var showFullImage: Bool
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -18,7 +18,7 @@ struct StoryView: View {
 }
 
 #Preview {
-    var currentImage = "big1"
+    var currentImage: ImageResource = .big1
     @State var showFullImage: Bool = true
     @State var selectedTab: Int = 0
     StoryView(currentImage: currentImage, showFullImage: $showFullImage)
