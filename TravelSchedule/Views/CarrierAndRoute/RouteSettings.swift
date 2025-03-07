@@ -20,7 +20,7 @@ struct RouteSettings: View {
         "Вечер 18:00 - 00:00",
         "Ночь 00:00 - 06:00"
     ]
-    @State private var withConnection: String = ""
+//    @State private var withConnection: String = ""
     @Binding var isActive: Bool
 
     var body: some View {
@@ -79,17 +79,17 @@ struct RouteSettings: View {
             }
             .navigationBarBackButtonHidden(true)
             .padding(16)
-            .onAppear {
-                switch viewModel.filterConnectionState {
-                    case .allConnections:
-                        viewModel.isYes = true
-                    case .noConnections:
-                        viewModel.isNo = true
-                    default:
-                        viewModel.isYes = false
-                        viewModel.isNo = false
-                }
-            }
+//            .onAppear {
+//                switch viewModel.filterConnectionState {
+//                    case .allConnections:
+//                        viewModel.isYes = true
+//                    case .noConnections:
+//                        viewModel.isNo = true
+//                    default:
+//                        viewModel.isYes = false
+//                        viewModel.isNo = false
+//                }
+//            }
             Spacer()
             if viewModel.isYes || viewModel.isNo {
                 VStack {
@@ -202,7 +202,7 @@ struct RouteSettingsWithForm: View {
         "Вечер 18:00 - 00:00",
         "Ночь 00:00 - 06:00"
     ]
-    @State private var withConnection: String = ""
+//    @State private var withConnection: String = ""
 
     var body: some View {
         Form {
