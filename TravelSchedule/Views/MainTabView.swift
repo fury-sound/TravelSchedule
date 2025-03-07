@@ -17,11 +17,16 @@ struct MainTabView: View {
                 .tabItem {
                     Label("", systemImage: "arrow.up.message.fill")
                 }
+//                .backgroundStyle(Color.ypBlack)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(.ypWhite, for: .tabBar)
             SettingsView()
                 .tabItem {
                     Label("", systemImage: "gearshape.fill")
                 }
-                .background(Color.green)
+//                .backgroundStyle(Color.ypBlack)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(.ypWhite, for: .tabBar)
         }
         .tint(.ypBlack)
         .preferredColorScheme(isDarkMode ? .dark : .light)

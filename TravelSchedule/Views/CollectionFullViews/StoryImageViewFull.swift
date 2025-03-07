@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StoryImageViewFull: View {
-    var currentImage: String = "big1"
+    var currentImage: ImageResource = .big1
     @Binding var showFullImage: Bool
 
     var body: some View {
@@ -17,11 +17,6 @@ struct StoryImageViewFull: View {
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-//                    .scaleEffect(showFullImage ? 1 : 0.8)
-//                    .opacity((showFullImage ? 1 : 0))
-    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                ProgressView()
-//            }
             VStack {
                 Text(titleText)
                     .font(.bold34)
@@ -38,16 +33,16 @@ struct StoryImageViewFull: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 //        .background(Color.ypBlack)
-        .background(Color.ypBlack.opacity(showFullImage ? 1 : 0))
+        .background(Color.ypBlackUniversal.opacity(showFullImage ? 1 : 0))
     }
 }
 
 #Preview {
     @State var showFullImage: Bool = true
-    StoryImageViewFull(currentImage: "big1", showFullImage: $showFullImage)
+    StoryImageViewFull(currentImage: .big1, showFullImage: $showFullImage)
 }
 
 #Preview {
     @State var showFullImage: Bool = false
-    StoryImageViewFull(currentImage: "big1", showFullImage: $showFullImage)
+    StoryImageViewFull(currentImage: .big1, showFullImage: $showFullImage)
 }

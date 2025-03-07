@@ -62,7 +62,13 @@ struct SettingsView: View {
                         .padding(.bottom, 24)
                 }
                 .background(Color.ypWhite)
+//        Rectangle()
+//            .fill(Color.ypBlackUniversal)
+//            .frame(height: 1)
+//            .padding(.bottom, 10)
+//            .backgroundStyle(Color.ypBlack)
             }
+//            .opacity(showFullImage ? 0 : 1)
     }
 }
 

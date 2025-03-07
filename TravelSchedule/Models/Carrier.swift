@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 enum CarrierID: String, CaseIterable {
     case rzd = "РЖД"
@@ -23,7 +24,7 @@ struct CarrierDetails: Identifiable, Hashable {
     var phone: String?
 }
 
-struct RouteDetailsCarrier: Hashable {
+struct RouteDetailsCarrier: Hashable {    
     var carrierDetails: CarrierDetails
     var date: String
     var timeFrom: String
@@ -31,3 +32,22 @@ struct RouteDetailsCarrier: Hashable {
     var timeTotal: String
     var connection: String?
 }
+
+//class CarrierModel: ObservableObject {
+//    @Published var carriers: [CarrierDetails] = []
+//    
+//    init() {
+//        loadCarriers()
+//    }
+//    
+//    func loadCarriers() {
+//        DispatchQueue.main.async() {
+//            self.carriers = 
+//        }
+////        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+////            self.carriers = CarrierID.allCases.compactMap {
+////                
+////            }
+////        }
+//    }
+//}

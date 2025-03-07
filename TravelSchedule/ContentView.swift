@@ -1,9 +1,9 @@
-    //
-    //  ContentView.swift
-    //  TravelSchedule
-    //
-    //  Created by Valery Zvonarev on 23.01.2025.
-    //
+//
+//  ContentView.swift
+//  TravelSchedule
+//
+//  Created by Valery Zvonarev on 23.01.2025.
+//
 
 import SwiftUI
 import OpenAPIURLSession
@@ -25,31 +25,20 @@ struct StoryConfiguration {
 
 struct ContentView: View {
     let travelServices = TravelServices()
+    @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
     @State private var fromField: String = "Откуда"
     @State private var toField: String = "Куда"
     @State private var whereField: Int = 0
     @State private var showFullImage: Bool = false
     @State private var selectedStorySetIndex: Int = 0
     @State private var selectedTab: Int = 0
-    @State private var currentStory = SingleStoryModel(previewImageTitle: "Preview1", imageTitle: ["big1", "big2"], didSee: false, titleText: titleText, description: descriptionText)
+    @State private var currentStory = SingleStoryModel(previewImageTitle: .preview1, imageTitle: [.big1, .big2], didSee: false, titleText: titleText, description: descriptionText)
     @State private var viewModel = StoryViewViewModel()
     @State var configuration: StoryConfiguration = StoryConfiguration(storiesCount: 2, secondsPerStory: 5, timerTickInternal: 0.25)
     @State var timer: Timer.TimerPublisher = Timer.TimerPublisher(interval: 5, runLoop: .main, mode: .common)
-
-//    var imageBig: Image = Image("big1")
-
-        //    @State private var searchString: String = ""
-        //    @Binding var whereField: Int
-        //    var whereField: Int
-        //    @State var path = NavigationPath()
-        //    @State var navModel = NavigationModel()
     @StateObject var navModel = NavigationModel()
-        //    @Environment(CityList.self) var cityList
+    //    @Environment(CityList.self) var cityList
 
-        //                        StoryCollectionView(viewModel: $viewModel)
-
-
-    // Создание таймера (используется в 2х местах)
     static func createTimer(configuration: StoryConfiguration) -> Timer.TimerPublisher {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
@@ -61,11 +50,9 @@ struct ContentView: View {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         StoryCollectionView(viewModel: $viewModel, showFullImage: $showFullImage, selectedStorySetIndex: $selectedStorySetIndex, selectedTab: $selectedTab)
-//                            .transition(.opacity)
-//                            .zIndex(0)
                     }
                     .frame(height: 140)
-                    .padding(.bottom, 20)
+                    .padding(.init(top: 24, leading: 0, bottom: 20, trailing: 0))
                     FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
                         .navigationDestination(for: RouteView.self) { routeView in
                             switch routeView {
@@ -77,6 +64,7 @@ struct ContentView: View {
                         }
 
                     if fromField != "Откуда" && toField != "Куда" {
+//                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
                         NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
                             Text("Найти")
                                 .font(.system(size: 17, weight: .bold))
@@ -91,26 +79,28 @@ struct ContentView: View {
                         .padding([.leading, .trailing], 8)
                     }
                     Spacer()
+//                    Divider()
+//                        .padding(.bottom, 10)
+//                        .opacity(showFullImage ? 0 : 1)
                 }
                 .background(Color.ypWhite)
-                VStack {
+                ZStack {
                     if showFullImage {
                         StoryTabView(viewModel: $viewModel, currentStory: $viewModel.storiesCollection[selectedStorySetIndex], showFullImage: $showFullImage, selectedTab: $selectedTab, selectedStorySetIndex: $selectedStorySetIndex, timer: $timer, configuration: $configuration)
                             .transition(.asymmetric(insertion: .move(edge: .top), removal: .scale(scale: 0.01)))
                             .animation(.easeIn(duration: 1), value: showFullImage)
-//                            .scaleEffect(1)
-//                            .animation(.easeIn, value: 0.5)
-                        //                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .bottom)))
-                        //                        .transition(.slide)
-                        //                        .zIndex(0)
+
+                        if #available(iOS 18.0, *) {
+                            Text("")
+                                .hidden()
+                                .toolbarVisibility(showFullImage ? .hidden : .visible, for: .tabBar) // for iOS 18.0
+                        } else {
+                            Text("")
+                                .hidden()
+                                .toolbar(showFullImage ? .hidden : .visible, for: .tabBar) // deprecated
+                        }
                     }
                 }
-//                .transition(.move(edge: .top))
-//                .opacity(showFullImage ? 1 : 0)
-
-//                .rotationEffect(.degrees(30))
-//                .slide(showFullImage ? 1 : 0)
-
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -119,20 +109,18 @@ struct ContentView: View {
             configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
             timer = ContentView.createTimer(configuration: configuration)
             Task {
-                    // раскомментировать для запуска соответствующих сервисов
-                    //                try betweenStations()
-                    //                try stationSchedule()
-                    //                try nearestStations()
-                    //                try nearestSettlement()
-                    //                try carriers()
-                    //                try travelServices.showCopyrightInfo()
-                    //                try showCopyrightInfo()
-                    //                try showStationsOnRoute()
-                    //                try showAllStations()
+                // раскомментировать для запуска соответствующих сервисов
+                //                try betweenStations()
+                //                try stationSchedule()
+                //                try nearestStations()
+                //                try nearestSettlement()
+                //                try carriers()
+                //                try travelServices.showCopyrightInfo()
+                //                try showCopyrightInfo()
+                //                try showStationsOnRoute()
+                //                try showAllStations()
             }
         }
-
-            //        .background(Color.red)
     }
 }
 
@@ -142,6 +130,23 @@ struct ContentView: View {
 
 
 /*
+
+ //                            .transition(.opacity)
+ //                            .zIndex(0)
+
+ //                            .opacity(showTabBar ? 1 : 0)
+ //                            .scaleEffect(1)
+ //                            .animation(.easeIn, value: 0.5)
+ //                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .bottom)))
+ //                        .transition(.slide)
+ //                        .zIndex(0)
+
+ //                .transition(.move(edge: .top))
+ //                .opacity(showFullImage ? 1 : 0)
+
+ //                .rotationEffect(.degrees(30))
+ //                .slide(showFullImage ? 1 : 0)
+
 
  //        VStack(spacing: 16) {
 
