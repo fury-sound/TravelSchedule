@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct RouteSettings: View {
+    @ObservedObject var viewModel: RouteSettingViewModel
     @State private var isMorning = false
     @State private var isDay = false
     @State private var isEvening = false
     @State private var isNight = false
-    @State private var isYes = false
-    @State private var isNo = false
     @State private var yesNo = ["Да", "Нет"]
     @State private var periods = [
         "Утро 06:00 - 12:00",
@@ -22,7 +21,6 @@ struct RouteSettings: View {
         "Ночь 00:00 - 06:00"
     ]
     @State private var withConnection: String = ""
-    @Binding var filterConnection: Bool?
     @Binding var isActive: Bool
 
     var body: some View {
@@ -63,45 +61,40 @@ struct RouteSettings: View {
                     .font(.system(size: 24, weight: .bold))
                     .padding([.top, .bottom], 16)
                 VStack {
-                    Toggle(isOn: $isYes) {
+                    Toggle(isOn: $viewModel.isYes) {
                         Text(yesNo[0])
                             .font(.system(size: 17, weight: .medium))
                     }
-                    .simultaneousGesture(TapGesture().onEnded{
-                        filterConnection = true
-                    })
                     .tag(0)
-                    .toggleStyle(RadioButtonStyle(tag: 0, isYes: $isYes, isNo: $isNo))
+                    .toggleStyle(RadioButtonStyle(viewModel: viewModel, tag: 0))
                     .padding([.top, .bottom], 19)
-                    Toggle(isOn: $isNo) {
+                    Toggle(isOn: $viewModel.isNo) {
                         Text(yesNo[1])
                             .font(.system(size: 17, weight: .medium))
                     }
-                    .simultaneousGesture(TapGesture().onEnded{
-                        filterConnection = false
-                    })
                     .tag(1)
-                    .toggleStyle(RadioButtonStyle(tag: 1, isYes: $isYes, isNo: $isNo))
+                    .toggleStyle(RadioButtonStyle(viewModel: viewModel, tag: 1))
                     .padding([.top, .bottom], 19)
                 }
             }
             .navigationBarBackButtonHidden(true)
             .padding(16)
             .onAppear {
-                switch filterConnection {
-                    case true:
-                        isYes = true
-                    case false:
-                        isNo = true
+                switch viewModel.filterConnectionState {
+                    case .allConnections:
+                        viewModel.isYes = true
+                    case .noConnections:
+                        viewModel.isNo = true
                     default:
-                        isYes = false
-                        isNo = false
+                        viewModel.isYes = false
+                        viewModel.isNo = false
                 }
             }
             Spacer()
-            if isYes || isNo {
+            if viewModel.isYes || viewModel.isNo {
                 VStack {
                     ApplyButtonView()
+//                    ApplyButtonView(routeSettingViewModel: viewModel)
                 }
             }
         }
@@ -115,6 +108,7 @@ struct RouteSettings: View {
 }
 
 struct ApplyButtonView: View {
+//    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -131,6 +125,7 @@ struct ApplyButtonView: View {
         .padding([.top, .bottom], 10)
         .padding([.leading, .trailing], 16)
         .onTapGesture {
+//            print(routeSettingViewModel.isYes, routeSettingViewModel.isNo)
             dismiss()
         }
     }
@@ -150,9 +145,8 @@ struct CheckboxToggleStyle: ToggleStyle {
 }
 
 struct RadioButtonStyle: ToggleStyle {
+    @ObservedObject var viewModel = RouteSettingViewModel()
     @State var tag: Int?
-    @Binding var isYes: Bool
-    @Binding var isNo: Bool
 
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack{
@@ -164,14 +158,14 @@ struct RadioButtonStyle: ToggleStyle {
                 .onTapGesture {
                     switch tag {
                         case 0:
-                            if !isYes {
-                                isYes = true
-                                isNo = false
+                            if !viewModel.isYes {
+                                viewModel.isYes = true
+                                viewModel.isNo = false
                             }
                         case 1:
-                            if !isNo {
-                                isNo = true
-                                isYes = false
+                            if !viewModel.isNo {
+                                viewModel.isNo = true
+                                viewModel.isYes = false
                             }
                         default:
                             break
@@ -182,9 +176,10 @@ struct RadioButtonStyle: ToggleStyle {
 }
 
 #Preview("Параметры маршрута") {
-    @State var filterConnection: Bool? = false
+    @State var filterConnection: Bool? //= false
     @State var isActive: Bool = true
-    RouteSettings(filterConnection: $filterConnection, isActive: $isActive)
+    @State var routeSettingViewModel = RouteSettingViewModel() // = true
+    RouteSettings(viewModel: routeSettingViewModel, isActive: $isActive)
 }
 
 #Preview("Forms and Sections") {
@@ -244,14 +239,16 @@ struct RouteSettingsWithForm: View {
                             .font(.system(size: 17, weight: .medium))
                     }
                     .tag(0)
-                    .toggleStyle(RadioButtonStyle(tag: 0, isYes: $isYes, isNo: $isNo))
+//                    .toggleStyle(RadioButtonStyle(tag: 0, isYes: $isYes, isNo: $isNo))
+//                    .toggleStyle(RadioButtonStyle(tag: 0))
                     .padding(.bottom, 16)
                     Toggle(isOn: $isNo) {
                         Text(yesNo[1])
                             .font(.system(size: 17, weight: .medium))
                     }
                     .tag(1)
-                    .toggleStyle(RadioButtonStyle(tag: 1, isYes: $isYes, isNo: $isNo))
+//                    .toggleStyle(RadioButtonStyle(tag: 1, isYes: $isYes, isNo: $isNo))
+//                    .toggleStyle(RadioButtonStyle(tag: 1))
                 }
                     //                .padding(.bottom, 16)
             }

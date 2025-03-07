@@ -25,6 +25,7 @@ struct StoryConfiguration {
 
 struct ContentView: View {
     let travelServices = TravelServices()
+    @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
     @State private var fromField: String = "Откуда"
     @State private var toField: String = "Куда"
     @State private var whereField: Int = 0
@@ -63,6 +64,7 @@ struct ContentView: View {
                         }
 
                     if fromField != "Откуда" && toField != "Куда" {
+//                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
                         NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
                             Text("Найти")
                                 .font(.system(size: 17, weight: .bold))

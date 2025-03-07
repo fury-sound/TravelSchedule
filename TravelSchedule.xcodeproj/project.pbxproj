@@ -15,7 +15,7 @@
 		B9398BDF2D736E9500C2364F /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BD82D736E9500C2364F /* Font+Extensions.swift */; };
 		B9398BE62D736EA400C2364F /* Carrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE02D736EA400C2364F /* Carrier.swift */; };
 		B9398BE72D736EA400C2364F /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE12D736EA400C2364F /* ContentViewModel.swift */; };
-		B9398BE82D736EA400C2364F /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE22D736EA400C2364F /* ImageModel.swift */; };
+		B9398BE82D736EA400C2364F /* RouteSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE22D736EA400C2364F /* RouteSettingsModel.swift */; };
 		B9398BE92D736EA400C2364F /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE32D736EA400C2364F /* NavigationModel.swift */; };
 		B9398BEA2D736EA400C2364F /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BE42D736EA400C2364F /* StoryModel.swift */; };
 		B9398BF12D736EA800C2364F /* StoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398BEE2D736EA800C2364F /* StoryViewViewModel.swift */; };
@@ -50,6 +50,7 @@
 		B9398C312D736EB400C2364F /* ScheduleBetweenStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398C282D736EB400C2364F /* ScheduleBetweenStationsService.swift */; };
 		B9398C322D736EB400C2364F /* ScheduleByStationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398C292D736EB400C2364F /* ScheduleByStationService.swift */; };
 		B9398C332D736EB400C2364F /* StationOnRouteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398C2A2D736EB400C2364F /* StationOnRouteService.swift */; };
+		B9398C992D75F17F00C2364F /* RouteSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9398C982D75F17F00C2364F /* RouteSettingViewModel.swift */; };
 		B955804F2D58EE2800A0262D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B955803E2D58EE2800A0262D /* Preview Assets.xcassets */; };
 		B95580502D58EE2800A0262D /* openapi.yaml in Resources */ = {isa = PBXBuildFile; fileRef = B95580402D58EE2800A0262D /* openapi.yaml */; };
 		B95580512D58EE2800A0262D /* openapi-generator-config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = B95580412D58EE2800A0262D /* openapi-generator-config.yaml */; };
@@ -69,7 +70,7 @@
 		B9398BD82D736E9500C2364F /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		B9398BE02D736EA400C2364F /* Carrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carrier.swift; sourceTree = "<group>"; };
 		B9398BE12D736EA400C2364F /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
-		B9398BE22D736EA400C2364F /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
+		B9398BE22D736EA400C2364F /* RouteSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettingsModel.swift; sourceTree = "<group>"; };
 		B9398BE32D736EA400C2364F /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
 		B9398BE42D736EA400C2364F /* StoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
 		B9398BEB2D736EA800C2364F /* ContentViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewViewModel.swift; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 		B9398C282D736EB400C2364F /* ScheduleBetweenStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBetweenStationsService.swift; sourceTree = "<group>"; };
 		B9398C292D736EB400C2364F /* ScheduleByStationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleByStationService.swift; sourceTree = "<group>"; };
 		B9398C2A2D736EB400C2364F /* StationOnRouteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationOnRouteService.swift; sourceTree = "<group>"; };
+		B9398C982D75F17F00C2364F /* RouteSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettingViewModel.swift; sourceTree = "<group>"; };
 		B955803E2D58EE2800A0262D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B95580402D58EE2800A0262D /* openapi.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = openapi.yaml; sourceTree = "<group>"; };
 		B95580412D58EE2800A0262D /* openapi-generator-config.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "openapi-generator-config.yaml"; sourceTree = "<group>"; };
@@ -168,7 +170,7 @@
 			children = (
 				B9398BE02D736EA400C2364F /* Carrier.swift */,
 				B9398BE12D736EA400C2364F /* ContentViewModel.swift */,
-				B9398BE22D736EA400C2364F /* ImageModel.swift */,
+				B9398BE22D736EA400C2364F /* RouteSettingsModel.swift */,
 				B9398BE32D736EA400C2364F /* NavigationModel.swift */,
 				B9398BE42D736EA400C2364F /* StoryModel.swift */,
 			);
@@ -183,6 +185,7 @@
 				B9398BED2D736EA800C2364F /* RouteData.swift */,
 				B9398BEE2D736EA800C2364F /* StoryViewViewModel.swift */,
 				B9398BEF2D736EA800C2364F /* TravelServices.swift */,
+				B9398C982D75F17F00C2364F /* RouteSettingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -414,7 +417,8 @@
 				B95580552D58EE2800A0262D /* ContentView.swift in Sources */,
 				B9398BE62D736EA400C2364F /* Carrier.swift in Sources */,
 				B9398BE72D736EA400C2364F /* ContentViewModel.swift in Sources */,
-				B9398BE82D736EA400C2364F /* ImageModel.swift in Sources */,
+				B9398C992D75F17F00C2364F /* RouteSettingViewModel.swift in Sources */,
+				B9398BE82D736EA400C2364F /* RouteSettingsModel.swift in Sources */,
 				B9398BE92D736EA400C2364F /* NavigationModel.swift in Sources */,
 				B9398BEA2D736EA400C2364F /* StoryModel.swift in Sources */,
 				B9398BF12D736EA800C2364F /* StoryViewViewModel.swift in Sources */,

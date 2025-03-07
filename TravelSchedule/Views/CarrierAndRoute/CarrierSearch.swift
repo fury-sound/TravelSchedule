@@ -8,32 +8,47 @@
 import SwiftUI
 
 struct CarrierSearch: View {
+    @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
     @Binding var fromField: String
     @Binding var toField: String
-    @StateObject var routeCarrierDataModel = RouteCarrierData()
-    @State private var filterConnection: Bool?
+//    @StateObject var routeCarrierDataModel = RouteCarrierData()
+//    @State private var filterConnection: Bool?
+//    @Binding var filterConnectionState: showRouteConnection
     @State private var filterTime: [String] = []
     let screenSize = UIScreen.main.bounds
 
-    var filterResults: [RouteDetailsCarrier] {
-
-            //MARK: тест экрана отсутствия вариантов перевозчика
-            //        return []
-
-            //        if filterConnection.isEmpty {
-            //            return routeCarrierDataModel.mockRouteArray
-            //        }
-        switch filterConnection {
-            case true:
-                return routeCarrierDataModel.mockRouteArray
-            case false:
-                return routeCarrierDataModel.mockRouteArray.filter {
-                    ($0.connection != nil) == false
-                }
-            default:
-                return routeCarrierDataModel.mockRouteArray
-        }
-    }
+//    var filterResults: [RouteDetailsCarrier] {
+//
+//            //MARK: тест экрана отсутствия вариантов перевозчика
+//            //        return []
+//
+//            //        if filterConnection.isEmpty {
+//            //            return routeCarrierDataModel.mockRouteArray
+//            //        }
+////        switch filterConnection {
+////            case true:
+////                return routeCarrierDataModel.mockRouteArray
+////            case false:
+////                return routeCarrierDataModel.mockRouteArray.filter {
+////                    ($0.connection != nil) == false
+////                }
+////            default:
+////                return routeCarrierDataModel.mockRouteArray
+////        }
+//
+////        print("in filterResults")
+////        print("routeSettingViewModel.filterConnection: \(routeSettingViewModel.filterConnectionState)")
+//        switch routeSettingViewModel.filterConnectionState {
+//            case .allConnections:
+//                return routeCarrierDataModel.mockRouteArray
+//            case .noConnections:
+//                return routeCarrierDataModel.mockRouteArray.filter {
+//                    ($0.connection != nil) == false
+//                }
+//            default:
+//                return routeCarrierDataModel.mockRouteArray
+//        }
+//    }
 
     var body: some View {
         VStack {
@@ -42,7 +57,8 @@ struct CarrierSearch: View {
                 .padding(.horizontal, 16)
             ZStack {
                 Spacer()
-                if filterResults.isEmpty {
+//                if filterResults.isEmpty {
+                if routeSettingViewModel.filteredCarriers.isEmpty {
                     HStack {
                         Text("Вариантов нет")
                             .font(.system(size: 24, weight: .bold))
@@ -51,7 +67,8 @@ struct CarrierSearch: View {
                 } else {
                     VStack {
                         List {
-                            ForEach(filterResults, id: \.self) { details in
+//                            ForEach(filterResults, id: \.self) { details in
+                            ForEach(routeSettingViewModel.filteredCarriers, id: \.self) { details in
                                 ZStack {
                                     RouteInfo(routeDetailsCarrier: details)
                                 }
@@ -69,7 +86,7 @@ struct CarrierSearch: View {
                     }
                 }
                 Spacer()
-                ButtonView(filterConnection: $filterConnection)
+                ButtonView(routeSettingViewModel: routeSettingViewModel)
             }
         }
         .background(Color.ypWhite)
@@ -91,19 +108,28 @@ struct CarrierSearch: View {
 }
 
 struct ButtonView: View {
-    @Binding var filterConnection: Bool?
+    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
+//    @Binding var filterConnection: Bool?
+//    @Binding var filterConnectionState: showRouteConnection
     @State private var isRouteSettingsViewActive: Bool = false
 
     var body: some View {
         VStack {
             Spacer()
-        NavigationLink(destination: RouteSettings(filterConnection: $filterConnection, isActive: $isRouteSettingsViewActive)) {
+            NavigationLink(destination: RouteSettings(viewModel: routeSettingViewModel, isActive: $isRouteSettingsViewActive)) {
             VStack {
-                if filterConnection == nil {
-                    Text("Уточнить время")
+                if routeSettingViewModel.filterConnectionState == .anyConnectionValue {
+//                    Text("Уточнить время")
+                    Text(routeSettingViewModel.filterConnectionState.buttonText)
+//                    CustomLabel(
+//                        text: routeSettingViewModel.filterConnectionState.buttonText,
+//                        systemImageName: routeSettingViewModel.filterConnectionState.buttonIcon
+//                    )
                         .padding(.vertical, 20)
                 } else {
-                    CustomLabel(text: "Уточнить время", systemImageName: "circle.fill")
+//                    Text(routeSettingViewModel.filterConnectionState.buttonText)
+//                    CustomLabel(text: "Уточнить время", systemImageName: "circle.fill")
+                    CustomLabel(text: routeSettingViewModel.filterConnectionState.buttonText, systemImageName: routeSettingViewModel.filterConnectionState.buttonIcon)
                         .padding(.vertical, 20)
                 }
             }
@@ -117,12 +143,16 @@ struct ButtonView: View {
             .offset(y: isRouteSettingsViewActive ? 0 : 200)
             .opacity(isRouteSettingsViewActive ? 1 : 0)
             }
+//            Text("Values: \(filterConnectionState.rawValue)")
+//            Text("Values: \(routeSettingViewModel.filterConnectionState.rawValue)")
         }
         .onAppear(){
             withAnimation(.easeInOut(duration: 0.5)) {
                 isRouteSettingsViewActive = true
+//                routeSettingViewModel.filterConnectionState = .noConnections
             }
         }
+
     }
 }
 
@@ -142,11 +172,23 @@ struct CustomLabel: View {
 #Preview {
     @State var fromField = "Москва (Ярославский вокзал)"
     @State var toField = "Санкт-Петербург (Балтийский вокзал)"
+    @State var filterConnectionState: showRouteConnection = .anyConnectionValue
         //    let routeCarrierDataModel = RouteCarrierData()
     CarrierSearch(fromField: $fromField, toField: $toField)
+//    CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $filterConnectionState)
+}
+
+#Preview {
+//    @State var filterConnection: showRouteConnection? = .anyConnectionValue
+    var viewModel = RouteSettingViewModel()
+//    viewModel.filterConnectionState = .noConnections
+    ButtonView(routeSettingViewModel: viewModel)
+//    ButtonView(filterConnection: $filterConnection)
 }
 
 #Preview {
     @State var filterConnection: Bool? = false
-    ButtonView(filterConnection: $filterConnection)
+    var routeSettingViewModel: RouteSettingViewModel? = nil
+    ButtonView(routeSettingViewModel: routeSettingViewModel!)
+//    ButtonView(filterConnection: $filterConnection)
 }
