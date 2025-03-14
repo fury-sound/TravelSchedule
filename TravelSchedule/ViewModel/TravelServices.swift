@@ -8,9 +8,79 @@
 import SwiftUI
 import OpenAPIURLSession
 import OpenAPIRuntime
+import Combine
 
-final class TravelServices {
-    
+//final class TravelServices {
+final class TravelServices: ObservableObject {
+
+    @Published var travelDataAll: [Region] = []
+    private var cancellables = Set<AnyCancellable>()
+
+//    @Published var travelDataList: [Region] = []
+//    @Published var travelCityList: [Settlement] = []
+//    @Published var travelStationList: [Station] = []
+
+    //    @Published var fromField: String = "Откуда"
+    //    @Published var toField: String = "Куда"
+    //    @Published var whereField: Int = 0
+
+//    func getCityList() { //} -> [String] {
+//                         //        var cityList: [String] = []
+//        for region in travelDataList {
+//            region.settlements.forEach { settlement in
+//                travelCityList.append(settlement.name)
+//            }
+//        }
+//        //        print(cityList)
+//                print("travelDataList.count", travelDataList.count)
+//                print("travelCityList.count", travelCityList.count)
+//        //        return []
+//    }
+
+//    func getCityList() { //-> [String] {
+////        var cityNameSet: Set<String> = []
+//        for region in travelDataList {
+//            region.settlements.forEach { settlement in
+//                if !settlement.name.isEmpty {
+//                    travelCityList.append(settlement)
+//                }
+////                    settlement.stations.forEach { station in
+////                        if !station.codes.yandex_code.isEmpty && station.transportType == "train" {
+//////                            cityNameSet.insert(settlement.name)
+////                        }
+////                    }
+////                }
+//            }
+//        }
+//        
+//        print("travelCityList.count in getCityList", travelCityList.count)
+//    }
+//
+//    func getStationList(cityName: String) { //-> [String] {
+//        let settlementToSearch = travelCityList.filter { $0.name == cityName }
+//        settlementToSearch.forEach { settlement in
+//            settlement.stations.forEach { station in
+//                if station.transportType == "train" && !station.codes.yandex_code.isEmpty {
+//                    travelStationList.append(station)
+//                }
+//            }
+//
+//            //        for region in travelDataList {
+//            //            region.settlements.forEach { settlement in
+//            //                if settlement.name == cityName {
+//            //                    settlement.stations.forEach { station in
+//            //                        if !station.codes.yandex_code.isEmpty && station.transportType == "train" {
+//            //                            travelStationList.append(station)
+//            //                            print("1", station.stationType, "2", station.transportType)
+//            //                        }
+//            //                    }
+//            //                }
+//            //            }
+//            //        }
+//            //        print("travelStationList.count in getStationList", travelStationList.count)
+//        }
+//    }
+
     func showStationsOnRoute() throws {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
@@ -28,7 +98,8 @@ final class TravelServices {
         }
     }
 
-    func showAllStations() throws {
+    func showAllStations() throws { //}-> [Region] {
+//        var regions: [Region] = []
         let client = Client(
             serverURL: try! Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -42,12 +113,50 @@ final class TravelServices {
         Task {
             do {
                 let allStationInfo = try await service.getAllStationList()
-                    // закомментировано, поскольку вешает XCode; полученный json выводится в файл
-                    // print(allStationInfo)
+                guard let russiaData = allStationInfo.countries?.first(where: { $0.title == "Россия" }) else {
+                    print("No data found")
+                    return
+                }
+                print(russiaData.title)
+                let regions: [Region] = russiaData.regions?.compactMap { region in
+                    //                    travelDataList = russiaData.regions?.compactMap { region in
+                    let settlements: [Settlement] = region.settlements?.compactMap { settlement in
+                        let stations = settlement.stations?.compactMap { station in
+                            Station(stationName: station.title ?? "Нет названия станции", stationType: station.station_type ?? "", transportType: station.transport_type ?? "", codes: StationCode(express: station.codes?.express ?? "", yandex: station.codes?.yandex ?? "", yandex_code: station.codes?.yandex_code ?? "", esr: station.codes?.esr ?? "", esr_code: station.codes?.esr_code ?? ""))
+                        }
+                        return Settlement(name: settlement.title ?? "Нет названия города", stations: stations ?? [])
+                    } ?? []
+                    return Region(name: region.title ?? "Нет названия региона", code: region.codes?.yandex_code ?? "Нет кода региона", settlements: settlements)
+                } ?? []
+                //                                print(travelDataList.count)
+                //                                travelViewModel.getCityList()
+                await MainActor.run {
+                    self.travelDataAll = regions
+//                    getCityList()
+                }
+                //                print(regions)
+//                for region in regions {
+////                    print(region.settlements.count)
+//                    for settlement in region.settlements {
+//                        if settlement.name == "Санкт-Петербург" {
+//                            print(settlement.name)
+//                            print(settlement.stations.count)
+////                            for station in settlement.stations {
+////                                print(station.stationName, "-", station.codes)
+////                            }
+//                        }
+//                    }
+//                }
+
+                // закомментировано, поскольку вешает XCode; полученный json выводится в файл
+                // print(allStationInfo)
+
             } catch(let error) {
                 print("An error occurred: \(error.localizedDescription)")
             }
         }
+//        print("regions.count", regions.count)
+//        return regions
     }
 
     func showCopyrightInfo() throws {

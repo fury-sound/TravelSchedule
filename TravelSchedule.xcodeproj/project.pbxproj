@@ -59,6 +59,7 @@
 		B955805C2D58EE2800A0262D /* TravelScheduleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B955804D2D58EE2800A0262D /* TravelScheduleApp.swift */; };
 		B9C0F5FC2D42D42C00FB4A2E /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */; };
 		B9C0F5FF2D42D43C00FB4A2E /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */; };
+		B9D82D1B2D84B008009605DD /* TravelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D1A2D84B008009605DD /* TravelViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		B955804D2D58EE2800A0262D /* TravelScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelScheduleApp.swift; sourceTree = "<group>"; };
 		B95580602D58FFF800A0262D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B9C0F5E62D42D3D600FB4A2E /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9D82D1A2D84B008009605DD /* TravelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				B9398BEE2D736EA800C2364F /* StoryViewViewModel.swift */,
 				B9398BEF2D736EA800C2364F /* TravelServices.swift */,
 				B9398C982D75F17F00C2364F /* RouteSettingViewModel.swift */,
+				B9D82D1A2D84B008009605DD /* TravelViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				B9398C1A2D736EAF00C2364F /* ServerErrorView.swift in Sources */,
 				B9398C1B2D736EAF00C2364F /* FromToView.swift in Sources */,
 				B9398C1C2D736EAF00C2364F /* LocationSelection.swift in Sources */,
+				B9D82D1B2D84B008009605DD /* TravelViewModel.swift in Sources */,
 				B9398C1D2D736EAF00C2364F /* SearchBar.swift in Sources */,
 				B9398C1E2D736EAF00C2364F /* StationSelection.swift in Sources */,
 				B9398C1F2D736EAF00C2364F /* SettingsView.swift in Sources */,

@@ -637,7 +637,7 @@ components:
           type: string
           description: Коды страны/региона/населенного пункта в системе кодирования Яндекс Расписаний
     StationCode:
-      type: string
+      type: object
       properties:
         express:
           type: string
@@ -659,7 +659,10 @@ components:
       properties:
         type:
           type: string
-        code:
+        direction:
+          type: string
+          description: Направление движения поездов, на котором находится станция
+        codes:
           $ref: '#/components/schemas/StationCode'
         latitude:
           oneOf:

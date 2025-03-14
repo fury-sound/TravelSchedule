@@ -1,9 +1,9 @@
-    //
-    //  LocationSelection.swift
-    //  TravelSchedule
-    //
-    //  Created by Valery Zvonarev on 11.02.2025.
-    //
+//
+//  LocationSelection.swift
+//  TravelSchedule
+//
+//  Created by Valery Zvonarev on 11.02.2025.
+//
 
 import SwiftUI
 
@@ -14,10 +14,12 @@ struct LocationSelection: View {
     @State private var noInternetError: Bool = false
     @State private var serverError: Bool = false
     @Environment(\.presentationMode) var presentationMode // To dismiss the view
+//    @ObservedObject var travelViewModel: TravelServices
+    @ObservedObject var travelViewModel: TravelViewModel
 
-        //    @Binding var model: NavigationModel
-        //    @Binding var path: NavigationPath
-        //    @ObservedObject var routeData: RouteData
+    //    @Binding var model: NavigationModel
+    //    @Binding var path: NavigationPath
+    //    @ObservedObject var routeData: RouteData
 
     var body: some View {
         VStack {
@@ -31,21 +33,21 @@ struct LocationSelection: View {
                 }
             } else {
                 VStack {
-                        //            SearchBar(searchText: $searchString)
-                    CityListTable(path: $path, searchString: $searchString)
-                        //            CityListTable(path: $path)
+                    //            SearchBar(searchText: $searchString)
+                    CityListTable(path: $path, searchString: $searchString, travelViewModel: travelViewModel)
+                    //            CityListTable(path: $path)
                         .font(.system(size: 17, weight: .regular))
-    //                    .transition(.asymmetric(
-    //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
-    //                        removal: .move(edge: .trailing)))
+                    //                    .transition(.asymmetric(
+                    //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
+                    //                        removal: .move(edge: .trailing)))
                 }
-                    .navigationBarBackButtonHidden(true)
-                    .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            BackButtonView()
-                        }
+                .navigationBarBackButtonHidden(true)
+                .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButtonView()
                     }
+                }
                 if #available(iOS 18.0, *) {
                     Text("")
                         .toolbarVisibility(.hidden, for: .tabBar) // for iOS 18.0
@@ -55,7 +57,11 @@ struct LocationSelection: View {
                 }
             }
         }
-            .background(Color.ypWhite)
+        .background(Color.ypWhite)
+        .onAppear {
+            print("travelViewModel.travelCityList.count in LocationSelection:", travelViewModel.travelCityList.count)
+            travelViewModel.travelStationList = []
+        }
     }
 }
 
@@ -76,25 +82,42 @@ struct BackButtonView: View {
 
 
 struct CityListTable: View {
-        //    @Binding var model: NavigationModel
+    //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var searchString: String
-    @State private var cityNames: [CityList] = []
+    //    @State private var cityNames: [CityList] = []
+//    @ObservedObject var travelViewModel: TravelServices
+    @ObservedObject var travelViewModel: TravelViewModel
 
-        //    @Binding var searchString: String
-        //    @Binding var path: NavigationPath
-        //    @ObservedObject var routeData: RouteData
-        //    @State var cityValue: CityList = CityList()
+    //    @Binding var searchString: String
+    //    @Binding var path: NavigationPath
+    //    @ObservedObject var routeData: RouteData
+    //    @State var cityValue: CityList = CityList()
 
-    var searchResults: [CityList] {
+    //    var searchResults: [CityList] {
+    //        if searchString.isEmpty {
+    //            return CityList.allCases
+    //        } else {
+    //            return CityList.allCases.filter {
+    //                $0.cityName.lowercased().contains(searchString.lowercased())
+    //            }
+    //        }
+    //    }
+
+    var searchResults: [Settlement] {
         if searchString.isEmpty {
-            return CityList.allCases
+            //            return CityList.allCases
+//            print("travelCityList.count in searchResults", travelViewModel.travelCityList.count)
+            return travelViewModel.travelCityList
         } else {
-            return CityList.allCases.filter {
-                $0.cityName.lowercased().contains(searchString.lowercased())
+            //            return CityList.allCases.filter {
+            //                $0.cityName.lowercased().contains(searchString.lowercased())
+            return travelViewModel.travelCityList.filter {
+                $0.name.lowercased().contains(searchString.lowercased())
             }
         }
     }
+
 
     var body: some View {
         VStack {
@@ -109,11 +132,14 @@ struct CityListTable: View {
             } else {
                 List {
                     ForEach(filteredCities, id: \.self) { city in
-                            //                if (city.cityName).lowercased.contains(searchString.lowercased()) {
-                        NavigationLink(city.cityName, value: RouteView.stationView(city))
+                        //                if (city.cityName).lowercased.contains(searchString.lowercased()) {
+                        //                        NavigationLink(city.cityName, value: RouteView.stationView(city))
+                        NavigationLink(city.name, value: RouteView.stationView(city))
                             .foregroundStyle(.ypBlack, .ypBlack)
                             .simultaneousGesture(TapGesture().onEnded{
+//                                print("cityName in NavigationLink:", cityName)
                                 path.append(.stationView(city))
+                                //                                path.append(.stationView(city))
                             })
                     }
                     .listRowBackground(Color.clear)
@@ -125,36 +151,46 @@ struct CityListTable: View {
     }
 }
 
-#Preview {
-    @State var noInternetError = true
-    @State var path = [RouteView.stationView(CityList.moscow)]
-    LocationSelection(
-        headerText: "Выбор города",
-        path: $path
-    )
-}
-
-#Preview {
-    @State var path = [RouteView.stationView(CityList.moscow)]
-        //    @Previewable @State var model = NavigationModel()
-        //    @Previewable @State var model = NavigationPath()
-        //    @Previewable @State var routeData = RouteData()
-    CityListTable(
-        path: $path,
-        searchString: .constant("")
-    )
-}
-
-#Preview {
-    @State var path = [RouteView.stationView(CityList.moscow)]
-        //    @Previewable @State var model = NavigationModel()
-        //    @Previewable @State var model = NavigationPath()
-        //    @Previewable @State var routeData = RouteData()
-    LocationSelection(
-        headerText: "Выбор города",
-        path: $path
-    )
-}
+//#Preview {
+//    @State var noInternetError = true
+////        @State var path = [RouteView.stationView(CityList.moscow)]
+////    @State var path = [RouteView.stationView("Москва")]
+//    @State var path = [RouteView.stationView("Москва")]
+//    let travelViewModel = TravelServices()
+//    LocationSelection(
+//        headerText: "Выбор города",
+//        path: $path,
+//        travelViewModel: travelViewModel
+//    )
+//}
+//
+//#Preview {
+//    //    @State var path = [RouteView.stationView(CityList.moscow)]
+//    @State var path = [RouteView.stationView("Москва")]
+//    let travelViewModel = TravelServices()
+//    //    @Previewable @State var model = NavigationModel()
+//    //    @Previewable @State var model = NavigationPath()
+//    //    @Previewable @State var routeData = RouteData()
+//    CityListTable(
+//        path: $path,
+//        searchString: .constant(""),
+//        travelViewModel: travelViewModel
+//    )
+//}
+//
+//#Preview {
+//    @State var path = [RouteView.stationView("Москва")]
+//    let travelViewModel = TravelServices()
+//    //    @State var path = [RouteView.stationView(CityList.moscow)]
+//    //    @Previewable @State var model = NavigationModel()
+//    //    @Previewable @State var model = NavigationPath()
+//    //    @Previewable @State var routeData = RouteData()
+//    LocationSelection(
+//        headerText: "Выбор города",
+//        path: $path,
+//        travelViewModel: travelViewModel
+//    )
+//}
 
 
 /*

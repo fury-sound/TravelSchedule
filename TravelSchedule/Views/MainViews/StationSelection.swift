@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct StationSelection: View {
-    var header: (CityList, Int)
+//    var header: (CityList, Int)
+    var header: (Settlement, Int)
         //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var whereField: Int
@@ -17,6 +18,9 @@ struct StationSelection: View {
     @State private var searchString: String = ""
     @State private var noInternetError: Bool = false
     @State private var serverError: Bool = false
+    @ObservedObject var travelViewModel: TravelViewModel
+
+//    @ObservedObject var travelViewModel: TravelServices
 
         //    @Binding var path: NavigationPath
         //    @ObservedObject var routeData: RouteData
@@ -36,7 +40,7 @@ struct StationSelection: View {
     //            Text(header.0.cityName)
                 VStack {
                     SearchBar(searchText: $searchString)
-                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString)
+                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString, travelViewModel: travelViewModel)
                 }
                 .navigationBarBackButtonHidden(true)
                 .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
@@ -48,11 +52,16 @@ struct StationSelection: View {
             }
         }
         .background(Color.ypWhite)
+        .onAppear() {
+//            print("city \(header.0)")
+            travelViewModel.getStationList(cityName: header.0.name)
+        }
     }
 }
 
 struct StationList: View {
-    @State var city: (CityList, Int)
+//    @State var city: (CityList, Int)
+    @State var city: (Settlement, Int)
         //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var whereField: Int
@@ -60,17 +69,26 @@ struct StationList: View {
     @Binding var toField: String
     @Binding var searchString: String
     @State private var stationNames: [String] = []
+//    @ObservedObject var travelViewModel: TravelServices
+    @ObservedObject var travelViewModel: TravelViewModel
+
         //    @EnvironmentObject var routeDirection: RouteDirection
         //    @Binding var path: NavigationPath
         //    @ObservedObject var routeData: RouteData
         //    @State var completion: () -> Void
 
-    var searchResults: [String] {
+    var searchResults: [Station] {
         if searchString.isEmpty {
-            return city.0.stations
+//            return ["111", "222", "333", "444", "555", "777"]
+//            return city.0.stations
+            return travelViewModel.travelStationList
         } else {
-            return city.0.stations.filter {
-                $0.lowercased().contains(searchString.lowercased())
+//            return ["111", "222", "333"]
+//            return city.0.stations.filter {
+//                $0.lowercased().contains(searchString.lowercased())
+//            }
+            return travelViewModel.travelStationList.filter {
+                $0.stationName.lowercased().contains(searchString.lowercased())
             }
         }
     }
@@ -79,21 +97,27 @@ struct StationList: View {
         let filteredStations = searchResults
         if filteredStations.isEmpty {
             Spacer()
-            Text("Станция не найдена")
+            Text("Ж/д станция не найдена")
                 .font(.system(size: 24, weight: .bold))
                 .padding()
             Spacer()
         } else {
             List {
                 ForEach(filteredStations, id: \.self) { station in
-                    NavigationLink(station, value: station)
+                    NavigationLink(station.stationName, value: station)
                         .foregroundStyle(.ypBlack, .ypBlack)
                         .simultaneousGesture(TapGesture().onEnded{
                             if whereField == 0 {
-                                fromField = "\(city.0.cityName) (\(station))"
+                                fromField = "\(city.0.name) (\(station.stationName))"
+//                                print(station.stationType, station.codes)
+//                                fromField = "\(city.0.cityName) (\(station))"
                             } else {
-                                toField = "\(city.0.cityName) (\(station))"
+                                toField = "\(city.0.name) (\(station.stationName))"
+//                                print(station.stationType, station.codes)
+//                                toField = "\(city.0.cityName) (\(station))"
                             }
+//                            travelViewModel.travelCityList = []
+                            travelViewModel.travelStationList = []
                             path = []
                         })
                 }
@@ -107,21 +131,24 @@ struct StationList: View {
 }
 
 
-#Preview {
-        //    @Previewable @EnvironmentObject var routeDirection: RouteDirection
-    @State var path = [RouteView.stationView(CityList.moscow)]
-        //    @Previewable @State var model = NavigationModel() //[RouteView.stationView(CityList.moscow)]
-    @State var whereField = 0
-    @State var fromField = ""
-    @State var toField = ""
-        //    @Previewable @State var path = NavigationPath()
-    StationSelection(header: (CityList.moscow, 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
-        //    @Previewable @State var routeData = RouteData()
-        //    StationSelection(header: CityList.moscow, path: $path, routeData: routeData)
-        //    StationSelection()
-        //    @Previewable @State var directionField: String? = nil
-        //    StationSelection(header: CityList.moscow, directionField: $directionField)
-}
+//#Preview {
+//        //    @Previewable @EnvironmentObject var routeDirection: RouteDirection
+////    @State var path = [RouteView.stationView(CityList.moscow)]
+//    @State var path = [RouteView.stationView("Москва")]
+//        //    @Previewable @State var model = NavigationModel() //[RouteView.stationView(CityList.moscow)]
+//    @State var whereField = 0
+//    @State var fromField = ""
+//    @State var toField = ""
+//    let travelViewModel = TravelServices()
+//        //    @Previewable @State var path = NavigationPath()
+//    StationSelection(header: ("Москва", 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
+////    StationSelection(header: (CityList.moscow, 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+//        //    @Previewable @State var routeData = RouteData()
+//        //    StationSelection(header: CityList.moscow, path: $path, routeData: routeData)
+//        //    StationSelection()
+//        //    @Previewable @State var directionField: String? = nil
+//        //    StationSelection(header: CityList.moscow, directionField: $directionField)
+//}
 
 
 /*

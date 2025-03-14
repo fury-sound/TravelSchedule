@@ -7,9 +7,38 @@
 
 import Foundation
 
+struct Region: Hashable {
+    var name: String = ""
+    var code: String = ""
+    var settlements: [Settlement] = []
+}
+
+struct Settlement: Hashable {
+    var name: String = ""
+    var code: String = ""
+    var stations: [Station] = []
+}
+
+struct Station: Hashable {
+    var stationName: String = ""
+    var stationType: String = ""
+    var transportType: String = ""
+    var codes: StationCode = StationCode()
+}
+
+struct StationCode: Hashable {
+    var express: String = ""
+    var yandex: String = ""
+    var yandex_code: String = ""
+    var esr: String = ""
+    var esr_code: String = ""
+}
+
 struct FromToModel: Hashable {
     var fromField: String = "Откуда"
+    var fromCode: String = ""
     var toField: String = "Куда"
+    var toCode: String = ""
 }
 
 struct RouteModel {
@@ -29,7 +58,8 @@ struct RouteModel {
 
 enum RouteView: Hashable {
     case locationView
-    case stationView(CityList)
+    case stationView(Settlement)
+//    case stationView(CityList)
 }
 
 enum MoscowTerminal: String, CaseIterable {

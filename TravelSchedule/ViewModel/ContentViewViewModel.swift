@@ -13,7 +13,7 @@ final class ContentViewViewModel: ObservableObject {
 //    @Published var selectedCity: String = ""
 //    @Published var selectedStation: String = ""
 //    @Published var toField: FromToModel
-
+//
     init() {
         self.routeField = FromToModel(fromField: "", toField: "")
     }

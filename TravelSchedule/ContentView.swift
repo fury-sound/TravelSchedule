@@ -24,7 +24,8 @@ struct StoryConfiguration {
 }
 
 struct ContentView: View {
-    let travelServices = TravelServices()
+    @ObservedObject var travelViewModel = TravelViewModel()
+//    @ObservedObject var travelViewModel = TravelServices()
     @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
     @State private var fromField: String = "Откуда"
     @State private var toField: String = "Куда"
@@ -57,9 +58,9 @@ struct ContentView: View {
                         .navigationDestination(for: RouteView.self) { routeView in
                             switch routeView {
                                 case .locationView:
-                                    LocationSelection(headerText: "Выбор города", path: $navModel.path)
+                                    LocationSelection(headerText: "Выбор города", path: $navModel.path, travelViewModel: travelViewModel)
                                 case .stationView(let city):
-                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
                             }
                         }
 
@@ -119,6 +120,7 @@ struct ContentView: View {
                 //                try showCopyrightInfo()
                 //                try showStationsOnRoute()
                 //                try showAllStations()
+                try travelViewModel.getTravelData() //showAllStations()
             }
         }
     }
