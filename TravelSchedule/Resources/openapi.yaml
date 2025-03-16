@@ -826,38 +826,36 @@ components:
         whole:
           type: number
     Segment:
-      type: array
-      items:
-        type: object
-        properties:
-          arrival:
-            type: string
-          tickets_info:
-            $ref: '#/components/schemas/Ticket_info'
-          duration:
-            type: number
-          arrival_terminal:
-            type: string
-          arrival_platform:
-            type: number
-          from:
-            $ref: '#/components/schemas/From'
-          thread:
-            $ref: '#/components/schemas/Thread'
-          departure_platform:
-            type: number
-          departure:
-            type: string
-          stops:
-            type: string
-          start_date:
-            type: string
-          to:
-            $ref: '#/components/schemas/To'
-          has_transfers:
-            type: boolean
-          departure_terminal:
-            type: string
+      type: object
+      properties:
+        arrival:
+          type: string
+        tickets_info:
+          $ref: '#/components/schemas/Ticket_info'
+        duration:
+          type: number
+        arrival_terminal:
+          type: string
+        arrival_platform:
+          type: string
+        from:
+          $ref: '#/components/schemas/From'
+        thread:
+          $ref: '#/components/schemas/Thread'
+        departure_platform:
+          type: string
+        departure:
+          type: string
+        stops:
+          type: string
+        start_date:
+          type: string
+        to:
+          $ref: '#/components/schemas/To'
+        has_transfers:
+          type: boolean
+        departure_terminal:
+          type: string
     Interval_segment:
       type: object
       properties:
@@ -868,13 +866,13 @@ components:
         arrival_terminal:
           type: string
         arrival_platform:
-          type: number
+          type: string
         from:
           $ref: '#/components/schemas/From'
         thread:
           $ref: '#/components/schemas/Thread'
         departure_platform:
-          type: number
+          type: string
         stops:
           type: string
         start_date:

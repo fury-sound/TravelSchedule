@@ -5,15 +5,17 @@ struct FromToView: View {
     @Binding var path: [RouteView]
     @Binding var whereField: Int
         //    @State private var whereField: Int = 0
-    @Binding var fromField: String
-    @Binding var toField: String
+//    @Binding var fromField: String
+//    @Binding var toField: String
+    @ObservedObject var travelViewModel: TravelViewModel
+
         //    @State var routeDirectionFrom: Bool = true
         //    @Environment(RouteDirection.self) var routeDirection
         //    @Environment(\.routeDirection) private var routeDirection
         //    @EnvironmentObject var routeDirection: RouteDirection
 
     let screenSize = UIScreen.main.bounds
-    var placeholders = ["Откуда", "Куда"]
+//    var placeholders = ["Откуда", "Куда"]
 
     var body: some View {
         HStack(spacing: 16) {
@@ -25,12 +27,13 @@ struct FromToView: View {
                                 whereField = 0
                                 path.append(.locationView)
                             }) {
-                                if fromField == "Откуда" {
-                                    Text(fromField)
+                                if travelViewModel.fromField.0 == "Откуда" {
+                                    Text(travelViewModel.fromField.0)
                                         .foregroundStyle(Color.gray)
                                         .lineLimit(1)
                                 } else {
-                                    Text(fromField)
+                                    Text("\(travelViewModel.fromField.0) (\(travelViewModel.fromField.1))")
+//                                    Text(travelViewModel.fromField.0)
                                         .foregroundStyle(Color.black)
                                         .lineLimit(1)
                                 }
@@ -45,12 +48,13 @@ struct FromToView: View {
                             whereField = 1
                             path.append(.locationView)
                         }) {
-                            if toField == "Куда" {
-                                Text(toField)
+                            if travelViewModel.toField.0 == "Куда" {
+                                Text(travelViewModel.toField.0)
                                     .foregroundStyle(Color.gray)
                                     .lineLimit(1)
                             } else {
-                                Text(toField)
+                                Text("\(travelViewModel.toField.0) (\(travelViewModel.toField.1))")
+//                                    Text(travelViewModel.fromField.0)
                                     .foregroundStyle(Color.black)
                                     .lineLimit(1)
                             }
@@ -70,11 +74,12 @@ struct FromToView: View {
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .padding([.top, .bottom], 16)
             Button(action: {
-                if fromField != "Откуда" && toField != "Откуда" {
-                    let temp = fromField
-                    fromField = toField
-                    toField = temp
-                }
+                travelViewModel.swapFromTo()
+//                if travelViewModel.fromField.0 != "Откуда" && travelViewModel.toField.0 != "Откуда" {
+//                    let temp = travelViewModel.fromField
+//                    travelViewModel.fromField = travelViewModel.toField
+//                    travelViewModel.toField = temp
+//                }
             }) {
                 Image("changeButton")
                     .frame(width: 36, height: 36)
@@ -96,10 +101,12 @@ struct FromToView: View {
         //    @Previewable @State var model = NavigationModel()
     @State var path = [RouteView.locationView]
     @State var whereField = 0
-    @State var fromField = ""
-    @State var toField = ""
+    @ObservedObject var travelViewModel = TravelViewModel()
+//    @State var fromField = ""
+//    @State var toField = ""
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+//    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
 }
 
 #Preview {
@@ -108,7 +115,9 @@ struct FromToView: View {
     @State var whereField = 0
     @State var fromField = "Москва (Курский вокзал)"
     @State var toField = "Москва (Белорусский вокзал)"
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+    @ObservedObject var travelViewModel = TravelViewModel()
+    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+//    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
         .preferredColorScheme(.dark)
 }
@@ -119,7 +128,9 @@ struct FromToView: View {
     @State var whereField = 0
     @State var fromField = "Москва (Курский вокзал)"
     @State var toField = "Москва (Белорусский вокзал)"
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+    @ObservedObject var travelViewModel = TravelViewModel()
+    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+//    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
         //    FromToView(path: $path, fromField: $fromField, toField: $toField)
         .preferredColorScheme(.light)
 }

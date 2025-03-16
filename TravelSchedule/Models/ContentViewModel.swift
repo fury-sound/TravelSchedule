@@ -34,6 +34,28 @@ struct StationCode: Hashable {
     var esr_code: String = ""
 }
 
+struct Segment: Hashable {
+    var startDate: String = ""
+    var departure: String = ""
+    var arrival: String = ""
+    var duration: Double = 0.0
+    var transfers: Bool = false
+    var thread: Thread = Thread()
+}
+
+struct Thread: Hashable {
+    var number: String = ""
+    var carrier: Carrier = Carrier()
+}
+
+struct Carrier: Hashable {
+    var title: String = ""
+    var email: String = ""
+    var phone: String = ""
+    var logo: String = ""
+    var logo_svg: String = ""
+}
+
 struct FromToModel: Hashable {
     var fromField: String = "Откуда"
     var fromCode: String = ""

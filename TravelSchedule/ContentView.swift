@@ -24,11 +24,12 @@ struct StoryConfiguration {
 }
 
 struct ContentView: View {
-    @ObservedObject var travelViewModel = TravelViewModel()
-//    @ObservedObject var travelViewModel = TravelServices()
-    @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
-    @State private var fromField: String = "Откуда"
-    @State private var toField: String = "Куда"
+    @ObservedObject var travelServices = TravelServices()
+    @EnvironmentObject var travelViewModel: TravelViewModel
+//    @StateObject var travelViewModel: TravelViewModel
+//    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
+    //    @State private var fromField: String = "Откуда"
+    //    @State private var toField: String = "Куда"
     @State private var whereField: Int = 0
     @State private var showFullImage: Bool = false
     @State private var selectedStorySetIndex: Int = 0
@@ -44,6 +45,10 @@ struct ContentView: View {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
 
+//    init() {
+//        routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
+//    }
+
     var body: some View {
 
         NavigationStack(path: $navModel.path) {
@@ -54,19 +59,26 @@ struct ContentView: View {
                     }
                     .frame(height: 140)
                     .padding(.init(top: 24, leading: 0, bottom: 20, trailing: 0))
-                    FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+                    //                    FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
+                    FromToView(path: $navModel.path, whereField: $whereField, travelViewModel: travelViewModel)
                         .navigationDestination(for: RouteView.self) { routeView in
                             switch routeView {
                                 case .locationView:
                                     LocationSelection(headerText: "Выбор города", path: $navModel.path, travelViewModel: travelViewModel)
                                 case .stationView(let city):
-                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
+                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, travelViewModel: travelViewModel)
+                                    //                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
                             }
                         }
 
-                    if fromField != "Откуда" && toField != "Куда" {
-//                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
-                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
+                    if travelViewModel.fromField.0 != "Откуда" && travelViewModel.toField.0 != "Куда" {
+                        //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
+                        //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
+                        //                        NavigationLink(destination: CarrierSearch(fromField: travelViewModel.fromField, toField: travelViewModel.toField)) {
+                        NavigationLink(destination:
+                                        CarrierSearch(travelViewModel: travelViewModel)
+                            .environmentObject(travelViewModel)
+                        ) {
                             Text("Найти")
                                 .font(.system(size: 17, weight: .bold))
                                 .padding()
@@ -80,9 +92,6 @@ struct ContentView: View {
                         .padding([.leading, .trailing], 8)
                     }
                     Spacer()
-//                    Divider()
-//                        .padding(.bottom, 10)
-//                        .opacity(showFullImage ? 0 : 1)
                 }
                 .background(Color.ypWhite)
                 ZStack {
@@ -120,68 +129,19 @@ struct ContentView: View {
                 //                try showCopyrightInfo()
                 //                try showStationsOnRoute()
                 //                try showAllStations()
-                try travelViewModel.getTravelData() //showAllStations()
+
+                await travelViewModel.getTravelData()
+                //                try travelServices.betweenStations("s9602494", "s9623135")
+                //                print("travelServices.travelDataAll.count in onAppear:", travelServices.travelDataAll.count)
+
+                //                try await travelViewModel.getTravelData()
             }
         }
     }
 }
 
 #Preview {
+//    var travelViewModel = TravelViewModel()
+//    ContentView(travelViewModel: travelViewModel)
     ContentView()
 }
-
-
-/*
-
- //                            .transition(.opacity)
- //                            .zIndex(0)
-
- //                            .opacity(showTabBar ? 1 : 0)
- //                            .scaleEffect(1)
- //                            .animation(.easeIn, value: 0.5)
- //                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .bottom)))
- //                        .transition(.slide)
- //                        .zIndex(0)
-
- //                .transition(.move(edge: .top))
- //                .opacity(showFullImage ? 1 : 0)
-
- //                .rotationEffect(.degrees(30))
- //                .slide(showFullImage ? 1 : 0)
-
-
- //        VStack(spacing: 16) {
-
- //            HStack(alignment: .top) {
- //            }.ignoresSafeArea(.all)
- //            .ignoresSafeArea()
- //            .frame(maxHeight: .infinity)
- //            LazyHStack(alignment: .top, spacing: 5) {
- //            LazyHStack {
- //                .ypBlueUniversal
- //                Rectangle()
- ////                    .frame(width: 92, height: 140)
- //                Rectangle()
- ////                    .frame(width: 92, height: 140)
- //            }.frame(maxHeight: 100)
- //                .background(Color.gray)
- //            Spacer(minLength: 44)
- //            FromToView()
- //            Spacer()
-
- //                .padding()
- //        }.frame(maxHeight: .infinity, alignment: .top)
-
- //                FromToView(path: $navModel.path, fromField: $fromField, toField: $toField)
- //                    .navigationDestination(for: RouteFieldStatus.self) { routeStatus in
- //                        switch routeStatus {
- //                            case .from:
- //                                if $navModel.path.isEmpty {
- //                                    LocationSelection(headerText: "Выбор города", path: $navModel.path)
- //                                } else {
- //                                    StationSelection(header: city, path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
- //                                }
- //                            case .to:
- //                        }
- //                    }
- */

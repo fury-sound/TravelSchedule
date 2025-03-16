@@ -12,16 +12,16 @@ struct RouteInfo: View {
     @State var routeDetailsCarrier: RouteDetailsCarrier
 
     var body: some View {
-            NavigationLink(destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails)) {
+        NavigationLink(destination: CarrierCard(carrier: routeDetailsCarrier.carrier)) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 24)
                         .fill(Color.ypLightGray)
                         .overlay(
                             VStack {
                                 HStack {
-                                    Image(routeDetailsCarrier.carrierDetails.imageNameSmall)
+                                    Image(routeDetailsCarrier.carrier.logo)
                                     VStack(alignment: .leading) {
-                                        Text(routeDetailsCarrier.carrierDetails.name.rawValue)
+                                        Text(routeDetailsCarrier.carrier.title)
                                             .foregroundColor(Color.black)
                                             .font(.system(size: 17, weight: .regular))
                                         if let connection = routeDetailsCarrier.connection {
@@ -31,25 +31,25 @@ struct RouteInfo: View {
                                         }
                                     }
                                     Spacer()
-                                    Text(routeDetailsCarrier.date)                                    .foregroundColor(Color.black)
+                                    Text(routeDetailsCarrier.startDate)                                    .foregroundColor(Color.black)
                                         .font(.system(size: 14, weight: .regular))
                                 }
                                 .padding(.top, 14)
                                 Spacer()
                                 HStack {
-                                    Text(routeDetailsCarrier.timeFrom)
+                                    Text(routeDetailsCarrier.departureTime)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 17, weight: .regular))
                                     Rectangle()
                                         .frame(maxWidth: .infinity, maxHeight: 1)
                                         .foregroundColor(.ypGrayUniversal)
-                                    Text(routeDetailsCarrier.timeTotal)
+                                    Text(routeDetailsCarrier.duration)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 14, weight: .regular))
                                     Rectangle()
                                         .frame(maxWidth: .infinity, maxHeight: 1)
                                         .foregroundColor(.ypGrayUniversal)
-                                    Text(routeDetailsCarrier.timeTo)
+                                    Text(routeDetailsCarrier.arrivalTime)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 17, weight: .regular))
                                 }
@@ -65,14 +65,16 @@ struct RouteInfo: View {
 
 
 #Preview {
+    let travelViewModel = TravelViewModel()
     let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.mockRouteArray.first!
+    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.selectedRouteArray.first!
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
 #Preview {
+    let travelViewModel = TravelViewModel()
     let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.mockRouteArray[2]
+    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.selectedRouteArray[2]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 

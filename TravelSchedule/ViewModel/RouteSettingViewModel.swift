@@ -9,17 +9,31 @@ import SwiftUI
 import Combine
 
 class RouteSettingViewModel: ObservableObject {
-//    @ObservedObject var routeCarrierDataModel = RouteCarrierData()
-
+    private let travelViewModel: TravelViewModel
+//    @Published var routeCarrierDataModel: RouteCarrierData
     @Published var routeDepartureTime: [RouteDepartureTime] = []
     @Published var filterConnectionState: showRouteConnection = .anyConnectionValue
     @Published var isYes: Bool = false
     @Published var isNo: Bool = false
     @Published var filteredCarriers: [RouteDetailsCarrier] = []
-    let routeCarrierDataModel = RouteCarrierData()
+//    let routeCarrierDataModel: RouteCarrierData
     private var cancellableSet: Set<AnyCancellable> = []
+//    lazy var routeCarrierDataModel: RouteCarrierData = {
+//        RouteCarrierData()
+//    }()
 
-    init() {
+    init(travelViewModel: TravelViewModel) {
+        self.travelViewModel = travelViewModel
+        Task { @MainActor in
+            print(self.travelViewModel.selectedRouteArray.count)
+//            print(self.travelViewModel.selectedRouteArray[0].startDate, self.travelViewModel.selectedRouteArray[0].carrier.title)
+        }
+//        self.routeCarrierDataModel = RouteCarrierData(travelViewModel: TravelViewModel())
+//        self.routeCarrierDataModel = RouteCarrierData(travelViewModel: travelViewModel)
+//    init() {
+//    self.routeCarrierDataModel = RouteCarrierData(travelViewModel: travelViewModel)
+//    func setup() {
+
         Publishers.CombineLatest($isYes, $isNo)
             .receive(on: RunLoop.main)
             .map { isYes, isNo in
@@ -37,19 +51,29 @@ class RouteSettingViewModel: ObservableObject {
 
         $filterConnectionState
             .receive(on: RunLoop.main)
-            .map { connectionState in
-                switch connectionState {
-                    case .allConnections:
-                        return self.routeCarrierDataModel.mockRouteArray
-                    case .noConnections:
-                        return self.routeCarrierDataModel.mockRouteArray.filter {
-                            ($0.connection != nil) == false
-                        }
-                    default:
-                        return self.routeCarrierDataModel.mockRouteArray
+//            .map { connectionState in
+            .sink { [weak self] connectionState in
+                guard let self else { return }
+                Task { @MainActor in
+                    switch connectionState {
+                        case .allConnections:
+                            self.filteredCarriers = self.travelViewModel.selectedRouteArray
+//                            return self.travelViewModel.selectedRouteArray
+    //                        return self.routeCarrierDataModel.selectedRouteArray
+                        case .noConnections:
+    //                        return self.routeCarrierDataModel.selectedRouteArray.filter {
+//                            return self.travelViewModel.selectedRouteArray.filter {
+                            self.filteredCarriers = self.travelViewModel.selectedRouteArray.filter {
+                                ($0.connection != nil) == false
+                            }
+                        default:
+                            self.filteredCarriers = self.travelViewModel.selectedRouteArray
+//                            return self.travelViewModel.selectedRouteArray
+    //                        return self.routeCarrierDataModel.selectedRouteArray
+                    }
                 }
-            }
-            .assign(to: \.filteredCarriers, on: self)
+                }
+//            .assign(to: \<#Root#>.filteredCarriers, on: self)
             .store(in: &cancellableSet)
     }
 }

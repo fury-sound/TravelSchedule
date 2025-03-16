@@ -13,8 +13,8 @@ struct StationSelection: View {
         //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var whereField: Int
-    @Binding var fromField: String
-    @Binding var toField: String    
+//    @Binding var fromField: String
+//    @Binding var toField: String    
     @State private var searchString: String = ""
     @State private var noInternetError: Bool = false
     @State private var serverError: Bool = false
@@ -40,7 +40,8 @@ struct StationSelection: View {
     //            Text(header.0.cityName)
                 VStack {
                     SearchBar(searchText: $searchString)
-                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString, travelViewModel: travelViewModel)
+                    StationList(city: header, path: $path, whereField: $whereField, searchString: $searchString, travelViewModel: travelViewModel)
+//                    StationList(city: header, path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, searchString: $searchString, travelViewModel: travelViewModel)
                 }
                 .navigationBarBackButtonHidden(true)
                 .navigationTitle("Выбор станции").navigationBarTitleDisplayMode(.inline)
@@ -65,8 +66,8 @@ struct StationList: View {
         //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var whereField: Int
-    @Binding var fromField: String
-    @Binding var toField: String
+//    @Binding var fromField: String
+//    @Binding var toField: String
     @Binding var searchString: String
     @State private var stationNames: [String] = []
 //    @ObservedObject var travelViewModel: TravelServices
@@ -78,23 +79,18 @@ struct StationList: View {
         //    @State var completion: () -> Void
 
     var searchResults: [Station] {
-        if searchString.isEmpty {
-//            return ["111", "222", "333", "444", "555", "777"]
-//            return city.0.stations
-            return travelViewModel.travelStationList
-        } else {
-//            return ["111", "222", "333"]
-//            return city.0.stations.filter {
-//                $0.lowercased().contains(searchString.lowercased())
+        travelViewModel.stationSearchFilter(searchString)
+//        if searchString.isEmpty {
+//            return travelViewModel.travelStationList
+//        } else {
+//            return travelViewModel.travelStationList.filter {
+//                $0.stationName.lowercased().contains(searchString.lowercased())
 //            }
-            return travelViewModel.travelStationList.filter {
-                $0.stationName.lowercased().contains(searchString.lowercased())
-            }
-        }
+//        }
     }
     
     var body: some View {
-        let filteredStations = searchResults
+        let filteredStations = searchResults.sorted { $0.stationName < $1.stationName }
         if filteredStations.isEmpty {
             Spacer()
             Text("Ж/д станция не найдена")
@@ -108,11 +104,17 @@ struct StationList: View {
                         .foregroundStyle(.ypBlack, .ypBlack)
                         .simultaneousGesture(TapGesture().onEnded{
                             if whereField == 0 {
-                                fromField = "\(city.0.name) (\(station.stationName))"
+//                                travelViewModel.fromField = "\(city.0.name) (\(station.stationName))"
+                                travelViewModel.fromField.0 = city.0.name
+                                travelViewModel.fromField.1 = station.stationName
+                                travelViewModel.fromField.2 = station.codes.yandex_code
 //                                print(station.stationType, station.codes)
 //                                fromField = "\(city.0.cityName) (\(station))"
                             } else {
-                                toField = "\(city.0.name) (\(station.stationName))"
+//                                travelViewModel.toField = "\(city.0.name) (\(station.stationName))"
+                                travelViewModel.toField.0 = city.0.name
+                                travelViewModel.toField.1 = station.stationName
+                                travelViewModel.toField.2 = station.codes.yandex_code
 //                                print(station.stationType, station.codes)
 //                                toField = "\(city.0.cityName) (\(station))"
                             }

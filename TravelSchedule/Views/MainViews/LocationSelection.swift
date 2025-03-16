@@ -16,6 +16,7 @@ struct LocationSelection: View {
     @Environment(\.presentationMode) var presentationMode // To dismiss the view
 //    @ObservedObject var travelViewModel: TravelServices
     @ObservedObject var travelViewModel: TravelViewModel
+//    @ObservedObject var travelServices: TravelServices
 
     //    @Binding var model: NavigationModel
     //    @Binding var path: NavigationPath
@@ -59,7 +60,7 @@ struct LocationSelection: View {
         }
         .background(Color.ypWhite)
         .onAppear {
-            print("travelViewModel.travelCityList.count in LocationSelection:", travelViewModel.travelCityList.count)
+//            print("travelViewModel.travelCityList.count in LocationSelection:", travelViewModel.travelCityList.count)
             travelViewModel.travelStationList = []
         }
     }
@@ -105,24 +106,13 @@ struct CityListTable: View {
     //    }
 
     var searchResults: [Settlement] {
-        if searchString.isEmpty {
-            //            return CityList.allCases
-//            print("travelCityList.count in searchResults", travelViewModel.travelCityList.count)
-            return travelViewModel.travelCityList
-        } else {
-            //            return CityList.allCases.filter {
-            //                $0.cityName.lowercased().contains(searchString.lowercased())
-            return travelViewModel.travelCityList.filter {
-                $0.name.lowercased().contains(searchString.lowercased())
-            }
-        }
+        travelViewModel.citySearchFilter(searchString)
     }
-
 
     var body: some View {
         VStack {
             SearchBar(searchText: $searchString)
-            let filteredCities = searchResults
+            let filteredCities = searchResults.sorted { $0.name < $1.name }
             if filteredCities.isEmpty {
                 Spacer()
                 Text("Город не найден")

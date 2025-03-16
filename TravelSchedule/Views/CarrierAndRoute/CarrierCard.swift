@@ -1,28 +1,38 @@
-    //
-    //  CarrierCard.swift
-    //  TravelSchedule
-    //
-    //  Created by Valery Zvonarev on 16.02.2025.
-    //
+//
+//  CarrierCard.swift
+//  TravelSchedule
+//
+//  Created by Valery Zvonarev on 16.02.2025.
+//
 
 import SwiftUI
 
 struct CarrierCard: View {
-    @State var carrierDetails: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
-    let carrierDetailsCheck: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
+    //    @State var carrierDetails: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
+    //    let carrierDetailsCheck: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
+
+    let carrier: Carrier
+
+    init(carrier: Carrier) {
+        self.carrier = carrier
+    }
 
     var body: some View {
-
         VStack {
-            if
-                let image = carrierDetailsCheck.imageNameLarge,
-                let email = carrierDetailsCheck.email,
-                let phone = carrierDetailsCheck.phone {
+//            if
+//                let image = carrierDetailsCheck.imageNameLarge,
+//                let email = carrierDetailsCheck.email,
+//                let phone = carrierDetailsCheck.phone {
+
+//                let image = carrierDetails.imageURL
+            let image = Image("rzd")
+                let email = carrier.email
+                let phone = carrier.phone
 
                 VStack(alignment: .leading) {
-                    Image(image)
+                    image
                         .padding(16)
-                    Text(carrierDetailsCheck.nameLong)
+                    Text(carrier.title)
                         .font(.system(size: 24, weight: .bold))
                         .padding(.bottom, 16)
                     VStack(alignment: .leading) {
@@ -51,14 +61,16 @@ struct CarrierCard: View {
                 .navigationTitle("Информация о перевозчике").navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)
                 Spacer()
-            }
+//            }
         }
         .background(Color.ypWhite)
     }
 }
 
 #Preview {
-    let carrierDetails: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
-    CarrierCard(carrierDetails: carrierDetails)
-        //    CarrierCard()
+//    let carrierDetails: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
+    let image = Image("rzd")
+    let carrier: Carrier = Carrier(title: "РЖД/ФПС", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00", logo: "https://yastat.net/s3/rasp/media/data/company/logo/logo.gif")
+    CarrierCard(carrier: carrier)
+    //    CarrierCard()
 }

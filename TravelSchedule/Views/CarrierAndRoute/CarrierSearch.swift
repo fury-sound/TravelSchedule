@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct CarrierSearch: View {
-    @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
-    @Binding var fromField: String
-    @Binding var toField: String
+    @EnvironmentObject var travelViewModel: TravelViewModel
+    @StateObject private var routeSettingViewModel: RouteSettingViewModel
+//    @Binding var fromField: String
+//    @Binding var toField: String
 //    @StateObject var routeCarrierDataModel = RouteCarrierData()
 //    @State private var filterConnection: Bool?
 //    @Binding var filterConnectionState: showRouteConnection
     @State private var filterTime: [String] = []
     let screenSize = UIScreen.main.bounds
+
+    init(travelViewModel: TravelViewModel) {
+//    let travelViewModel = TravelViewModel()
+//    _travelViewModel = StateObject(wrappedValue: travelViewModel)
+    _routeSettingViewModel = StateObject(wrappedValue: RouteSettingViewModel(travelViewModel: travelViewModel))
+//    routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
+    }
 
 //    var filterResults: [RouteDetailsCarrier] {
 //
@@ -52,7 +60,7 @@ struct CarrierSearch: View {
 
     var body: some View {
         VStack {
-            Text("\(fromField) \(Image(systemName: "arrow.right")) \(toField)")
+            Text("\(travelViewModel.fromField.0) (\(travelViewModel.fromField.1)) \(Image(systemName: "arrow.right")) \(travelViewModel.toField.0) (\(travelViewModel.toField.1))")
                 .font(.system(size: 24, weight: .bold))
                 .padding(.horizontal, 16)
             ZStack {
@@ -86,7 +94,7 @@ struct CarrierSearch: View {
                     }
                 }
                 Spacer()
-                ButtonView(routeSettingViewModel: routeSettingViewModel)
+                ButtonView(routeSettingViewModel: routeSettingViewModel, travelViewModel: _travelViewModel)
             }
         }
         .background(Color.ypWhite)
@@ -95,6 +103,16 @@ struct CarrierSearch: View {
             ToolbarItem(placement: .topBarLeading) {
                 BackButtonView()
             }
+        }
+        .onAppear() {
+//            print("1. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
+            print("from \(travelViewModel.fromField.2) to \(travelViewModel.toField.2)")
+            Task {
+//                await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
+                await travelViewModel.getRouteData("s9602494", "s9623135")
+            }
+//            routeSettingViewModel.routeCarrierDataModel.setRouteArray(travelViewModel: travelViewModel)
+//            print("2. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
         }
         if #available(iOS 18.0, *) {
             Text("")
@@ -108,7 +126,10 @@ struct CarrierSearch: View {
 }
 
 struct ButtonView: View {
-    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
+//    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
+//    @ObservedObject var travelViewModel: TravelViewModel
+    @StateObject var routeSettingViewModel: RouteSettingViewModel
+    @EnvironmentObject var travelViewModel: TravelViewModel
 //    @Binding var filterConnection: Bool?
 //    @Binding var filterConnectionState: showRouteConnection
     @State private var isRouteSettingsViewActive: Bool = false
@@ -116,7 +137,7 @@ struct ButtonView: View {
     var body: some View {
         VStack {
             Spacer()
-            NavigationLink(destination: RouteSettings(viewModel: routeSettingViewModel, isActive: $isRouteSettingsViewActive)) {
+            NavigationLink(destination: RouteSettings(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel, isActive: $isRouteSettingsViewActive)) {
             VStack {
                 if routeSettingViewModel.filterConnectionState == .anyConnectionValue {
 //                    Text("Уточнить время")
@@ -150,6 +171,7 @@ struct ButtonView: View {
             withAnimation(.easeInOut(duration: 0.5)) {
                 isRouteSettingsViewActive = true
 //                routeSettingViewModel.filterConnectionState = .noConnections
+//                routeSettingViewModel.setup(travelViewModel: travelViewModel)
             }
         }
 
@@ -173,22 +195,31 @@ struct CustomLabel: View {
     @State var fromField = "Москва (Ярославский вокзал)"
     @State var toField = "Санкт-Петербург (Балтийский вокзал)"
     @State var filterConnectionState: showRouteConnection = .anyConnectionValue
-        //    let routeCarrierDataModel = RouteCarrierData()
-    CarrierSearch(fromField: $fromField, toField: $toField)
+    var travelViewModel = TravelViewModel()
+//    var routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
+    let routeCarrierDataModel = RouteCarrierData()
+    CarrierSearch(travelViewModel: travelViewModel)
+//    CarrierSearch(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel)
+//    CarrierSearch(fromField: $fromField, toField: $toField)
 //    CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $filterConnectionState)
 }
 
 #Preview {
 //    @State var filterConnection: showRouteConnection? = .anyConnectionValue
-    var viewModel = RouteSettingViewModel()
+    var travelViewModel = TravelViewModel()
+    var routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
+    let routeCarrierDataModel = RouteCarrierData()
 //    viewModel.filterConnectionState = .noConnections
-    ButtonView(routeSettingViewModel: viewModel)
+    ButtonView(routeSettingViewModel: routeSettingViewModel)
+//    ButtonView(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel)
 //    ButtonView(filterConnection: $filterConnection)
 }
 
 #Preview {
     @State var filterConnection: Bool? = false
     var routeSettingViewModel: RouteSettingViewModel? = nil
+    var travelViewModel = TravelViewModel()
     ButtonView(routeSettingViewModel: routeSettingViewModel!)
+//    ButtonView(routeSettingViewModel: routeSettingViewModel!, travelViewModel: travelViewModel)
 //    ButtonView(filterConnection: $filterConnection)
 }

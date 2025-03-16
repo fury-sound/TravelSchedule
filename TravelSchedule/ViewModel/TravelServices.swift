@@ -15,6 +15,7 @@ final class TravelServices: ObservableObject {
 
     @Published var travelDataAll: [Region] = []
     private var cancellables = Set<AnyCancellable>()
+    var regions: [Region] = []
 
 //    @Published var travelDataList: [Region] = []
 //    @Published var travelCityList: [Settlement] = []
@@ -98,8 +99,7 @@ final class TravelServices: ObservableObject {
         }
     }
 
-    func showAllStations() throws { //}-> [Region] {
-//        var regions: [Region] = []
+    func showAllStations() async throws -> [Region] {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -110,15 +110,15 @@ final class TravelServices: ObservableObject {
             apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
         )
 
-        Task {
-            do {
+//        Task {
+//            do {
                 let allStationInfo = try await service.getAllStationList()
                 guard let russiaData = allStationInfo.countries?.first(where: { $0.title == "Россия" }) else {
                     print("No data found")
-                    return
+                    return []
                 }
-                print(russiaData.title)
-                let regions: [Region] = russiaData.regions?.compactMap { region in
+//                print(russiaData.title)
+                regions = russiaData.regions?.compactMap { region in
                     //                    travelDataList = russiaData.regions?.compactMap { region in
                     let settlements: [Settlement] = region.settlements?.compactMap { settlement in
                         let stations = settlement.stations?.compactMap { station in
@@ -128,12 +128,14 @@ final class TravelServices: ObservableObject {
                     } ?? []
                     return Region(name: region.title ?? "Нет названия региона", code: region.codes?.yandex_code ?? "Нет кода региона", settlements: settlements)
                 } ?? []
+                return regions
                 //                                print(travelDataList.count)
                 //                                travelViewModel.getCityList()
-                await MainActor.run {
-                    self.travelDataAll = regions
-//                    getCityList()
-                }
+//                await MainActor.run {
+//                    print("regions.count", regions.count)
+//                    self.travelDataAll = regions
+////                    getCityList()
+//                }
                 //                print(regions)
 //                for region in regions {
 ////                    print(region.settlements.count)
@@ -151,10 +153,10 @@ final class TravelServices: ObservableObject {
                 // закомментировано, поскольку вешает XCode; полученный json выводится в файл
                 // print(allStationInfo)
 
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
+//            } catch(let error) {
+//                print("An error occurred: \(error.localizedDescription)")
+//            }
+//        }
 //        print("regions.count", regions.count)
 //        return regions
     }
@@ -256,7 +258,7 @@ final class TravelServices: ObservableObject {
         }
     }
 
-    func betweenStations() throws {
+    func betweenStations(_ fromCode: String, _ toCode: String) async throws -> [Segment] {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -267,13 +269,28 @@ final class TravelServices: ObservableObject {
             apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
         )
 
-        Task {
-            do {
-                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
-                print(scheduleBetweenStations)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
+//        Task {
+//            do {
+//                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135")
+//                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
+//                print(scheduleBetweenStations.segments?.count, scheduleBetweenStations.interval_segments?.count)
+        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode)
+        let segments: [Segment] = scheduleBetweenStations.segments?.compactMap {segment in
+                    let carrier: Carrier = Carrier(title: segment.thread?.carrier?.title ?? "",
+                                                   email: segment.thread?.carrier?.email ?? "",
+                                                   phone: segment.thread?.carrier?.phone ?? "",
+                                                   logo: segment.thread?.carrier?.logo ?? "",
+                                                   logo_svg: segment.thread?.carrier?.logo_svg ?? "")
+                    let thread: Thread = Thread(number: segment.thread?.number ?? "", carrier: carrier)
+
+                    return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: (Double(segment.duration ?? 0) / 3600.0).rounded(.up), transfers: segment.has_transfers ?? false, thread: thread)
+                } ?? []
+//                print(segments)
+                return segments
+
+//            } catch(let error) {
+//                print("An error occurred: \(error.localizedDescription)")
+//            }
+//        }
     }
 }
