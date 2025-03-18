@@ -18,21 +18,29 @@ final class TravelViewModel: ObservableObject {
     @Published var toField: (String, String, String) = ("Куда", "", "")
     @Published var routeDataList: [Segment] = []
     @Published var selectedRouteArray: [RouteDetailsCarrier] = []
+    @Published var isLoading: Bool = false
+//    @Published var routeSettingViewModel: RouteSettingViewModel?
 
     //    @Published var fromField: String = "Откуда"
     //    @Published var toField: String = "Куда"
     private let travelServices = TravelServices()
-    //    private var cancellables = Set<AnyCancellable>()
+//    private var cancellables = Set<AnyCancellable>()
 
-    //init() {
-    //    travelServices.$travelDataAll
-    //        .receive(on: DispatchQueue.main)
-    //        .sink { [weak self] newData in
-    //            self?.travelDataList = newData
-    //            self?.getCityList()
-    //        }
-    //        .store(in: &cancellables)
-    //    }
+//    init() {
+//        $isLoading
+//            .dropFirst()
+//            .filter { !$0 }
+//            .sink { [weak self] _ in
+//                self?.initializeRouteSettingsViewModel()
+//            }
+//            .store(in: &cancellables)
+//        }
+
+//    func initializeRouteSettingsViewModel() {
+//        ("in initializeRouteSettingsViewModel")
+//        self.routeSettingViewModel = RouteSettingViewModel()
+////        self.routeSettingViewModel = RouteSettingViewModel(initialArray: selectedRouteArray)
+//    }
 
     func swapFromTo() {
         if fromField.0 != "Откуда" && toField.0 != "Куда" {
@@ -90,53 +98,95 @@ final class TravelViewModel: ObservableObject {
     func getTravelData() async {
         do {
             let regions = try await travelServices.showAllStations()
-            await MainActor.run {
+//            await MainActor.run {
                 self.travelDataList = regions
-                //                print("travelDataList.count", travelDataList.count)
                 self.getCityList()
-            }
+//            }
         } catch {
             print("Ошибка получения данных: \(error.localizedDescription)")
         }
     }
 
     //    func getRouteData(_ fromCode: String = "s9602494", _ toCode: String = "s9623135") async {
-    func getRouteData(_ fromCode: String, _ toCode: String) async {
-        //        print("in getRouteData, fromCode: \(fromCode), toCode: \(toCode)")
+    func getRouteData(_ fromCode: String, _ toCode: String) async throws {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        print("3) isLoading getRouteData", isLoading)
         do {
             //            try await travelServices.betweenStations(fromCode, toCode)
             let segments = try await travelServices.betweenStations(fromCode, toCode)
-            await MainActor.run {
+//            await MainActor.run {
                 print("in getRouteData, fromCode: \(fromCode), toCode: \(toCode)")
                 self.routeDataList = segments
-                print("routeData.count", segments.count)
-                print("routeDataList.count", routeDataList.count)
                 self.setRouteArray()
-            }
+//            }
         } catch {
             print("Ошибка получения данных маршрута: \(error.localizedDescription)")
         }
     }
 
     func setRouteArray() {
+        print("4) isLoading setRouteArray start", isLoading)
         print("1. routeDataList", routeDataList.count)
         guard !routeDataList.isEmpty else {
             print("Ошибка заполнения списка перевозчиков")
             return
         }
+        CacheStorage.shared.carrierArray.removeAll()
         selectedRouteArray.removeAll()
         for item in routeDataList {
-            let duration = String(format: "%.1f", Double(item.duration) / 3600.0)
+            let startDateFormatted = startDateFormatter(item.startDate)
+            let departureTimeFormatted = timeFormatter(item.departure)
+            let arrivalTimeFormatted = timeFormatter(item.arrival)
+            let durationDigit = String(format: "%.0f", Double(item.duration) / 3600.0)
+            let durationFormatted = durationDigit + " " + hourToEnding(durationDigit)
             let transferText = item.transfers ? "С пересадкой" : "Прямой"
             selectedRouteArray.append(RouteDetailsCarrier(
                 carrier: item.thread.carrier,
-                startDate: item.startDate,
-                departureTime: item.departure,
-                arrivalTime: item.arrival,
-                duration: duration,
+                startDate: startDateFormatted,
+                departureTime: departureTimeFormatted,
+                arrivalTime: arrivalTimeFormatted,
+                duration: durationFormatted,
                 connection: transferText))
         }
+        CacheStorage.shared.carrierArray = selectedRouteArray
         print("2. selectedRouteArray", selectedRouteArray.count)
         print(selectedRouteArray[0].startDate, selectedRouteArray[0].carrier.title)
+        print("5) isLoading setRouteArray end", isLoading)
+//        isLoading = false
+    }
+
+    func hourToEnding(_ hours: String) -> String {
+        guard let hoursInt = Int(hours) else { return "" }
+        let lastDigit = hoursInt % 10
+        let lastTwoDigits = hoursInt % 100
+        switch (lastTwoDigits, lastDigit) {
+            case (11...14, _): return "часов"
+            case (_, 1): return "час"
+            case (_, 2...4): return "часа"
+            default: return "часов"
+        }
+    }
+
+    func startDateFormatter(_ dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        inputFormatter.locale = Locale(identifier: "ru_RU")
+        guard let date = inputFormatter.date(from: dateString) else { return "" }
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "dd MMMM"
+        outputFormatter.locale = Locale(identifier: "ru_RU")
+        return outputFormatter.string(from: date)
+    }
+
+    func timeFormatter(_ timeString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "HH:mm:ss"
+        guard let date = inputFormatter.date(from: timeString) else { return "" }
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "HH:mm"
+        return outputFormatter.string(from: date)
     }
 }

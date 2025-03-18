@@ -283,7 +283,8 @@ final class TravelServices: ObservableObject {
                                                    logo_svg: segment.thread?.carrier?.logo_svg ?? "")
                     let thread: Thread = Thread(number: segment.thread?.number ?? "", carrier: carrier)
 
-                    return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: (Double(segment.duration ?? 0) / 3600.0).rounded(.up), transfers: segment.has_transfers ?? false, thread: thread)
+            return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: segment.duration ?? .zero, transfers: segment.has_transfers ?? false, thread: thread)
+//                    return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: (Double(segment.duration ?? 0) / 3600.0).rounded(.up), transfers: segment.has_transfers ?? false, thread: thread)
                 } ?? []
 //                print(segments)
                 return segments

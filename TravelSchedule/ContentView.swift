@@ -39,6 +39,8 @@ struct ContentView: View {
     @State var configuration: StoryConfiguration = StoryConfiguration(storiesCount: 2, secondsPerStory: 5, timerTickInternal: 0.25)
     @State var timer: Timer.TimerPublisher = Timer.TimerPublisher(interval: 5, runLoop: .main, mode: .common)
     @StateObject var navModel = NavigationModel()
+
+//    @State var isDataLoaded: Bool = false
     //    @Environment(CityList.self) var cityList
 
     static func createTimer(configuration: StoryConfiguration) -> Timer.TimerPublisher {
@@ -47,6 +49,10 @@ struct ContentView: View {
 
 //    init() {
 //        routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
+//    }
+
+//    func setupRouteSettingViewModel(initialArray: [RouteDetailsCarrier]) {
+//        routeSettingViewModel = RouteSettingViewModel(initialArray: initialArray)
 //    }
 
     var body: some View {
@@ -75,21 +81,35 @@ struct ContentView: View {
                         //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
                         //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
                         //                        NavigationLink(destination: CarrierSearch(fromField: travelViewModel.fromField, toField: travelViewModel.toField)) {
-                        NavigationLink(destination:
-                                        CarrierSearch(travelViewModel: travelViewModel)
-                            .environmentObject(travelViewModel)
-                        ) {
-                            Text("Найти")
-                                .font(.system(size: 17, weight: .bold))
-                                .padding()
-                                .frame(width: 150, height: 60)
-                                .background(.ypBlueUniversal)
-                                .foregroundStyle(Color.ypWhiteUniversal)
-                                .clipShape(.rect(cornerRadius: 16))
-                        }
-                        .background(Color.clear)
-                        .padding([.top, .bottom], 16)
-                        .padding([.leading, .trailing], 8)
+//                        if let routeSettingViewModel = travelViewModel.routeSettingViewModel {
+                            NavigationLink(destination:
+                                            CarrierSearch()
+//                                            CarrierSearch(routeSettingViewModel: routeSettingViewModel)
+                                .environmentObject(travelViewModel)
+                            ) {
+                                Text("Найти")
+                                    .font(.system(size: 17, weight: .bold))
+                                    .padding()
+                                    .frame(width: 150, height: 60)
+                                    .background(.ypBlueUniversal)
+                                    .foregroundStyle(Color.ypWhiteUniversal)
+                                    .clipShape(.rect(cornerRadius: 16))
+                            }
+                            .background(Color.clear)
+                            .padding([.top, .bottom], 16)
+                            .padding([.leading, .trailing], 8)
+                            .simultaneousGesture(TapGesture().onEnded { _ in
+                                print("in NaviLink tapped")
+                                Task {
+                                    //                                await travelViewModel.getRouteData("s9602494", "s9623135")
+                                    try await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
+                                    //                                isDataLoaded = true
+                                }
+                                print("1) isLoading in NaviLink tapped:", travelViewModel.isLoading)
+                            })
+//                        } else {
+//                            ProgressView()
+//                        }
                     }
                     Spacer()
                 }

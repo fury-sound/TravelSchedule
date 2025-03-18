@@ -19,7 +19,8 @@ struct RouteInfo: View {
                         .overlay(
                             VStack {
                                 HStack {
-                                    Image(routeDetailsCarrier.carrier.logo)
+//                                    Image(routeDetailsCarrier.carrier.logo)
+                                    Image(ImageResource.rzd)
                                     VStack(alignment: .leading) {
                                         Text(routeDetailsCarrier.carrier.title)
                                             .foregroundColor(Color.black)

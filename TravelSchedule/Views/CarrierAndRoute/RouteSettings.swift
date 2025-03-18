@@ -182,7 +182,8 @@ struct RadioButtonStyle: ToggleStyle {
     @State var isActive: Bool = true
     var travelViewModel = TravelViewModel()
 //    @State var routeSettingViewModel = RouteSettingViewModel() // = true
-    @State var routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel) // = true
+    @State var routeSettingViewModel = RouteSettingViewModel() // = true
+//    @State var routeSettingViewModel = RouteSettingViewModel(initialArray: travelViewModel.selectedRouteArray) // = true
     RouteSettings(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel, isActive: $isActive)
 }
 

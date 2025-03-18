@@ -12,6 +12,23 @@ final class RouteCarrierData {
 //    var travelViewModel: TravelViewModel
     var selectedRouteArray: [RouteDetailsCarrier] = []
 
+    @MainActor func setRouteArray(travelViewModel: TravelViewModel) {
+        guard !travelViewModel.routeDataList.isEmpty else { return }
+        selectedRouteArray.removeAll()
+        for item in travelViewModel.routeDataList {
+            let duration = String(format: "%.1f", Double(item.duration) / 3600.0)
+            let transferText = item.transfers ? "С пересадкой" : "Прямой"
+            selectedRouteArray.append(RouteDetailsCarrier(
+                carrier: item.thread.carrier,
+                startDate: item.startDate,
+                departureTime: item.departure,
+                arrivalTime: item.arrival,
+                duration: duration,
+                connection: transferText))
+        }
+    }
+}
+
 //    init(travelViewModel: TravelViewModel) {
 //        self.travelViewModel = travelViewModel
 //    }
@@ -38,19 +55,3 @@ final class RouteCarrierData {
 ////        self.mockRouteArray = [route1, route2, route3]
 //    }
 
-    @MainActor func setRouteArray(travelViewModel: TravelViewModel) {
-        guard !travelViewModel.routeDataList.isEmpty else { return }
-        selectedRouteArray.removeAll()
-        for item in travelViewModel.routeDataList {
-            let duration = String(format: "%.1f", Double(item.duration) / 3600.0)
-            let transferText = item.transfers ? "С пересадкой" : "Прямой"
-            selectedRouteArray.append(RouteDetailsCarrier(
-                carrier: item.thread.carrier,
-                startDate: item.startDate,
-                departureTime: item.departure,
-                arrivalTime: item.arrival,
-                duration: duration,
-                connection: transferText))
-        }
-    }
-}

@@ -60,6 +60,7 @@
 		B9C0F5FC2D42D42C00FB4A2E /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FB2D42D42C00FB4A2E /* OpenAPIRuntime */; };
 		B9C0F5FF2D42D43C00FB4A2E /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0F5FE2D42D43C00FB4A2E /* OpenAPIURLSession */; };
 		B9D82D1B2D84B008009605DD /* TravelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82D1A2D84B008009605DD /* TravelViewModel.swift */; };
+		B9D82EB22D89DE55009605DD /* CacheStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D82EB12D89DE55009605DD /* CacheStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,7 @@
 		B95580602D58FFF800A0262D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B9C0F5E62D42D3D600FB4A2E /* TravelSchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelSchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D82D1A2D84B008009605DD /* TravelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelViewModel.swift; sourceTree = "<group>"; };
+		B9D82EB12D89DE55009605DD /* CacheStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				B9398BD62D736E9500C2364F /* ProgressBar */,
 				B9398BD72D736E9500C2364F /* CloseButton.swift */,
 				B9398BD82D736E9500C2364F /* Font+Extensions.swift */,
+				B9D82EB12D89DE55009605DD /* CacheStorage.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				B9398BDD2D736E9500C2364F /* StoriesProgressBar.swift in Sources */,
 				B9398C2C2D736EB400C2364F /* AllStationService.swift in Sources */,
 				B9398C2D2D736EB400C2364F /* CarrierByCodeService.swift in Sources */,
+				B9D82EB22D89DE55009605DD /* CacheStorage.swift in Sources */,
 				B9398C2E2D736EB400C2364F /* CopyrightService.swift in Sources */,
 				B9398C2F2D736EB400C2364F /* NearestSettlementService.swift in Sources */,
 				B9398C302D736EB400C2364F /* NearestStationService.swift in Sources */,
