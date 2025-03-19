@@ -99,13 +99,13 @@ struct ContentView: View {
                             .padding([.top, .bottom], 16)
                             .padding([.leading, .trailing], 8)
                             .simultaneousGesture(TapGesture().onEnded { _ in
-                                print("in NaviLink tapped")
+//                                print("in NaviLink tapped")
                                 Task {
                                     //                                await travelViewModel.getRouteData("s9602494", "s9623135")
                                     try await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
                                     //                                isDataLoaded = true
                                 }
-                                print("1) isLoading in NaviLink tapped:", travelViewModel.isLoading)
+//                                print("1) isLoading in NaviLink tapped:", travelViewModel.isLoading)
                             })
 //                        } else {
 //                            ProgressView()

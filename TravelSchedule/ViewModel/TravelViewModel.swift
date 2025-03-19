@@ -98,10 +98,8 @@ final class TravelViewModel: ObservableObject {
     func getTravelData() async {
         do {
             let regions = try await travelServices.showAllStations()
-//            await MainActor.run {
                 self.travelDataList = regions
                 self.getCityList()
-//            }
         } catch {
             print("Ошибка получения данных: \(error.localizedDescription)")
         }
@@ -113,23 +111,21 @@ final class TravelViewModel: ObservableObject {
         defer {
             isLoading = false
         }
-        print("3) isLoading getRouteData", isLoading)
+//        print("3) isLoading getRouteData", isLoading)
         do {
             //            try await travelServices.betweenStations(fromCode, toCode)
             let segments = try await travelServices.betweenStations(fromCode, toCode)
-//            await MainActor.run {
-                print("in getRouteData, fromCode: \(fromCode), toCode: \(toCode)")
+//                print("in getRouteData, fromCode: \(fromCode), toCode: \(toCode)")
                 self.routeDataList = segments
                 self.setRouteArray()
-//            }
         } catch {
             print("Ошибка получения данных маршрута: \(error.localizedDescription)")
         }
     }
 
     func setRouteArray() {
-        print("4) isLoading setRouteArray start", isLoading)
-        print("1. routeDataList", routeDataList.count)
+//        print("4) isLoading setRouteArray start", isLoading)
+//        print("1. routeDataList", routeDataList.count)
         guard !routeDataList.isEmpty else {
             print("Ошибка заполнения списка перевозчиков")
             return
@@ -144,6 +140,7 @@ final class TravelViewModel: ObservableObject {
             let durationFormatted = durationDigit + " " + hourToEnding(durationDigit)
             let transferText = item.transfers ? "С пересадкой" : "Прямой"
             selectedRouteArray.append(RouteDetailsCarrier(
+                id: UUID(),
                 carrier: item.thread.carrier,
                 startDate: startDateFormatted,
                 departureTime: departureTimeFormatted,
@@ -152,10 +149,11 @@ final class TravelViewModel: ObservableObject {
                 connection: transferText))
         }
         CacheStorage.shared.carrierArray = selectedRouteArray
-        print("2. selectedRouteArray", selectedRouteArray.count)
-        print(selectedRouteArray[0].startDate, selectedRouteArray[0].carrier.title)
-        print("5) isLoading setRouteArray end", isLoading)
-//        isLoading = false
+//        CacheStorage.shared.carrierArray = selectedRouteArray.sorted(by: {$0.startDate < $1.startDate})
+//        print(CacheStorage.shared.carrierArray)
+//        print("2. selectedRouteArray", selectedRouteArray.count)
+//        print(selectedRouteArray[0].startDate, selectedRouteArray[0].carrier.title)
+//        print("5) isLoading setRouteArray end", isLoading)
     }
 
     func hourToEnding(_ hours: String) -> String {

@@ -258,6 +258,13 @@ final class TravelServices: ObservableObject {
         }
     }
 
+    func currentDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        print(formatter.string(from: Date()))
+        return formatter.string(from: Date())
+    }
+
     func betweenStations(_ fromCode: String, _ toCode: String) async throws -> [Segment] {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
@@ -271,14 +278,15 @@ final class TravelServices: ObservableObject {
 
 //        Task {
 //            do {
-//                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135")
+//        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135", date: currentDate(), transfers: true)
 //                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
 //                print(scheduleBetweenStations.segments?.count, scheduleBetweenStations.interval_segments?.count)
-        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode)
+//        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode)
+        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135", transfers: true)
         let segments: [Segment] = scheduleBetweenStations.segments?.compactMap {segment in
-                    let carrier: Carrier = Carrier(title: segment.thread?.carrier?.title ?? "",
-                                                   email: segment.thread?.carrier?.email ?? "",
-                                                   phone: segment.thread?.carrier?.phone ?? "",
+                    let carrier: Carrier = Carrier(title: segment.thread?.carrier?.title ?? "Нет данных",
+                                                   email: segment.thread?.carrier?.email ?? "Нет данных",
+                                                   phone: segment.thread?.carrier?.phone ?? "Нет данных",
                                                    logo: segment.thread?.carrier?.logo ?? "",
                                                    logo_svg: segment.thread?.carrier?.logo_svg ?? "")
                     let thread: Thread = Thread(number: segment.thread?.number ?? "", carrier: carrier)
@@ -286,8 +294,9 @@ final class TravelServices: ObservableObject {
             return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: segment.duration ?? .zero, transfers: segment.has_transfers ?? false, thread: thread)
 //                    return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: (Double(segment.duration ?? 0) / 3600.0).rounded(.up), transfers: segment.has_transfers ?? false, thread: thread)
                 } ?? []
-//                print(segments)
-                return segments
+        let sortedSegments = segments.sorted(by: {$0.startDate < $1.startDate})
+//        print("sortedSegments", sortedSegments)
+        return sortedSegments
 
 //            } catch(let error) {
 //                print("An error occurred: \(error.localizedDescription)")

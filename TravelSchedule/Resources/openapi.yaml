@@ -291,7 +291,7 @@ paths:
         description: Признак для поиска маршрутов с пересадками
         required: false
         schema:
-          type: string
+          type: boolean
       responses:
         "200":
           description: success
@@ -795,7 +795,7 @@ components:
         segments:
           type: array
           items:
-            $ref: '#/components/schemas/Segment'
+              $ref: '#/components/schemas/Segment'
         interval_segments:
           type: array
           items:
@@ -808,7 +808,9 @@ components:
         et_marker:
           type: boolean
         places:
-          $ref: '#/components/schemas/Place'
+          type: array
+          items:
+            $ref: '#/components/schemas/Place'
     Place:
       type: object
       properties:

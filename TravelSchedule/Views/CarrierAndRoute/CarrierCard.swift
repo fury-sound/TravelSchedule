@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CarrierCard: View {
     //    @State var carrierDetails: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
     //    let carrierDetailsCheck: CarrierDetails = CarrierDetails(id: UUID(), name: .rzd, nameLong: "ОАО РЖД", imageNameSmall: "rzd", imageNameLarge: "rzdLarge", email: "ticket@rzd.ru", phone: "+7 (499) 605-20-00")
-
     let carrier: Carrier
 
     init(carrier: Carrier) {
@@ -18,14 +18,27 @@ struct CarrierCard: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
 //            if
 //                let image = carrierDetailsCheck.imageNameLarge,
 //                let email = carrierDetailsCheck.email,
 //                let phone = carrierDetailsCheck.phone {
 
 //                let image = carrierDetails.imageURL
-            let image = Image("rzd")
+//            let image = Image("rzd")
+            let image = KFImage(URL(string: carrier.logo))
+                .placeholder {
+                    Image(ImageResource.ypClose)
+                        .resizable()
+                        .frame(maxHeight: 104)
+//                        .frame(maxWidth: .infinity, maxHeight: 104)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .resizable()
+                .frame(maxHeight: 104)
+//                .frame(maxWidth: 104, maxHeight: 104)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 25)
                 let email = carrier.email
                 let phone = carrier.phone
 

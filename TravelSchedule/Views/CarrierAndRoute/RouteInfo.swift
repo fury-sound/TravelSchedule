@@ -6,6 +6,7 @@
     //
 
 import SwiftUI
+import Kingfisher
 
 struct RouteInfo: View {
     let screenSize = UIScreen.main.bounds
@@ -20,7 +21,17 @@ struct RouteInfo: View {
                             VStack {
                                 HStack {
 //                                    Image(routeDetailsCarrier.carrier.logo)
-                                    Image(ImageResource.rzd)
+//                                    Image(ImageResource.rzd)
+                                    KFImage(URL(string: routeDetailsCarrier.carrier.logo))
+                                        .placeholder {
+                                            Image(ImageResource.ypClose)
+                                                .resizable()
+                                                .frame(width: 38, height: 38)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .resizable()
+                                        .frame(width: 38, height: 38)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
                                     VStack(alignment: .leading) {
                                         Text(routeDetailsCarrier.carrier.title)
                                             .foregroundColor(Color.black)
@@ -67,15 +78,19 @@ struct RouteInfo: View {
 
 #Preview {
     let travelViewModel = TravelViewModel()
-    let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.selectedRouteArray.first!
+//    let routeCarrierData = RouteCarrierData()
+    @State var routeDetailsCarrier: RouteDetailsCarrier =
+    CacheStorage.shared.carrierArray[0]
+//    routeCarrierData.selectedRouteArray[0]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
 #Preview {
     let travelViewModel = TravelViewModel()
-    let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.selectedRouteArray[2]
+//    let routeCarrierData = RouteCarrierData()
+    @State var routeDetailsCarrier: RouteDetailsCarrier =     CacheStorage.shared.carrierArray[1]
+
+//    routeCarrierData.selectedRouteArray[2]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 

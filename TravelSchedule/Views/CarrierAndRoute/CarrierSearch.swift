@@ -32,12 +32,15 @@ struct CarrierSearch: View {
             ZStack {
                 Spacer()
                 if travelViewModel.isLoading {
-                    ProgressView()
-                    Text("Ждем результат...")
+                    VStack {
+                        ProgressView()
+                        Text("Поиск перевозчиков...")
+                    }
                 } else {
                     //                    routeSettingViewModel = RouteSettingViewModel(initialArray: travelViewModel.selectedRouteArray)
 //                    if let routeSettingViewModel = travelViewModel.routeSettingViewModel  {
-                        if routeSettingViewModel.filteredCarriers.isEmpty {
+//                        if routeSettingViewModel.filteredCarriers.isEmpty {
+                        if routeSettingViewModel.finalFilteredCarriers.isEmpty {
                             HStack {
                                 Text("Вариантов нет")
                                     .font(.system(size: 24, weight: .bold))
@@ -47,7 +50,8 @@ struct CarrierSearch: View {
                             VStack {
                                 List {
                                     //                            ForEach(filterResults, id: \.self) { details in
-                                    ForEach(routeSettingViewModel.filteredCarriers, id: \.self) { details in
+//                                    ForEach(routeSettingViewModel.filteredCarriers, id: \.self) { details in
+                                        ForEach(routeSettingViewModel.finalFilteredCarriers, id: \.self) { details in
                                         ZStack {
                                             RouteInfo(routeDetailsCarrier: details)
                                         }
@@ -66,10 +70,6 @@ struct CarrierSearch: View {
                         Spacer()
                     ButtonView(routeSettingViewModel: routeSettingViewModel)
                             .environmentObject(travelViewModel)
-                        //                    } else {
-                        //                        ProgressView()
-                        //                    }
-//                    }
                 }
             }
             .background(Color.ypWhite)
@@ -79,17 +79,17 @@ struct CarrierSearch: View {
                     BackButtonView()
                 }
             }
-            .onAppear() {
-                ////            print("1. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
-                //            print("from \(travelViewModel.fromField.2) to \(travelViewModel.toField.2)")
-                print("2) isLoading in CarrierSearch onAppear:", travelViewModel.isLoading)
-                //            Task {
-                ////                await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
-                //                await travelViewModel.getRouteData("s9602494", "s9623135")
-                //            }
-                //            routeSettingViewModel.routeCarrierDataModel.setRouteArray(travelViewModel: travelViewModel)
-                //            print("2. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
-            }
+//            .onAppear() {
+//                ////            print("1. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
+//                //            print("from \(travelViewModel.fromField.2) to \(travelViewModel.toField.2)")
+////                print("2) isLoading in CarrierSearch onAppear:", travelViewModel.isLoading)
+//                //            Task {
+//                ////                await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
+//                //                await travelViewModel.getRouteData("s9602494", "s9623135")
+//                //            }
+//                //            routeSettingViewModel.routeCarrierDataModel.setRouteArray(travelViewModel: travelViewModel)
+//                //            print("2. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
+//            }
 
             if #available(iOS 18.0, *) {
                 Text("")

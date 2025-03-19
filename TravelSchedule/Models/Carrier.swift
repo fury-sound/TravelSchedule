@@ -40,7 +40,8 @@ struct RouteDetailsCarrierMock: Hashable {
 //    var phone: String
 //}
 
-struct RouteDetailsCarrier: Hashable {
+struct RouteDetailsCarrier: Hashable, Identifiable {
+    var id: UUID
     var carrier: Carrier
     var startDate: String
     var departureTime: String

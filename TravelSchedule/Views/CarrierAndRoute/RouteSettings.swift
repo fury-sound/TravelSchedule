@@ -10,10 +10,10 @@ import SwiftUI
 struct RouteSettings: View {
     @ObservedObject var routeSettingViewModel: RouteSettingViewModel
     @ObservedObject var travelViewModel: TravelViewModel
-    @State private var isMorning = false
-    @State private var isDay = false
-    @State private var isEvening = false
-    @State private var isNight = false
+//    @State private var isMorning = false
+//    @State private var isDay = false
+//    @State private var isEvening = false
+//    @State private var isNight = false
     @State private var yesNo = ["Да", "Нет"]
     @State private var periods = [
         "Утро 06:00 - 12:00",
@@ -32,25 +32,29 @@ struct RouteSettings: View {
                     .font(.system(size: 24, weight: .bold))
                     .padding([.top, .bottom], 16)
                 VStack {
-                    Toggle(isOn: $isMorning) {
+//                    Toggle(isOn: $isMorning) {
+                        Toggle(isOn: $routeSettingViewModel.isMorning) {
                         Text(periods[0])
                             .font(.system(size: 17, weight: .medium))
                     }
                     .toggleStyle(CheckboxToggleStyle())
                     .padding([.top, .bottom], 19)
-                    Toggle(isOn: $isDay) {
+//                    Toggle(isOn: $isDay) {
+                        Toggle(isOn: $routeSettingViewModel.isDay) {
                         Text(periods[1])
                             .font(.system(size: 17, weight: .medium))
                     }
                     .toggleStyle(CheckboxToggleStyle())
                     .padding([.top, .bottom], 19)
-                    Toggle(isOn: $isEvening) {
+//                    Toggle(isOn: $isEvening) {
+                        Toggle(isOn: $routeSettingViewModel.isEvening) {
                         Text(periods[2])
                             .font(.system(size: 17, weight: .medium))
                     }
                     .toggleStyle(CheckboxToggleStyle())
                     .padding([.top, .bottom], 19)
-                    Toggle(isOn: $isNight) {
+//                    Toggle(isOn: $isNight) {
+                        Toggle(isOn: $routeSettingViewModel.isNight) {
                         Text(periods[3])
                             .font(.system(size: 17, weight: .medium))
                     }
@@ -94,8 +98,8 @@ struct RouteSettings: View {
             Spacer()
             if routeSettingViewModel.isYes || routeSettingViewModel.isNo {
                 VStack {
-                    ApplyButtonView()
-//                    ApplyButtonView(routeSettingViewModel: viewModel)
+//                    ApplyButtonView()
+                    ApplyButtonView(routeSettingViewModel: routeSettingViewModel)
                 }
             }
         }
@@ -109,7 +113,7 @@ struct RouteSettings: View {
 }
 
 struct ApplyButtonView: View {
-//    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
+    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -127,6 +131,7 @@ struct ApplyButtonView: View {
         .padding([.leading, .trailing], 16)
         .onTapGesture {
 //            print(routeSettingViewModel.isYes, routeSettingViewModel.isNo)
+            routeSettingViewModel.filterRoute()
             dismiss()
         }
     }
