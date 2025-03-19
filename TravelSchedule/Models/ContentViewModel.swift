@@ -76,14 +76,9 @@ struct RouteModel: Sendable {
     var arrivalTime: String = ""
 }
 
-//struct Station {
-//    var stationName: String = ""
-//}
-
 enum RouteView: Hashable {
     case locationView
     case stationView(Settlement)
-//    case stationView(CityList)
 }
 
 enum MoscowTerminal: String, CaseIterable {

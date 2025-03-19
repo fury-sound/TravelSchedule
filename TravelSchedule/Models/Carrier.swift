@@ -33,13 +33,6 @@ struct RouteDetailsCarrierMock: Hashable, Sendable {
     var connection: String?
 }
 
-//struct CarrierDetails: Hashable {
-//    var name: String
-//    var imageURL: String
-//    var email: String
-//    var phone: String
-//}
-
 struct RouteDetailsCarrier: Hashable, Identifiable {
     var id: UUID
     var carrier: Carrier
@@ -49,22 +42,3 @@ struct RouteDetailsCarrier: Hashable, Identifiable {
     var duration: String
     var connection: String?
 }
-
-//class CarrierModel: ObservableObject {
-//    @Published var carriers: [CarrierDetails] = []
-//    
-//    init() {
-//        loadCarriers()
-//    }
-//    
-//    func loadCarriers() {
-//        DispatchQueue.main.async() {
-//            self.carriers = 
-//        }
-////        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-////            self.carriers = CarrierID.allCases.compactMap {
-////                
-////            }
-////        }
-//    }
-//}

@@ -50,8 +50,3 @@ extension StoriesProgressBar {
     }
 }
 
-//#Preview {
-//    var timerConfiguration: TimerConfiguration { .init(storiesCount: 3) }
-//    @State var currentProgress: CGFloat = 0.45
-//    StoriesProgressBar(storiesCount: 3, timerConfiguration: timerConfiguration, currentProgress: $currentProgress)
-//}

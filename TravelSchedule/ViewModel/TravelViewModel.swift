@@ -19,28 +19,7 @@ final class TravelViewModel: ObservableObject {
     @Published var routeDataList: [Segment] = []
     @Published var selectedRouteArray: [RouteDetailsCarrier] = []
     @Published var isLoading: Bool = false
-//    @Published var routeSettingViewModel: RouteSettingViewModel?
-
-    //    @Published var fromField: String = "Откуда"
-    //    @Published var toField: String = "Куда"
     private let travelServices = TravelServices()
-//    private var cancellables = Set<AnyCancellable>()
-
-//    init() {
-//        $isLoading
-//            .dropFirst()
-//            .filter { !$0 }
-//            .sink { [weak self] _ in
-//                self?.initializeRouteSettingsViewModel()
-//            }
-//            .store(in: &cancellables)
-//        }
-
-//    func initializeRouteSettingsViewModel() {
-//        ("in initializeRouteSettingsViewModel")
-//        self.routeSettingViewModel = RouteSettingViewModel()
-////        self.routeSettingViewModel = RouteSettingViewModel(initialArray: selectedRouteArray)
-//    }
 
     func swapFromTo() {
         if fromField.0 != "Откуда" && toField.0 != "Куда" {
@@ -52,26 +31,11 @@ final class TravelViewModel: ObservableObject {
 
     func citySearchFilter(_ searchText: String) -> [Settlement] {
         return searchText.isEmpty ? travelCityList : travelCityList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        //        if searchText.isEmpty {
-        //            return travelCityList
-        //        } else {
-        //        return travelCityList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
     }
 
     func stationSearchFilter(_ searchText: String) -> [Station] {
         return searchText.isEmpty ? travelStationList : travelStationList.filter { $0.stationName.lowercased().contains(searchText.lowercased()) }
-        //        if searchText.isEmpty {
-        //            return travelCityList
-        //        } else {
-        //        return travelCityList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
     }
-    //    if searchString.isEmpty {
-    //        return travelViewModel.travelStationList
-    //    } else {
-    //        return travelViewModel.travelStationList.filter {
-    //            $0.stationName.lowercased().contains(searchString.lowercased())
-    //        }
-    //    }
 
     func getCityList() {
         for region in travelDataList {
@@ -81,7 +45,6 @@ final class TravelViewModel: ObservableObject {
                 }
             }
         }
-        //        print("travelCityList.count in getCityList", travelCityList.count)
     }
 
     func getStationList(cityName: String) {
@@ -109,17 +72,13 @@ final class TravelViewModel: ObservableObject {
         }
     }
 
-    //    func getRouteData(_ fromCode: String = "s9602494", _ toCode: String = "s9623135") async {
     func getRouteData(_ fromCode: String, _ toCode: String) async throws {
         isLoading = true
         defer {
             isLoading = false
         }
-//        print("3) isLoading getRouteData", isLoading)
         do {
-            //            try await travelServices.betweenStations(fromCode, toCode)
             let segments = try await travelServices.betweenStations(fromCode, toCode)
-//                print("in getRouteData, fromCode: \(fromCode), toCode: \(toCode)")
                 self.routeDataList = segments
                 self.setRouteArray()
         } catch {
@@ -128,8 +87,6 @@ final class TravelViewModel: ObservableObject {
     }
 
     func setRouteArray() {
-//        print("4) isLoading setRouteArray start", isLoading)
-//        print("1. routeDataList", routeDataList.count)
         guard !routeDataList.isEmpty else {
             print("Ошибка заполнения списка перевозчиков")
             return
@@ -153,11 +110,6 @@ final class TravelViewModel: ObservableObject {
                 connection: transferText))
         }
         CacheStorage.shared.carrierArray = selectedRouteArray
-//        CacheStorage.shared.carrierArray = selectedRouteArray.sorted(by: {$0.startDate < $1.startDate})
-//        print(CacheStorage.shared.carrierArray)
-//        print("2. selectedRouteArray", selectedRouteArray.count)
-//        print(selectedRouteArray[0].startDate, selectedRouteArray[0].carrier.title)
-//        print("5) isLoading setRouteArray end", isLoading)
     }
 
     func hourToEnding(_ hours: String) -> String {

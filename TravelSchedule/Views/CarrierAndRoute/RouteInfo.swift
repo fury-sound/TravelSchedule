@@ -20,8 +20,6 @@ struct RouteInfo: View {
                         .overlay(
                             VStack {
                                 HStack {
-//                                    Image(routeDetailsCarrier.carrier.logo)
-//                                    Image(ImageResource.rzd)
                                     KFImage(URL(string: routeDetailsCarrier.carrier.logo))
                                         .placeholder {
                                             Image(ImageResource.ypClose)
@@ -78,34 +76,14 @@ struct RouteInfo: View {
 
 #Preview {
     let travelViewModel = TravelViewModel()
-//    let routeCarrierData = RouteCarrierData()
     @State var routeDetailsCarrier: RouteDetailsCarrier =
     CacheStorage.shared.carrierArray[0]
-//    routeCarrierData.selectedRouteArray[0]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
 #Preview {
     let travelViewModel = TravelViewModel()
-//    let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier =     CacheStorage.shared.carrierArray[1]
-
-//    routeCarrierData.selectedRouteArray[2]
+    @State var routeDetailsCarrier: RouteDetailsCarrier = CacheStorage.shared.carrierArray[1]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
-
-    //                .onTapGesture {
-    //                    print("tapped")
-    //                    NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //                }
-    //        NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //    }
-
-    //        .navigationDestination(for: <#T##Hashable.Type#>, destination: <#T##(Hashable) -> View#>)
-    //        .onTapGesture {
-    //            print("tapped")
-    //            NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //        }
-    //    }
-//}

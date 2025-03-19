@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum RouteDepartureTime: String, CaseIterable {
-//    case anyTime = "any"
     case morning = "06-12"
     case afternoon = "12-18"
     case evening = "18-00"

@@ -10,22 +10,11 @@ import SwiftUI
 struct CarrierSearch: View {
     @EnvironmentObject var travelViewModel: TravelViewModel
     @ObservedObject var routeSettingViewModel = RouteSettingViewModel()
-    //    @State var routeSettingViewModel: RouteSettingViewModel
-    //    @Binding var fromField: String
-    //    @Binding var toField: String
-    //    @StateObject var routeCarrierDataModel = RouteCarrierData()
-    //    @State private var filterConnection: Bool?
-    //    @Binding var filterConnectionState: showRouteConnection
     @State private var filterTime: [String] = []
     let screenSize = UIScreen.main.bounds
 
-    //    init(travelViewModel: TravelViewModel) {
-    //        routeSettingViewModel = RouteSettingViewModel(initialArray: travelViewModel.selectedRouteArray)
-    //    }
-
     var body: some View {
         VStack {
-            //            if let routeSettingViewModel = routeSettingViewModel {
             Text("\(travelViewModel.fromField.0) (\(travelViewModel.fromField.1)) \(Image(systemName: "arrow.right")) \(travelViewModel.toField.0) (\(travelViewModel.toField.1))")
                 .font(.system(size: 24, weight: .bold))
                 .padding(.horizontal, 16)
@@ -44,9 +33,6 @@ struct CarrierSearch: View {
                         Spacer()
                     }
                 } else {
-                    //                    routeSettingViewModel = RouteSettingViewModel(initialArray: travelViewModel.selectedRouteArray)
-//                    if let routeSettingViewModel = travelViewModel.routeSettingViewModel  {
-//                        if routeSettingViewModel.filteredCarriers.isEmpty {
                         if routeSettingViewModel.finalFilteredCarriers.isEmpty {
                             HStack {
                                 Text("Вариантов нет")
@@ -56,8 +42,6 @@ struct CarrierSearch: View {
                         } else {
                             VStack {
                                 List {
-                                    //                            ForEach(filterResults, id: \.self) { details in
-//                                    ForEach(routeSettingViewModel.filteredCarriers, id: \.self) { details in
                                         ForEach(routeSettingViewModel.finalFilteredCarriers, id: \.self) { details in
                                         ZStack {
                                             RouteInfo(routeDetailsCarrier: details)
@@ -86,17 +70,6 @@ struct CarrierSearch: View {
                     BackButtonView()
                 }
             }
-//            .onAppear() {
-//                ////            print("1. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
-//                //            print("from \(travelViewModel.fromField.2) to \(travelViewModel.toField.2)")
-////                print("2) isLoading in CarrierSearch onAppear:", travelViewModel.isLoading)
-//                //            Task {
-//                ////                await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
-//                //                await travelViewModel.getRouteData("s9602494", "s9623135")
-//                //            }
-//                //            routeSettingViewModel.routeCarrierDataModel.setRouteArray(travelViewModel: travelViewModel)
-//                //            print("2. selectedRouteArray count:", routeSettingViewModel.routeCarrierDataModel.selectedRouteArray.count)
-//            }
 
             if #available(iOS 18.0, *) {
                 Text("")
@@ -111,36 +84,21 @@ struct CarrierSearch: View {
 
 struct ButtonView: View {
     @ObservedObject var routeSettingViewModel: RouteSettingViewModel
-    //    @ObservedObject var travelViewModel: TravelViewModel
-    //    @StateObject var routeSettingViewModel: RouteSettingViewModel
     @EnvironmentObject var travelViewModel: TravelViewModel
-    //    @Binding var filterConnection: Bool?
-    //    @Binding var filterConnectionState: showRouteConnection
     @State private var isRouteSettingsViewActive: Bool = false
 
     var body: some View {
         VStack {
             Spacer()
             NavigationLink(destination: RouteSettings(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel, isActive: $isRouteSettingsViewActive)) {
-                //            NavigationLink(destination: RouteSettings(routeSettingViewModel: travelViewModel.routeSettingViewModel, travelViewModel: travelViewModel, isActive: $isRouteSettingsViewActive)) {
                 VStack {
-//                    if let routeSettingViewModel = travelViewModel.routeSettingViewModel {
-
                         if routeSettingViewModel.filterConnectionState == .anyConnectionValue {
-                            //                    Text("Уточнить время")
                             Text(routeSettingViewModel.filterConnectionState.buttonText)
-                            //                    CustomLabel(
-                            //                        text: routeSettingViewModel.filterConnectionState.buttonText,
-                            //                        systemImageName: routeSettingViewModel.filterConnectionState.buttonIcon
-                            //                    )
                                 .padding(.vertical, 20)
                         } else {
-                            //                    Text(routeSettingViewModel.filterConnectionState.buttonText)
-                            //                    CustomLabel(text: "Уточнить время", systemImageName: "circle.fill")
                             CustomLabel(text: routeSettingViewModel.filterConnectionState.buttonText, systemImageName: routeSettingViewModel.filterConnectionState.buttonIcon)
                                 .padding(.vertical, 20)
                         }
-//                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: 60)
                 .foregroundStyle(.white)
@@ -152,14 +110,10 @@ struct ButtonView: View {
                 .offset(y: isRouteSettingsViewActive ? 0 : 200)
                 .opacity(isRouteSettingsViewActive ? 1 : 0)
             }
-            //            Text("Values: \(filterConnectionState.rawValue)")
-            //            Text("Values: \(routeSettingViewModel.filterConnectionState.rawValue)")
         }
         .onAppear(){
             withAnimation(.easeInOut(duration: 0.5)) {
                 isRouteSettingsViewActive = true
-                //                routeSettingViewModel.filterConnectionState = .noConnections
-                //                routeSettingViewModel.setup(travelViewModel: travelViewModel)
             }
         }
 

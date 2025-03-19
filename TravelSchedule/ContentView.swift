@@ -26,10 +26,6 @@ struct StoryConfiguration {
 struct ContentView: View {
     @ObservedObject var travelServices = TravelServices()
     @EnvironmentObject var travelViewModel: TravelViewModel
-//    @StateObject var travelViewModel: TravelViewModel
-//    @ObservedObject var routeSettingViewModel: RouteSettingViewModel
-    //    @State private var fromField: String = "Откуда"
-    //    @State private var toField: String = "Куда"
     @State private var whereField: Int = 0
     @State private var showFullImage: Bool = false
     @State private var selectedStorySetIndex: Int = 0
@@ -40,20 +36,9 @@ struct ContentView: View {
     @State var timer: Timer.TimerPublisher = Timer.TimerPublisher(interval: 5, runLoop: .main, mode: .common)
     @StateObject var navModel = NavigationModel()
 
-//    @State var isDataLoaded: Bool = false
-    //    @Environment(CityList.self) var cityList
-
     static func createTimer(configuration: StoryConfiguration) -> Timer.TimerPublisher {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
-
-//    init() {
-//        routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
-//    }
-
-//    func setupRouteSettingViewModel(initialArray: [RouteDetailsCarrier]) {
-//        routeSettingViewModel = RouteSettingViewModel(initialArray: initialArray)
-//    }
 
     var body: some View {
 
@@ -65,7 +50,6 @@ struct ContentView: View {
                     }
                     .frame(height: 140)
                     .padding(.init(top: 24, leading: 0, bottom: 20, trailing: 0))
-                    //                    FromToView(path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField)
                     FromToView(path: $navModel.path, whereField: $whereField, travelViewModel: travelViewModel)
                         .navigationDestination(for: RouteView.self) { routeView in
                             switch routeView {
@@ -73,18 +57,12 @@ struct ContentView: View {
                                     LocationSelection(headerText: "Выбор города", path: $navModel.path, travelViewModel: travelViewModel)
                                 case .stationView(let city):
                                     StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, travelViewModel: travelViewModel)
-                                    //                                    StationSelection(header: (city, 0), path: $navModel.path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
                             }
                         }
 
                     if travelViewModel.fromField.0 != "Откуда" && travelViewModel.toField.0 != "Куда" {
-                        //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $routeSettingViewModel.filterConnectionState)) {
-                        //                        NavigationLink(destination: CarrierSearch(fromField: $fromField, toField: $toField)) {
-                        //                        NavigationLink(destination: CarrierSearch(fromField: travelViewModel.fromField, toField: travelViewModel.toField)) {
-//                        if let routeSettingViewModel = travelViewModel.routeSettingViewModel {
                             NavigationLink(destination:
                                             CarrierSearch()
-//                                            CarrierSearch(routeSettingViewModel: routeSettingViewModel)
                                 .environmentObject(travelViewModel)
                             ) {
                                 Text("Найти")
@@ -99,17 +77,10 @@ struct ContentView: View {
                             .padding([.top, .bottom], 16)
                             .padding([.leading, .trailing], 8)
                             .simultaneousGesture(TapGesture().onEnded { _ in
-//                                print("in NaviLink tapped")
                                 Task {
-                                    //                                await travelViewModel.getRouteData("s9602494", "s9623135")
                                     try await travelViewModel.getRouteData(travelViewModel.fromField.2, travelViewModel.toField.2)
-                                    //                                isDataLoaded = true
                                 }
-//                                print("1) isLoading in NaviLink tapped:", travelViewModel.isLoading)
                             })
-//                        } else {
-//                            ProgressView()
-//                        }
                     }
                     Spacer()
                 }
@@ -149,19 +120,12 @@ struct ContentView: View {
                 //                try showCopyrightInfo()
                 //                try showStationsOnRoute()
                 //                try showAllStations()
-
                 await travelViewModel.getTravelData()
-                //                try travelServices.betweenStations("s9602494", "s9623135")
-                //                print("travelServices.travelDataAll.count in onAppear:", travelServices.travelDataAll.count)
-
-                //                try await travelViewModel.getTravelData()
             }
         }
     }
 }
 
 #Preview {
-//    var travelViewModel = TravelViewModel()
-//    ContentView(travelViewModel: travelViewModel)
     ContentView()
 }

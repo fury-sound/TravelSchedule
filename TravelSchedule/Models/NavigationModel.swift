@@ -13,10 +13,7 @@ enum RouteFieldStatus {
 }
 
 final class NavigationModel: ObservableObject {
-//    @Published var path = NavigationPath()
     @Published var path: [RouteView] = []
-//    @Published var fromField: String = ""
-//    @Published var toField: String = ""
 
     func push(_ routeView: RouteView) {
         path.append(routeView)
@@ -28,13 +25,8 @@ final class NavigationModel: ObservableObject {
 
     func popToRoot() {
         path = []
-//        path = NavigationPath()
     }
 }
-
-//@Observable class RouteDirection {
-//    var routeFieldStatus: RouteFieldStatus = .from
-//}
 
 class RouteDirection: ObservableObject {
     @Published var routeFieldStatus: RouteFieldStatus = .from

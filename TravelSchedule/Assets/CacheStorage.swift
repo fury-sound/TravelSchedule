@@ -9,6 +9,5 @@ import Foundation
 
 final class CacheStorage {
     static let shared = CacheStorage()
-//    var settlements: [Settlement] = []
     var carrierArray: [RouteDetailsCarrier] = []
 }

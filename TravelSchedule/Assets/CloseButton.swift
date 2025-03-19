@@ -18,7 +18,3 @@ struct CloseButton: View {
         }
     }
 }
-
-//#Preview {
-//    CloseButton()
-//}
