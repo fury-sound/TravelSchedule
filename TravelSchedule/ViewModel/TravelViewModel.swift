@@ -96,6 +96,10 @@ final class TravelViewModel: ObservableObject {
     }
 
     func getTravelData() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
         do {
             let regions = try await travelServices.showAllStations()
                 self.travelDataList = regions

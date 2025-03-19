@@ -7,26 +7,28 @@
 
 import Foundation
 
-struct Region: Hashable {
+struct Region: Hashable, Sendable {
     var name: String = ""
     var code: String = ""
     var settlements: [Settlement] = []
 }
 
-struct Settlement: Hashable {
+struct Settlement: Hashable, Identifiable, Sendable {
+    var id = UUID()
     var name: String = ""
     var code: String = ""
     var stations: [Station] = []
 }
 
-struct Station: Hashable {
+struct Station: Hashable, Identifiable, Sendable {
+    var id = UUID()
     var stationName: String = ""
     var stationType: String = ""
     var transportType: String = ""
     var codes: StationCode = StationCode()
 }
 
-struct StationCode: Hashable {
+struct StationCode: Hashable, Sendable {
     var express: String = ""
     var yandex: String = ""
     var yandex_code: String = ""
@@ -34,7 +36,7 @@ struct StationCode: Hashable {
     var esr_code: String = ""
 }
 
-struct Segment: Hashable {
+struct Segment: Hashable, Sendable {
     var startDate: String = ""
     var departure: String = ""
     var arrival: String = ""
@@ -43,12 +45,12 @@ struct Segment: Hashable {
     var thread: Thread = Thread()
 }
 
-struct Thread: Hashable {
+struct Thread: Hashable, Sendable {
     var number: String = ""
     var carrier: Carrier = Carrier()
 }
 
-struct Carrier: Hashable {
+struct Carrier: Hashable, Sendable {
     var title: String = ""
     var email: String = ""
     var phone: String = ""
@@ -56,14 +58,14 @@ struct Carrier: Hashable {
     var logo_svg: String = ""
 }
 
-struct FromToModel: Hashable {
+struct FromToModel: Hashable, Sendable {
     var fromField: String = "Откуда"
     var fromCode: String = ""
     var toField: String = "Куда"
     var toCode: String = ""
 }
 
-struct RouteModel {
+struct RouteModel: Sendable {
     var departureCity: String = ""
     var departureStation: String = ""
     var destinationCity: String = ""

@@ -14,7 +14,7 @@ enum CarrierID: String, CaseIterable {
     case uralLogistika = "Урал логистика"
 }
 
-struct CarrierDetailsMock: Identifiable, Hashable {
+struct CarrierDetailsMock: Identifiable, Hashable, Sendable {
     var id: UUID
     var name: CarrierID
     var nameLong: String
@@ -24,7 +24,7 @@ struct CarrierDetailsMock: Identifiable, Hashable {
     var phone: String?
 }
 
-struct RouteDetailsCarrierMock: Hashable {
+struct RouteDetailsCarrierMock: Hashable, Sendable {
     var carrierDetails: CarrierDetailsMock
     var date: String
     var timeFrom: String

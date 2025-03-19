@@ -29,12 +29,19 @@ struct CarrierSearch: View {
             Text("\(travelViewModel.fromField.0) (\(travelViewModel.fromField.1)) \(Image(systemName: "arrow.right")) \(travelViewModel.toField.0) (\(travelViewModel.toField.1))")
                 .font(.system(size: 24, weight: .bold))
                 .padding(.horizontal, 16)
+            Spacer()
             ZStack {
-                Spacer()
                 if travelViewModel.isLoading {
+                    Spacer()
                     VStack {
                         ProgressView()
                         Text("Поиск перевозчиков...")
+                    }
+                    Spacer()
+                } else if travelViewModel.isLoading == false && travelViewModel.routeDataList.isEmpty {
+                    VStack {
+                        ServerErrorView()
+                        Spacer()
                     }
                 } else {
                     //                    routeSettingViewModel = RouteSettingViewModel(initialArray: travelViewModel.selectedRouteArray)

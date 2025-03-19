@@ -44,9 +44,9 @@ final class AllStationService: AllStationServiceProtocol {
         }
         let fileURL = documentsDirectory.appendingPathComponent("allStations.json")
             // Write JSON to the file
-        try json.write(to: fileURL, options: .atomicWrite)
-        print("Сохраняем JSON в файл по указанному ниже пути:")
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path)
+//        try json.write(to: fileURL, options: .atomicWrite)
+//        print("Сохраняем JSON в файл по указанному ниже пути:")
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path)
             //##########################
 
         return allStations

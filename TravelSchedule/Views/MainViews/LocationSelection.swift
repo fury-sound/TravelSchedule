@@ -34,13 +34,20 @@ struct LocationSelection: View {
                 }
             } else {
                 VStack {
-                    //            SearchBar(searchText: $searchString)
-                    CityListTable(path: $path, searchString: $searchString, travelViewModel: travelViewModel)
-                    //            CityListTable(path: $path)
-                        .font(.system(size: 17, weight: .regular))
-                    //                    .transition(.asymmetric(
-                    //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
-                    //                        removal: .move(edge: .trailing)))
+                    if travelViewModel.isLoading {
+                        VStack {
+                            ProgressView()
+                            Text("Поиск локаций...")
+                        }
+                    } else {
+                        //            SearchBar(searchText: $searchString)
+                        CityListTable(path: $path, searchString: $searchString, travelViewModel: travelViewModel)
+                        //            CityListTable(path: $path)
+                            .font(.system(size: 17, weight: .regular))
+                        //                    .transition(.asymmetric(
+                        //                        insertion: AnyTransition.scale(scale: 0.1, anchor: .leading).combined(with: .opacity),
+                        //                        removal: .move(edge: .trailing)))
+                    }
                 }
                 .navigationBarBackButtonHidden(true)
                 .navigationTitle(headerText).navigationBarTitleDisplayMode(.inline)

@@ -282,7 +282,9 @@ final class TravelServices: ObservableObject {
 //                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
 //                print(scheduleBetweenStations.segments?.count, scheduleBetweenStations.interval_segments?.count)
 //        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode)
-        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135", transfers: true)
+//        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9602494", to: "s9623135", transfers: true)
+//        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode, date: currentDate(), transfers: true)
+        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode, transfers: true)
         let segments: [Segment] = scheduleBetweenStations.segments?.compactMap {segment in
                     let carrier: Carrier = Carrier(title: segment.thread?.carrier?.title ?? "Нет данных",
                                                    email: segment.thread?.carrier?.email ?? "Нет данных",
