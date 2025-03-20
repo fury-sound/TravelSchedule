@@ -10,8 +10,8 @@ import SwiftUI
 struct StationSelection: View {
     var header: (Settlement, Int)
     @Binding var path: [RouteView]
-    @Binding var whereField: Int
     @State private var searchString: String = ""
+    @Binding var whereField: Int
     @State private var noInternetError: Bool = false
     @State private var serverError: Bool = false
     @ObservedObject var travelViewModel: TravelViewModel
@@ -73,6 +73,7 @@ struct StationList: View {
                     NavigationLink(station.stationName, value: station)
                         .foregroundStyle(.ypBlack, .ypBlack)
                         .simultaneousGesture(TapGesture().onEnded{
+//                            print("contentViewViewModel.whereField in StationSelection", whereField)
                             if whereField == 0 {
                                 travelViewModel.fromField.0 = city.0.name
                                 travelViewModel.fromField.1 = station.stationName

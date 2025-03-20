@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class RouteSettingViewModel: ObservableObject {
+final class RouteSettingViewModel: ObservableObject {
     @Published var routeDepartureTime: [RouteDepartureTime] = []
     @Published var filterConnectionState: showRouteConnection = .anyConnectionValue
     @Published var isYes: Bool = false

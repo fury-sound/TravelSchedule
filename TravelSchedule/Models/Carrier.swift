@@ -8,31 +8,6 @@
 import Foundation
 import Combine
 
-enum CarrierID: String, CaseIterable {
-    case rzd = "РЖД"
-    case fgk = "ФГК"
-    case uralLogistika = "Урал логистика"
-}
-
-struct CarrierDetailsMock: Identifiable, Hashable, Sendable {
-    var id: UUID
-    var name: CarrierID
-    var nameLong: String
-    var imageNameSmall: String
-    var imageNameLarge: String?
-    var email: String?
-    var phone: String?
-}
-
-struct RouteDetailsCarrierMock: Hashable, Sendable {
-    var carrierDetails: CarrierDetailsMock
-    var date: String
-    var timeFrom: String
-    var timeTo: String
-    var timeTotal: String
-    var connection: String?
-}
-
 struct RouteDetailsCarrier: Hashable, Identifiable {
     var id: UUID
     var carrier: Carrier
@@ -42,3 +17,30 @@ struct RouteDetailsCarrier: Hashable, Identifiable {
     var duration: String
     var connection: String?
 }
+
+/// CarrierDetailsMock, RouteDetailsCarrierMock, CarrierID  - структуры под моковые данные, использованные в начале разработки приложения.
+/// Сейчас закомментированы и могут быть удалены
+//enum CarrierID: String, CaseIterable {
+//    case rzd = "РЖД"
+//    case fgk = "ФГК"
+//    case uralLogistika = "Урал логистика"
+//}
+//struct CarrierDetailsMock: Identifiable, Hashable, Sendable {
+//    var id: UUID
+//    var name: CarrierID
+//    var nameLong: String
+//    var imageNameSmall: String
+//    var imageNameLarge: String?
+//    var email: String?
+//    var phone: String?
+//}
+//
+//struct RouteDetailsCarrierMock: Hashable, Sendable {
+//    var carrierDetails: CarrierDetailsMock
+//    var date: String
+//    var timeFrom: String
+//    var timeTo: String
+//    var timeTotal: String
+//    var connection: String?
+//}
+

@@ -5,9 +5,11 @@
 //  Created by Valery Zvonarev on 12.02.2025.
 //
 
-import SwiftUI
+// вью-модель для моковых данных при выборе маршрута, необходимо удалить
 
-final class RouteData: ObservableObject {
-    @Published var selectedCity: String = ""
-    @Published var selectedStation: String = ""
-}
+//import SwiftUI
+//
+//final class RouteData: ObservableObject {
+//    @Published var selectedCity: String = ""
+//    @Published var selectedStation: String = ""
+//}

@@ -71,7 +71,7 @@ struct StoryTabView: View {
 
     private func resetTimer() {
         cancellable?.cancel()
-        timer = ContentView.createTimer(configuration: configuration)
+        timer = ContentViewViewModel.createTimer(configuration: configuration)
         cancellable = timer.connect()
     }
 
@@ -101,7 +101,7 @@ struct StoryTabView: View {
         }
         .onAppear {
             configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
-            timer = ContentView.createTimer(configuration: configuration)
+            timer = ContentViewViewModel.createTimer(configuration: configuration)
             cancellable = timer.connect()
         }
         .onDisappear {
@@ -191,7 +191,7 @@ struct StoryTabView: View {
     @State var selectedStorySetIndex: Int = 1
     @State var currentStory = viewModel.storiesCollection[selectedTab]
     @State var configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
-    @State var timer = ContentView.createTimer(configuration: configuration)
+    @State var timer = ContentViewViewModel.createTimer(configuration: configuration)
 
     StoryTabView(viewModel: $viewModel, currentStory: $currentStory, showFullImage: $showFullImage, selectedTab: $selectedTab, selectedStorySetIndex: $selectedStorySetIndex, timer: $timer, configuration: $configuration)
 }

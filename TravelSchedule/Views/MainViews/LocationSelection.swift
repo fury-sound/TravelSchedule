@@ -10,19 +10,27 @@ import SwiftUI
 struct LocationSelection: View {
     var headerText: String
     @Binding var path: [RouteView]
-    @State private var searchString: String = ""
-    @State private var noInternetError: Bool = false
-    @State private var serverError: Bool = false
-    @Environment(\.presentationMode) var presentationMode // To dismiss the view
+//    @Binding var searchString: String
+//    @State private var noInternetError: Bool = false
+//    @State private var serverError: Bool = false
+//    @Environment(\.presentationMode) var presentationMode // To dismiss the view
     @ObservedObject var travelViewModel: TravelViewModel
+    @StateObject var locationSelectionViewModel = LocationSelectionViewModel()
+
+//    private var backButton: some View {
+//        Button(action: { presentationMode.wrappedValue.dismiss() }) {
+//            Image(systemName: "chevron.left")
+//                .foregroundColor(.ypBlack)
+//        }
+//    }
 
     var body: some View {
         VStack {
-            if noInternetError == true {
+            if locationSelectionViewModel.noInternetError == true {
                 VStack {
                     NoInternetView()
                 }
-            } else if serverError == true {
+            } else if locationSelectionViewModel.serverError == true {
                 VStack {
                     ServerErrorView()
                 }
@@ -34,7 +42,7 @@ struct LocationSelection: View {
                             Text("Поиск локаций...")
                         }
                     } else {
-                        CityListTable(path: $path, searchString: $searchString, travelViewModel: travelViewModel)
+                        CityListTable(path: $path, searchString: $locationSelectionViewModel.searchString, travelViewModel: travelViewModel)
                             .font(.system(size: 17, weight: .regular))
                     }
                 }
@@ -57,21 +65,6 @@ struct LocationSelection: View {
         .background(Color.ypWhite)
         .onAppear {
             travelViewModel.travelStationList = []
-        }
-    }
-}
-
-
-struct BackButtonView: View {
-    @Environment(\.presentationMode) var presentationMode
-
-    var body: some View {
-        Button(action: {
-            presentationMode.wrappedValue.dismiss()
-        })
-        {
-            Image(systemName: "chevron.left")
-                .foregroundColor(.ypBlack)
         }
     }
 }
