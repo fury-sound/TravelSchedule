@@ -11,7 +11,6 @@ import WebKit
 struct WebView: UIViewRepresentable {
     @Binding var isDarkMode: Bool
     let blackBGColor: String = "1A1B22"
-        //    @Environment(\.colorScheme) var colorScheme
 
     class Coordinator: NSObject, WKNavigationDelegate {
         var parent: WebView
@@ -46,17 +45,7 @@ struct WebView: UIViewRepresentable {
         updateTheme(for: webView)
     }
 
-//    layoutHead.style.display = 'none';
-//    layoutHead.style.height = '0px';
-//    layoutHead.style.visibility = 'hidden';
-//    layoutHead.style.overflow = 'hidden';
-//    layoutHead.remove();
-//    document.querySelector('div.content__article-header').style.marginTop = '0px';
-//    "\(blackBGColor)"
-
     private func updateTheme(for webView: WKWebView) {
-//        document.body.style.backgroundColor = "\(blackBGColor)";
-//        let outerBGColor: String = Color.ypBlack // "#1A1B22"
         let js = """
         (function() {
             let darkMode = \(isDarkMode ? "true" : "false");
@@ -111,8 +100,6 @@ struct userAgreementView: View {
     @Binding var showTabBar: Bool
     @Environment(\.dismiss) var dismiss
     let screenSize = UIScreen.main.bounds
-        //    let urlString: String = "https://yandex.ru/legal/timetable_termsofuse/"
-        //    let urlString: String = "https://yandex.ru/legal/practicum_offer"
 
     var body: some View {
 
@@ -121,7 +108,6 @@ struct userAgreementView: View {
                 WebView(isDarkMode: $isDarkMode)
             }
             .preferredColorScheme(isDarkMode ? .dark : .light)
-                //            .ignoresSafeArea(edges: .bottom)
             .navigationBarBackButtonHidden(true)
             .navigationTitle("Пользовательское соглашение").navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -162,113 +148,3 @@ struct userAgreementView: View {
     WebView(isDarkMode: .constant(false))
         .preferredColorScheme(.light)
 }
-
-    //#Preview {
-    //    @State var isDarkMode = true
-    //    WebView()
-    //}
-    //#Preview {
-    //    @State var isDarkMode = false
-    //    WebView(isDarkMode: $isDarkMode)
-    //}
-    //
-    //#Preview {
-    //    @State var isDarkMode = true
-    //    userAgreementView(isDarkMode: $isDarkMode)
-    //}
-    //
-    //#Preview {
-    //    @State var isDarkMode = false
-    //    userAgreementView(isDarkMode: $isDarkMode)
-    //}
-
-
-
-
-    //    func makeUIView(context: Context) -> WKWebView {
-    //        let webView = WKWebView()
-    //            //        webView.navigationDelegate = context.coordinator
-    //        webView.isOpaque = false
-    //        webView.backgroundColor = UIColor.clear
-    //        let url = URL(string: "https://www.yandex.ru/legal/practicum_offer/")!
-    //        let request = URLRequest(url: url)
-    //        webView.load(request)
-    //        return webView
-    //    }
-    //
-    ////    let darkMode = true
-    //        //        let isDarkMode = (colorScheme == .dark)
-    //    func updateUIView(_ webView: WKWebView, context: Context) {
-    //        let js = """
-    //        (function() {
-    //            let darkMode = \(isDarkMode ? "true" : "false");
-    //
-    //            if (darkMode) {
-    //                document.documentElement.style.filter = "invert(1) hue-rotate(180deg)";
-    //                document.querySelectorAll("img, video").forEach(el => el.style.filter = "invert(1) hue-rotate(180deg)");
-    //            } else {
-    //                document.documentElement.style.filter = "";
-    //                document.querySelectorAll("img, video").forEach(el => el.style.filter = "");
-    //            }
-    //        })();
-    //        """
-    //        webView.evaluateJavaScript(js, completionHandler: nil)
-    //    }
-    //}
-
-    //            .overlay(
-    //                HStack {
-    //                    Spacer()
-    //                    VStack {
-    //                        Button {
-    //                            dismiss()
-    //                        } label: {
-    //                            Image(systemName: "xmark.square.fill")
-    //                                .foregroundColor(.gray)
-    //                                .font(.largeTitle)
-    //                        }
-    //                        .padding(.trailing, 20)
-    //                        .padding(.top, 20)
-    //                        Spacer()
-    //                    }
-    //                }
-    //            )
-    //            .simultaneousGesture(TapGesture().onEnded{
-    //                dismiss()
-    //            })
-
-    //        .edgesIgnoringSafeArea(.all)
-    //        .safeAreaInset(edge: .bottom) {
-    //            Color.clear  // Прозрачный фон
-    //                .frame(height: 0) // Убираем высоту
-    //        }
-
-    //        let hideControlsScript = """
-    //        document.querySelector('header').style.display = 'none'; // Скрыть заголовок
-    //        document.querySelector('.your-class-for-search').style.display = 'none'; // Скрыть лупу
-    //        document.querySelector('footer').style.display = 'none'; // Скрыть футер
-    //        """
-    //        webView.evaluateJavaScript(hideControlsScript, completionHandler: nil)
-
-    //func updateUIView(_ webView: WKWebView, context: Context) {
-    //        //        if let url = URL(string: urlString) {
-    //        //            let request = URLRequest(url: url)
-    //        //            webView.load(request)
-    //        //        }
-    //    webView.load(URLRequest(url: URL(string: "https://yandex.ru/legal/practicum_offer")!))
-    //        // Inject Light/Dark CSS
-    //    let lightDarkCSS = ":root { color-scheme: light dark; }"
-    //    let base64 = lightDarkCSS.data(using: .utf8)!.base64EncodedString()
-    //
-    //    let script = """
-    //    javascript:(function() {
-    //        var parent = document.getElementsByTagName('head').item(0);
-    //        var style = document.createElement('style');
-    //        style.type = 'text/css';
-    //        style.innerHTML = window.atob('\(base64)');
-    //        parent.appendChild(style);
-    //    })()
-    //"""
-    //    let cssScript = WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-    //    webView.configuration.userContentController.addUserScript(cssScript)
-    //}

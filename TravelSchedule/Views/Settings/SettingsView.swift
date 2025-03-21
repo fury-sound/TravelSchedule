@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-        //    @State private var isFeatureEnabled = false
-//    @State private var showingUserAgreement: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @State private var showTabBar: Bool = true
@@ -62,13 +60,7 @@ struct SettingsView: View {
                         .padding(.bottom, 24)
                 }
                 .background(Color.ypWhite)
-//        Rectangle()
-//            .fill(Color.ypBlackUniversal)
-//            .frame(height: 1)
-//            .padding(.bottom, 10)
-//            .backgroundStyle(Color.ypBlack)
             }
-//            .opacity(showFullImage ? 0 : 1)
     }
 }
 
@@ -76,36 +68,3 @@ struct SettingsView: View {
     SettingsView()
 }
 
-
-    //                        .onChange(of: colorScheme) { newScheme in
-    ////                            isDarkMode = (newScheme == .dark)
-    //                            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = newScheme ? .dark : .light
-    //                        }
-    //                        .onAppear {
-    //                            isDarkMode = (colorScheme == .dark)
-    //                        }
-
-
-
-    //                    Button("Пользовательское соглашение") {
-    ////                        withAnimation {
-    //                            showingUserAgreement = true
-    ////                        }
-    //                    }
-    //                        .foregroundStyle(.ypBlack)
-    //
-    //                        .sheet(isPresented: $showingUserAgreement) {
-    //                            userAgreementView()
-    ////                                .transition(.move(edge: .top))
-    ////                                .zIndex(1)
-    //                                .simultaneousGesture(TapGesture().onEnded{
-    //                                    showingUserAgreement = false
-    //                                })
-    ////                                .onTapGesture {
-    ////                                    showingUserAgreement = false
-    ////                                }
-    //                        }
-    //                }
-    //                }
-    //            }
-    //        Spacer()

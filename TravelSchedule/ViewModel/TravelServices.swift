@@ -8,9 +8,14 @@
 import SwiftUI
 import OpenAPIURLSession
 import OpenAPIRuntime
+import Combine
 
-final class TravelServices {
-    
+final class TravelServices: ObservableObject {
+
+    @Published var travelDataAll: [Region] = []
+    private var cancellables = Set<AnyCancellable>()
+    var regions: [Region] = []
+
     func showStationsOnRoute() throws {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
@@ -28,7 +33,7 @@ final class TravelServices {
         }
     }
 
-    func showAllStations() throws {
+    func showAllStations() async throws -> [Region] {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -39,15 +44,21 @@ final class TravelServices {
             apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
         )
 
-        Task {
-            do {
                 let allStationInfo = try await service.getAllStationList()
-                    // закомментировано, поскольку вешает XCode; полученный json выводится в файл
-                    // print(allStationInfo)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
+                guard let russiaData = allStationInfo.countries?.first(where: { $0.title == "Россия" }) else {
+                    print("Данные не получены")
+                    return []
+                }
+                regions = russiaData.regions?.compactMap { region in
+                    let settlements: [Settlement] = region.settlements?.compactMap { settlement in
+                        let stations = settlement.stations?.compactMap { station in
+                            Station(stationName: station.title ?? "Нет названия станции", stationType: station.station_type ?? "", transportType: station.transport_type ?? "", codes: StationCode(express: station.codes?.express ?? "", yandex: station.codes?.yandex ?? "", yandex_code: station.codes?.yandex_code ?? "", esr: station.codes?.esr ?? "", esr_code: station.codes?.esr_code ?? ""))
+                        }
+                        return Settlement(name: settlement.title ?? "Нет названия города", stations: stations ?? [])
+                    } ?? []
+                    return Region(name: region.title ?? "Нет названия региона", code: region.codes?.yandex_code ?? "Нет кода региона", settlements: settlements)
+                } ?? []
+                return regions
     }
 
     func showCopyrightInfo() throws {
@@ -147,7 +158,13 @@ final class TravelServices {
         }
     }
 
-    func betweenStations() throws {
+    func currentDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: Date())
+    }
+
+    func betweenStations(_ fromCode: String, _ toCode: String) async throws -> [Segment] {
         let client = Client(
             serverURL: try! Servers.Server1.url(),
             transport: URLSessionTransport()
@@ -158,13 +175,18 @@ final class TravelServices {
             apikey: "fb106596-6e67-468e-bcc3-15ab41f7fdca"
         )
 
-        Task {
-            do {
-                let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: "s9813094", to: "s9857050")
-                print(scheduleBetweenStations)
-            } catch(let error) {
-                print("An error occurred: \(error.localizedDescription)")
-            }
-        }
+        let scheduleBetweenStations = try await service.getScheduleBetweenStations(from: fromCode, to: toCode, transfers: true)
+        let segments: [Segment] = scheduleBetweenStations.segments?.compactMap {segment in
+                    let carrier: Carrier = Carrier(title: segment.thread?.carrier?.title ?? "Нет данных",
+                                                   email: segment.thread?.carrier?.email ?? "Нет данных",
+                                                   phone: segment.thread?.carrier?.phone ?? "Нет данных",
+                                                   logo: segment.thread?.carrier?.logo ?? "",
+                                                   logo_svg: segment.thread?.carrier?.logo_svg ?? "")
+                    let thread: Thread = Thread(number: segment.thread?.number ?? "", carrier: carrier)
+
+            return Segment(startDate: segment.start_date ?? "", departure: segment.departure ?? "", arrival: segment.arrival ?? "", duration: segment.duration ?? .zero, transfers: segment.has_transfers ?? false, thread: thread)
+                } ?? []
+        let sortedSegments = segments.sorted(by: {$0.startDate < $1.startDate})
+        return sortedSegments
     }
 }

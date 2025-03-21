@@ -6,22 +6,32 @@
     //
 
 import SwiftUI
+import Kingfisher
 
 struct RouteInfo: View {
     let screenSize = UIScreen.main.bounds
     @State var routeDetailsCarrier: RouteDetailsCarrier
 
     var body: some View {
-            NavigationLink(destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails)) {
+        NavigationLink(destination: CarrierCard(carrier: routeDetailsCarrier.carrier)) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 24)
                         .fill(Color.ypLightGray)
                         .overlay(
                             VStack {
                                 HStack {
-                                    Image(routeDetailsCarrier.carrierDetails.imageNameSmall)
+                                    KFImage(URL(string: routeDetailsCarrier.carrier.logo))
+                                        .placeholder {
+                                            Image(ImageResource.ypClose)
+                                                .resizable()
+                                                .frame(width: 38, height: 38)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        }
+                                        .resizable()
+                                        .frame(width: 38, height: 38)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
                                     VStack(alignment: .leading) {
-                                        Text(routeDetailsCarrier.carrierDetails.name.rawValue)
+                                        Text(routeDetailsCarrier.carrier.title)
                                             .foregroundColor(Color.black)
                                             .font(.system(size: 17, weight: .regular))
                                         if let connection = routeDetailsCarrier.connection {
@@ -31,25 +41,25 @@ struct RouteInfo: View {
                                         }
                                     }
                                     Spacer()
-                                    Text(routeDetailsCarrier.date)                                    .foregroundColor(Color.black)
+                                    Text(routeDetailsCarrier.startDate)                                    .foregroundColor(Color.black)
                                         .font(.system(size: 14, weight: .regular))
                                 }
                                 .padding(.top, 14)
                                 Spacer()
                                 HStack {
-                                    Text(routeDetailsCarrier.timeFrom)
+                                    Text(routeDetailsCarrier.departureTime)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 17, weight: .regular))
                                     Rectangle()
                                         .frame(maxWidth: .infinity, maxHeight: 1)
                                         .foregroundColor(.ypGrayUniversal)
-                                    Text(routeDetailsCarrier.timeTotal)
+                                    Text(routeDetailsCarrier.duration)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 14, weight: .regular))
                                     Rectangle()
                                         .frame(maxWidth: .infinity, maxHeight: 1)
                                         .foregroundColor(.ypGrayUniversal)
-                                    Text(routeDetailsCarrier.timeTo)
+                                    Text(routeDetailsCarrier.arrivalTime)
                                         .foregroundColor(Color.black)
                                         .font(.system(size: 17, weight: .regular))
                                 }
@@ -65,29 +75,15 @@ struct RouteInfo: View {
 
 
 #Preview {
-    let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.mockRouteArray.first!
+    let travelViewModel = TravelViewModel()
+    @State var routeDetailsCarrier: RouteDetailsCarrier =
+    CacheStorage.shared.carrierArray[0]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
 #Preview {
-    let routeCarrierData = RouteCarrierData()
-    @State var routeDetailsCarrier: RouteDetailsCarrier = routeCarrierData.mockRouteArray[2]
+    let travelViewModel = TravelViewModel()
+    @State var routeDetailsCarrier: RouteDetailsCarrier = CacheStorage.shared.carrierArray[1]
     RouteInfo(routeDetailsCarrier: routeDetailsCarrier)
 }
 
-
-    //                .onTapGesture {
-    //                    print("tapped")
-    //                    NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //                }
-    //        NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //    }
-
-    //        .navigationDestination(for: <#T##Hashable.Type#>, destination: <#T##(Hashable) -> View#>)
-    //        .onTapGesture {
-    //            print("tapped")
-    //            NavigationLink("", destination: CarrierCard(carrierDetails: routeDetailsCarrier.carrierDetails))
-    //        }
-    //    }
-//}

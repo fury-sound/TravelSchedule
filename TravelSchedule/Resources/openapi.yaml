@@ -291,7 +291,7 @@ paths:
         description: Признак для поиска маршрутов с пересадками
         required: false
         schema:
-          type: string
+          type: boolean
       responses:
         "200":
           description: success
@@ -637,7 +637,7 @@ components:
           type: string
           description: Коды страны/региона/населенного пункта в системе кодирования Яндекс Расписаний
     StationCode:
-      type: string
+      type: object
       properties:
         express:
           type: string
@@ -659,7 +659,10 @@ components:
       properties:
         type:
           type: string
-        code:
+        direction:
+          type: string
+          description: Направление движения поездов, на котором находится станция
+        codes:
           $ref: '#/components/schemas/StationCode'
         latitude:
           oneOf:
@@ -792,7 +795,7 @@ components:
         segments:
           type: array
           items:
-            $ref: '#/components/schemas/Segment'
+              $ref: '#/components/schemas/Segment'
         interval_segments:
           type: array
           items:
@@ -805,7 +808,9 @@ components:
         et_marker:
           type: boolean
         places:
-          $ref: '#/components/schemas/Place'
+          type: array
+          items:
+            $ref: '#/components/schemas/Place'
     Place:
       type: object
       properties:
@@ -823,38 +828,36 @@ components:
         whole:
           type: number
     Segment:
-      type: array
-      items:
-        type: object
-        properties:
-          arrival:
-            type: string
-          tickets_info:
-            $ref: '#/components/schemas/Ticket_info'
-          duration:
-            type: number
-          arrival_terminal:
-            type: string
-          arrival_platform:
-            type: number
-          from:
-            $ref: '#/components/schemas/From'
-          thread:
-            $ref: '#/components/schemas/Thread'
-          departure_platform:
-            type: number
-          departure:
-            type: string
-          stops:
-            type: string
-          start_date:
-            type: string
-          to:
-            $ref: '#/components/schemas/To'
-          has_transfers:
-            type: boolean
-          departure_terminal:
-            type: string
+      type: object
+      properties:
+        arrival:
+          type: string
+        tickets_info:
+          $ref: '#/components/schemas/Ticket_info'
+        duration:
+          type: number
+        arrival_terminal:
+          type: string
+        arrival_platform:
+          type: string
+        from:
+          $ref: '#/components/schemas/From'
+        thread:
+          $ref: '#/components/schemas/Thread'
+        departure_platform:
+          type: string
+        departure:
+          type: string
+        stops:
+          type: string
+        start_date:
+          type: string
+        to:
+          $ref: '#/components/schemas/To'
+        has_transfers:
+          type: boolean
+        departure_terminal:
+          type: string
     Interval_segment:
       type: object
       properties:
@@ -865,13 +868,13 @@ components:
         arrival_terminal:
           type: string
         arrival_platform:
-          type: number
+          type: string
         from:
           $ref: '#/components/schemas/From'
         thread:
           $ref: '#/components/schemas/Thread'
         departure_platform:
-          type: number
+          type: string
         stops:
           type: string
         start_date:

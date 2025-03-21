@@ -1,19 +1,10 @@
 import SwiftUI
 
 struct FromToView: View {
-        //    @Binding var model: NavigationModel
     @Binding var path: [RouteView]
     @Binding var whereField: Int
-        //    @State private var whereField: Int = 0
-    @Binding var fromField: String
-    @Binding var toField: String
-        //    @State var routeDirectionFrom: Bool = true
-        //    @Environment(RouteDirection.self) var routeDirection
-        //    @Environment(\.routeDirection) private var routeDirection
-        //    @EnvironmentObject var routeDirection: RouteDirection
-
+    @ObservedObject var travelViewModel: TravelViewModel
     let screenSize = UIScreen.main.bounds
-    var placeholders = ["Откуда", "Куда"]
 
     var body: some View {
         HStack(spacing: 16) {
@@ -25,12 +16,12 @@ struct FromToView: View {
                                 whereField = 0
                                 path.append(.locationView)
                             }) {
-                                if fromField == "Откуда" {
-                                    Text(fromField)
+                                if travelViewModel.fromField.0 == "Откуда" {
+                                    Text(travelViewModel.fromField.0)
                                         .foregroundStyle(Color.gray)
                                         .lineLimit(1)
                                 } else {
-                                    Text(fromField)
+                                    Text("\(travelViewModel.fromField.0) (\(travelViewModel.fromField.1))")
                                         .foregroundStyle(Color.black)
                                         .lineLimit(1)
                                 }
@@ -39,42 +30,33 @@ struct FromToView: View {
                         }
                         .listRowBackground(Color.white)
                         .padding(.top, 8)
-//                        .padding(.bottom, )
                         .background(Color.white)
                         Button(action: {
                             whereField = 1
                             path.append(.locationView)
                         }) {
-                            if toField == "Куда" {
-                                Text(toField)
+                            if travelViewModel.toField.0 == "Куда" {
+                                Text(travelViewModel.toField.0)
                                     .foregroundStyle(Color.gray)
                                     .lineLimit(1)
                             } else {
-                                Text(toField)
+                                Text("\(travelViewModel.toField.0) (\(travelViewModel.toField.1))")
                                     .foregroundStyle(Color.black)
                                     .lineLimit(1)
                             }
                         }
                         .listRowBackground(Color.white)
                         .listRowSeparator(.hidden)
-//                        .listRowInsets(EdgeInsets(top: 50, leading: 0, bottom: 0, trailing: 0))
                         .padding(.vertical, 8 )
-//                        Spacer()
                     }
                     .frame(height: 100)
                 }
-//                .padding(.top, 0.0)
                 .listStyle(.plain)
             }
-//            .foregroundStyle(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .padding([.top, .bottom], 16)
             Button(action: {
-                if fromField != "Откуда" && toField != "Откуда" {
-                    let temp = fromField
-                    fromField = toField
-                    toField = temp
-                }
+                travelViewModel.swapFromTo()
             }) {
                 Image("changeButton")
                     .frame(width: 36, height: 36)
@@ -91,202 +73,35 @@ struct FromToView: View {
     }
 }
 
-
-#Preview {
-        //    @Previewable @State var model = NavigationModel()
+#Preview("placeholder fields") {
     @State var path = [RouteView.locationView]
     @State var whereField = 0
-    @State var fromField = ""
-    @State var toField = ""
-        //    FromToView(path: $path, fromField: $fromField, toField: $toField)
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
+    @ObservedObject var travelViewModel = TravelViewModel()
+    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
 }
 
-#Preview {
+#Preview("dark theme") {
     @State var path = [RouteView.locationView]
-        //    @Previewable @State var model = NavigationModel()
     @State var whereField = 0
-    @State var fromField = "Москва (Курский вокзал)"
-    @State var toField = "Москва (Белорусский вокзал)"
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
-        //    FromToView(path: $path, fromField: $fromField, toField: $toField)
+    var travelViewModel = TravelViewModel()
+    travelViewModel.fromField.0 = "Москва"
+    travelViewModel.fromField.1 = "Ярославский вокзал"
+    travelViewModel.toField.0 = "Санкт-Петербург"
+    travelViewModel.toField.1 = "Балтийский вокзал"
+    return FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
         .preferredColorScheme(.dark)
+        .environmentObject(travelViewModel)
 }
 
-#Preview {
+#Preview("light theme") {
     @State var path = [RouteView.locationView]
-        //    @Previewable @State var model = NavigationModel()
     @State var whereField = 0
-    @State var fromField = "Москва (Курский вокзал)"
-    @State var toField = "Москва (Белорусский вокзал)"
-    FromToView(path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
-        //    FromToView(path: $path, fromField: $fromField, toField: $toField)
+    var travelViewModel = TravelViewModel()
+    travelViewModel.fromField.0 = "Москва"
+    travelViewModel.fromField.1 = "Ярославский вокзал"
+    travelViewModel.toField.0 = "Санкт-Петербург"
+    travelViewModel.toField.1 = "Балтийский вокзал"
+    return FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
         .preferredColorScheme(.light)
+        .environmentObject(travelViewModel)
 }
-
-
-    //    func hideChevron(completion: @escaping () -> Void) -> some View {
-    //        NavigationLink(placeholders.first!, value: RouteView.locationView)
-    //        opacity(0)
-    //        return Text(placeholders.first!)
-    //            .listRowSeparator(.hidden)
-    ////            .foregroundStyle(Color.gray, Color.clear)
-    //            .foregroundStyle(.placeholder)
-    //            .onTapGesture {
-    //                print(param)
-    //            }
-
-    //            .simultaneousGesture(TapGesture().onEnded{
-    //                print(param)
-    //                LocationSelection(headerText: "Выбор города", path: $path)
-    //            })
-    //    }
-
-/*
- //                        var fromFieldText: String {
- //                            fromField.isEmpty ? placeholders.first! : fromField
- //                        }
- ZStack {
- NavigationLink(placeholders.first!, value: RouteView.locationView)
- .opacity(0)
- Text(placeholders.first!)
- //                                .listRowSeparator(.hidden)
- //            .foregroundStyle(Color.gray, Color.clear)
- //                                .foregroundStyle(.placeholder)
- .onTapGesture {
- print(param)
- }
- }
- */
-/*
- if fromField == "" { //}.isEmpty {
- //                            hideChevron() {
- //                                param = "param1"
- //                                print(param)
- //                            }
- HStack {
- NavigationLink(placeholders.first!, value: RouteView.locationView)
- opacity(0)
- Text(placeholders.first!)
- .listRowSeparator(.hidden)
- //            .foregroundStyle(Color.gray, Color.clear)
- .foregroundStyle(.placeholder)
- .onTapGesture {
- print(param)
- }
- }
- //                            NavigationLink(placeholders.first!, value: RouteView.locationView)
- //                                //                            LocationSelection(headerText: "Выбор города", path: $path))
- //                                .foregroundStyle(Color.gray, Color.clear)
- //                                .listRowSeparator(.hidden)
- //                                .simultaneousGesture(TapGesture().onEnded({
- //                                        //  routeDirectionFrom = true
- //                                        //  routeFieldStatus = RouteFieldStatus.from
- //                                        //  routeDirection.routeFieldStatus = .from
- //                                    print("111")
- //                                    whereField = 0
- //                                    print("whereField in FromToView empty fromField", whereField)
- //                                }))
- //                                .foregroundStyle(.placeholder)
- //                            Text(placeholders.first!)
- //                                .foregroundStyle(.placeholder)
- //                                .listRowSeparator(.hidden)
- //                                .background(
- ////                                    NavigationLink("", value: RouteFieldStatus.from)
- //                                    NavigationLink("", destination: LocationSelection(headerText: "Выбор города", path: $path))
- //                                        .simultaneousGesture(TapGesture().onEnded({
- //                                    //  routeDirectionFrom = true
- //                                    //  routeFieldStatus = RouteFieldStatus.from
- //                                    //  routeDirection.routeFieldStatus = .from
- //                                            print("111")
- //                                            whereField = 0
- //                                            print("whereField in FromToView empty fromField", whereField)
- //                                        }))
- //                                        .opacity(0)
- //                                )
- } else {
- NavigationLink(fromField, value: RouteView.locationView)
- .foregroundStyle(Color.black, Color.clear)
- .listRowSeparator(.hidden)
- .lineLimit(1)
- //                            Text(fromField)
- //                                .lineLimit(1)
- //                                .listRowSeparator(.hidden)
- //                                .background(
- ////                                    NavigationLink(fromField, value: RouteFieldStatus.from)
- //                                    NavigationLink(fromField, destination: LocationSelection(headerText: "Выбор города", path: $path))
- //                                        .opacity(0)
- //                                        .simultaneousGesture(TapGesture().onEnded({
- //                                                //                                            routeDirectionFrom = true
- //                                                //                                    routeDirection.routeFieldStatus = .from
- //                                            print("222")
- //                                            whereField = 0
- //                                            print("whereField in FromToView filled fromField", whereField)
- //                                        }))
- //                                )
- }
- */
-/*
- if toField == "" {
- Text(placeholders.last!)
- .foregroundStyle(.placeholder)
- .listRowSeparator(.hidden)
- .background(
- NavigationLink("", destination: LocationSelection(headerText: "Выбор города", path: $path))
- .opacity(0)
- .simultaneousGesture(TapGesture().onEnded({
- //                                            routeDirectionFrom = true
- //                                            routeFieldStatus = RouteFieldStatus.from
- //                                    routeDirection.routeFieldStatus = .from
- print("333")
- whereField = 1
- print("whereField in FromToView empty toField", whereField)
- }))
- )
- } else {
- Text(toField)
- .lineLimit(1)
- .listRowSeparator(.hidden)
- .background(
- NavigationLink(toField, destination: LocationSelection(headerText: "Выбор города", path: $path))
- .opacity(0)
- .simultaneousGesture(TapGesture().onEnded({
- print("444")
- //                                            routeDirectionFrom = true
- //                                            routeDirection.routeFieldStatus = .from
- whereField = 1
- print("whereField in FromToView filled toField", whereField)
- }))
- )
- }
- */
-    //                        NavigationLink(placeholders.last!, destination: LocationSelection(headerText: "Выбор города", path: $path))
-    //                            .foregroundStyle(.placeholder)
-
-    //                        NavigationLink {
-    //                            LocationSelection(headerText: "Выбор города", path: $path)
-    //                        } label: {
-    //                            if fromField == "" {
-    //                                Text(placeholders.first!)
-    //                                    .foregroundStyle(.placeholder)
-    //                            } else {
-    //                                Text(fromField)
-    //                                    .lineLimit(1)
-    //                            }
-    //                        }
-    //                        .listRowSeparator(.hidden)
-
-    //                        .simultaneousGesture(TapGesture().onEnded({
-    //                            print("in WhereField - FromToView")
-    //                            print("path: \(path)")
-    //                            path.append(.locationView)
-    //                            print("path: \(path)")
-    //                        }))
-
-    //                        NavigationLink(placeholders.first!, destination: LocationSelection(headerText: "Выбор города", path: $path))
-    ////                        NavigationLink(placeholders.first!, value: RouteView.locationView)
-    //                            .navigationDestination(for: RouteView.self) { route in
-    ////                                LocationSelection(headerText: "Выбор города", path: $path)
-    ////                                StationSelection(header: "Выбор станции", path: $path)
-    //                            }
-

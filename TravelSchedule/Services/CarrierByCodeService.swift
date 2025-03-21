@@ -9,8 +9,7 @@ import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
 
-typealias CarrierByCode = Components.Schemas.CarrierArray // Carrier //Carriers
-//typealias CarrierByCode = Components.Schemas.Carrier //Carriers
+typealias CarrierByCode = Components.Schemas.CarrierArray
 
 protocol CarrierByCodeServiceProtocol {
     func getCarrierByCode(code: Int) async throws -> CarrierByCode

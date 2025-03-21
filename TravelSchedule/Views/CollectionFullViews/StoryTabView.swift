@@ -71,7 +71,7 @@ struct StoryTabView: View {
 
     private func resetTimer() {
         cancellable?.cancel()
-        timer = ContentView.createTimer(configuration: configuration)
+        timer = ContentViewViewModel.createTimer(configuration: configuration)
         cancellable = timer.connect()
     }
 
@@ -94,14 +94,14 @@ struct StoryTabView: View {
                 withAnimation(.easeInOut(duration: 0.5)) {
                     showFullImage = false
                 }
-                print("Close Story")
+//                print("Close Story")
             })
             .padding(.top, 60)
             .padding(.trailing, 15)
         }
         .onAppear {
             configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
-            timer = ContentView.createTimer(configuration: configuration)
+            timer = ContentViewViewModel.createTimer(configuration: configuration)
             cancellable = timer.connect()
         }
         .onDisappear {
@@ -128,7 +128,6 @@ struct StoryTabView: View {
                         currentIndex += 1
                         nextStory()
                     } else if currentIndex == currentStory.imageTitle.count - 1 {
-//                        print("in next")
                         currentIndex = 0
                         progress = 0
                         nextStorySet()
@@ -138,17 +137,13 @@ struct StoryTabView: View {
                 }
             }
         }
-//        .offset(y: offsetY)
         .gesture(
             DragGesture()
                 .onChanged { value in
                     offset = value.translation.width
                     offsetY = value.translation.height
-//                    isDragging = true
                 }
                 .onEnded { value in
-//                    withAnimation(.bouncy()) {
-//                    withAnimation {
                         if value.translation.width > 100 {
                             withAnimation(.bouncy()) {
                                 if currentIndex > 0 {
@@ -196,41 +191,8 @@ struct StoryTabView: View {
     @State var selectedStorySetIndex: Int = 1
     @State var currentStory = viewModel.storiesCollection[selectedTab]
     @State var configuration = StoryConfiguration(storiesCount: viewModel.storiesCollection[selectedStorySetIndex].imageTitle.count)
-    @State var timer = ContentView.createTimer(configuration: configuration)
+    @State var timer = ContentViewViewModel.createTimer(configuration: configuration)
 
     StoryTabView(viewModel: $viewModel, currentStory: $currentStory, showFullImage: $showFullImage, selectedTab: $selectedTab, selectedStorySetIndex: $selectedStorySetIndex, timer: $timer, configuration: $configuration)
 }
 
-
-
-//#Preview {
-//        @State var showFullImage: Bool = true
-//        @State var selectedTab: Int = 0
-//        StoryTabView(selectedTab: $selectedTab, showFullImage: $showFullImage)
-//}
-
-//        .scaleEffect(offsetY > 100 ? 0.95 : 1)
-//        .scaleEffect(isDragging ? 0.95 : 1)
-
-//        .opacity(isDragging ? 0.5 : 1)
-//                }
-//                .ignoresSafeArea()
-//            .transition(.move(edge: .top))
-//            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
-
-
-//            .transition(.scale(scale: 0.5))
-//            .gesture(DragGesture())
-
-//            }
-
-//        .offset(y: showFullImage ? 0 : UIScreen.main.bounds.height)
-//        .animation(.easeInOut(duration: 0.5), value: showFullImage)
-//        .transition(.asymmetric(
-//            insertion: AnyTransition
-//                .scale(scale: 0.1, anchor: .center)
-//                .combined(with: .opacity),
-//            removal: .move(edge: .trailing))
-//        )
-
-//        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))

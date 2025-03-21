@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+    @StateObject var travelViewModel = TravelViewModel()
 
     var body: some View {
         TabView {
@@ -17,14 +18,13 @@ struct MainTabView: View {
                 .tabItem {
                     Label("", systemImage: "arrow.up.message.fill")
                 }
-//                .backgroundStyle(Color.ypBlack)
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ypWhite, for: .tabBar)
+                .environmentObject(travelViewModel)
             SettingsView()
                 .tabItem {
                     Label("", systemImage: "gearshape.fill")
                 }
-//                .backgroundStyle(Color.ypBlack)
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ypWhite, for: .tabBar)
         }
