@@ -3,7 +3,6 @@ import SwiftUI
 struct FromToView: View {
     @Binding var path: [RouteView]
     @Binding var whereField: Int
-//    @ObservedObject var contentViewViewModel: ContentViewViewModel
     @ObservedObject var travelViewModel: TravelViewModel
     let screenSize = UIScreen.main.bounds
 
@@ -15,7 +14,6 @@ struct FromToView: View {
                         HStack {
                             Button(action: {
                                 whereField = 0
-//                                print("contentViewViewModel.whereField in FromToView, From:", whereField, contentViewViewModel.whereField)
                                 path.append(.locationView)
                             }) {
                                 if travelViewModel.fromField.0 == "Откуда" {
@@ -35,8 +33,6 @@ struct FromToView: View {
                         .background(Color.white)
                         Button(action: {
                             whereField = 1
-//                            print("contentViewViewModel.whereField in FromToView, To:", whereField, contentViewViewModel.whereField)
-//                            print("path", path)
                             path.append(.locationView)
                         }) {
                             if travelViewModel.toField.0 == "Куда" {
@@ -77,32 +73,35 @@ struct FromToView: View {
     }
 }
 
-//#Preview {
-//    @State var path = [RouteView.locationView]
-//    @State var whereField = 0
-//    @ObservedObject var travelViewModel = TravelViewModel()
-////    @ObservedObject var contentViewViewModel = ContentViewViewModel()
-//    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
-//}
-//
-//#Preview {
-//    @State var path = [RouteView.locationView]
-//    @State var whereField = 0
-//    @State var fromField = "Москва (Курский вокзал)"
-//    @State var toField = "Москва (Белорусский вокзал)"
-//    @ObservedObject var travelViewModel = TravelViewModel()
-////    @ObservedObject var contentViewViewModel = ContentViewViewModel()
-//    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
-//        .preferredColorScheme(.dark)
-//}
-//
-//#Preview {
-//    @State var path = [RouteView.locationView]
-//    @State var whereField = 0
-//    @State var fromField = "Москва (Курский вокзал)"
-//    @State var toField = "Москва (Белорусский вокзал)"
-//    @ObservedObject var travelViewModel = TravelViewModel()
-////    @ObservedObject var contentViewViewModel = ContentViewViewModel()
-//    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
-//        .preferredColorScheme(.light)
-//}
+#Preview("placeholder fields") {
+    @State var path = [RouteView.locationView]
+    @State var whereField = 0
+    @ObservedObject var travelViewModel = TravelViewModel()
+    FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+}
+
+#Preview("dark theme") {
+    @State var path = [RouteView.locationView]
+    @State var whereField = 0
+    var travelViewModel = TravelViewModel()
+    travelViewModel.fromField.0 = "Москва"
+    travelViewModel.fromField.1 = "Ярославский вокзал"
+    travelViewModel.toField.0 = "Санкт-Петербург"
+    travelViewModel.toField.1 = "Балтийский вокзал"
+    return FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+        .preferredColorScheme(.dark)
+        .environmentObject(travelViewModel)
+}
+
+#Preview("light theme") {
+    @State var path = [RouteView.locationView]
+    @State var whereField = 0
+    var travelViewModel = TravelViewModel()
+    travelViewModel.fromField.0 = "Москва"
+    travelViewModel.fromField.1 = "Ярославский вокзал"
+    travelViewModel.toField.0 = "Санкт-Петербург"
+    travelViewModel.toField.1 = "Балтийский вокзал"
+    return FromToView(path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+        .preferredColorScheme(.light)
+        .environmentObject(travelViewModel)
+}

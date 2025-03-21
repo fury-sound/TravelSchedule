@@ -1,8 +1,3 @@
-//
-//  SearchBar.swift
-//  SwiftUIProject
-//
-
 import SwiftUI
 
 struct SearchBar: View {

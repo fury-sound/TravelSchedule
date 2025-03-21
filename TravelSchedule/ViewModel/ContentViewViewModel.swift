@@ -1,5 +1,5 @@
     //
-    //  FromToViewModel.swift
+    //  ContentViewViewModel.swift
     //  TravelSchedule
     //
     //  Created by Valery Zvonarev on 09.02.2025.
@@ -31,12 +31,10 @@ final class ContentViewViewModel: ObservableObject {
     @Published var currentStory = SingleStoryModel(previewImageTitle: .preview1, imageTitle: [.big1, .big2], didSee: false, titleText: titleText, description: descriptionText)
     @Published var viewModel = StoryViewViewModel()
     @Published var configuration: StoryConfiguration
-//    @Published var configuration: StoryConfiguration = StoryConfiguration(storiesCount: 2, secondsPerStory: 5, timerTickInternal: 0.25)
     @Published var timer: Timer.TimerPublisher = Timer.TimerPublisher(interval: 5, runLoop: .main, mode: .common)
 
     init() {
         self.configuration = StoryConfiguration(storiesCount: 2, secondsPerStory: 5, timerTickInternal: 0.25)
-//        self.timer = ContentViewViewModel.createTimer(configuration: configuration)
     }
 
     func setupConfiguration(storiesCount: Int) {
@@ -48,9 +46,4 @@ final class ContentViewViewModel: ObservableObject {
         Timer.publish(every: configuration.timerTickInternal, on: .main, in: .common)
     }
 }
-//    @Published var routeField: FromToModel
-//
-//    init() {
-//        self.routeField = FromToModel(fromField: "", toField: "")
-//    }
-//}
+

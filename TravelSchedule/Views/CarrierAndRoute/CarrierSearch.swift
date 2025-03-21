@@ -133,76 +133,20 @@ struct CustomLabel: View {
     }
 }
 
-//#Preview {
-//    @State var fromField = "Москва (Ярославский вокзал)"
-//    @State var toField = "Санкт-Петербург (Балтийский вокзал)"
-//    @State var filterConnectionState: showRouteConnection = .anyConnectionValue
-//    @State var travelViewModel = TravelViewModel()
-////    var routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
-//    let routeCarrierDataModel = RouteCarrierData()
-//    CarrierSearch(travelViewModel: travelViewModel)
-////    CarrierSearch(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel)
-////    CarrierSearch(fromField: $fromField, toField: $toField)
-////    CarrierSearch(fromField: $fromField, toField: $toField, filterConnectionState: $filterConnectionState)
-//}
-//
-//#Preview {
-////    @State var filterConnection: showRouteConnection? = .anyConnectionValue
-//    var travelViewModel = TravelViewModel()
-//    var routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
-//    let routeCarrierDataModel = RouteCarrierData()
-////    viewModel.filterConnectionState = .noConnections
-//    ButtonView(routeSettingViewModel: routeSettingViewModel)
-////    ButtonView(routeSettingViewModel: routeSettingViewModel, travelViewModel: travelViewModel)
-////    ButtonView(filterConnection: $filterConnection)
-//}
-//
-//#Preview {
-//    @State var filterConnection: Bool? = false
-//    var routeSettingViewModel: RouteSettingViewModel? = nil
-//    var travelViewModel = TravelViewModel()
-//    ButtonView(routeSettingViewModel: routeSettingViewModel!)
-////    ButtonView(routeSettingViewModel: routeSettingViewModel!, travelViewModel: travelViewModel)
-////    ButtonView(filterConnection: $filterConnection)
-//}
+#Preview {
+    @State var filterConnectionState: showRouteConnection = .anyConnectionValue
+    var travelViewModel = TravelViewModel()
+    travelViewModel.fromField.0 = "Москва"
+    travelViewModel.fromField.1 = "Ярославский вокзал"
+    travelViewModel.toField.0 = "Санкт-Петербург"
+    travelViewModel.toField.1 = "Балтийский вокзал"
+    return CarrierSearch()
+        .environmentObject(travelViewModel)
+}
 
-
-//    init(travelViewModel: TravelViewModel) {
-////    let travelViewModel = TravelViewModel()
-////    _travelViewModel = StateObject(wrappedValue: travelViewModel)
-//    _routeSettingViewModel = StateObject(wrappedValue: RouteSettingViewModel(travelViewModel: travelViewModel))
-////    routeSettingViewModel = RouteSettingViewModel(travelViewModel: travelViewModel)
-//    }
-
-//    var filterResults: [RouteDetailsCarrier] {
-//
-//            //MARK: тест экрана отсутствия вариантов перевозчика
-//            //        return []
-//
-//            //        if filterConnection.isEmpty {
-//            //            return routeCarrierDataModel.mockRouteArray
-//            //        }
-////        switch filterConnection {
-////            case true:
-////                return routeCarrierDataModel.mockRouteArray
-////            case false:
-////                return routeCarrierDataModel.mockRouteArray.filter {
-////                    ($0.connection != nil) == false
-////                }
-////            default:
-////                return routeCarrierDataModel.mockRouteArray
-////        }
-//
-////        print("in filterResults")
-////        print("routeSettingViewModel.filterConnection: \(routeSettingViewModel.filterConnectionState)")
-//        switch routeSettingViewModel.filterConnectionState {
-//            case .allConnections:
-//                return routeCarrierDataModel.mockRouteArray
-//            case .noConnections:
-//                return routeCarrierDataModel.mockRouteArray.filter {
-//                    ($0.connection != nil) == false
-//                }
-//            default:
-//                return routeCarrierDataModel.mockRouteArray
-//        }
-//    }
+#Preview {
+    var travelViewModel = TravelViewModel()
+    var routeSettingViewModel = RouteSettingViewModel()
+    return ButtonView(routeSettingViewModel: routeSettingViewModel)
+        .environmentObject(travelViewModel)
+}

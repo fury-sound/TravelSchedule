@@ -5,6 +5,8 @@
 //  Created by Valery Zvonarev on 25.01.2025.
 //
 
+//MARK: комментированный текст оставлен для дальнейшей разработки алгоритма фильтрации 
+
     // 1. Импортируем библиотеки
 import OpenAPIRuntime
 import OpenAPIURLSession

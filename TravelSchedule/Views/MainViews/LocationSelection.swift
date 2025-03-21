@@ -10,19 +10,8 @@ import SwiftUI
 struct LocationSelection: View {
     var headerText: String
     @Binding var path: [RouteView]
-//    @Binding var searchString: String
-//    @State private var noInternetError: Bool = false
-//    @State private var serverError: Bool = false
-//    @Environment(\.presentationMode) var presentationMode // To dismiss the view
     @ObservedObject var travelViewModel: TravelViewModel
     @StateObject var locationSelectionViewModel = LocationSelectionViewModel()
-
-//    private var backButton: some View {
-//        Button(action: { presentationMode.wrappedValue.dismiss() }) {
-//            Image(systemName: "chevron.left")
-//                .foregroundColor(.ypBlack)
-//        }
-//    }
 
     var body: some View {
         VStack {
@@ -107,43 +96,15 @@ struct CityListTable: View {
     }
 }
 
-//#Preview {
-//    @State var noInternetError = true
-////        @State var path = [RouteView.stationView(CityList.moscow)]
-////    @State var path = [RouteView.stationView("Москва")]
-//    @State var path = [RouteView.stationView("Москва")]
-//    let travelViewModel = TravelServices()
-//    LocationSelection(
-//        headerText: "Выбор города",
-//        path: $path,
-//        travelViewModel: travelViewModel
-//    )
-//}
-//
-//#Preview {
-//    //    @State var path = [RouteView.stationView(CityList.moscow)]
-//    @State var path = [RouteView.stationView("Москва")]
-//    let travelViewModel = TravelServices()
-//    //    @Previewable @State var model = NavigationModel()
-//    //    @Previewable @State var model = NavigationPath()
-//    //    @Previewable @State var routeData = RouteData()
-//    CityListTable(
-//        path: $path,
-//        searchString: .constant(""),
-//        travelViewModel: travelViewModel
-//    )
-//}
-//
-//#Preview {
-//    @State var path = [RouteView.stationView("Москва")]
-//    let travelViewModel = TravelServices()
-//    //    @State var path = [RouteView.stationView(CityList.moscow)]
-//    //    @Previewable @State var model = NavigationModel()
-//    //    @Previewable @State var model = NavigationPath()
-//    //    @Previewable @State var routeData = RouteData()
-//    LocationSelection(
-//        headerText: "Выбор города",
-//        path: $path,
-//        travelViewModel: travelViewModel
-//    )
-//}
+#Preview {
+    @State var noInternetError = true
+    var settlement = Settlement(id: UUID(), name: "Москва")
+    @State var path = [RouteView.stationView(settlement)]
+    let travelViewModel = TravelViewModel()
+    return LocationSelection(
+        headerText: "Выбор города",
+        path: $path,
+        travelViewModel: travelViewModel
+    )
+    .environmentObject(travelViewModel)
+}

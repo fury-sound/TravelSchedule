@@ -161,7 +161,7 @@ struct RadioButtonStyle: ToggleStyle {
 }
 
 #Preview("Параметры маршрута") {
-    @State var filterConnection: Bool? //= false
+    @State var filterConnection: Bool?
     @State var isActive: Bool = true
     var travelViewModel = TravelViewModel()
     @State var routeSettingViewModel = RouteSettingViewModel()

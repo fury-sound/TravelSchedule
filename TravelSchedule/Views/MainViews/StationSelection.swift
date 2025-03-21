@@ -73,7 +73,6 @@ struct StationList: View {
                     NavigationLink(station.stationName, value: station)
                         .foregroundStyle(.ypBlack, .ypBlack)
                         .simultaneousGesture(TapGesture().onEnded{
-//                            print("contentViewViewModel.whereField in StationSelection", whereField)
                             if whereField == 0 {
                                 travelViewModel.fromField.0 = city.0.name
                                 travelViewModel.fromField.1 = station.stationName
@@ -97,22 +96,12 @@ struct StationList: View {
 }
 
 
-//#Preview {
-//        //    @Previewable @EnvironmentObject var routeDirection: RouteDirection
-////    @State var path = [RouteView.stationView(CityList.moscow)]
-//    @State var path = [RouteView.stationView("Москва")]
-//        //    @Previewable @State var model = NavigationModel() //[RouteView.stationView(CityList.moscow)]
-//    @State var whereField = 0
-//    @State var fromField = ""
-//    @State var toField = ""
-//    let travelViewModel = TravelServices()
-//        //    @Previewable @State var path = NavigationPath()
-//    StationSelection(header: ("Москва", 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField, travelViewModel: travelViewModel)
-////    StationSelection(header: (CityList.moscow, 0), path: $path, whereField: $whereField, fromField: $fromField, toField: $toField)
-//        //    @Previewable @State var routeData = RouteData()
-//        //    StationSelection(header: CityList.moscow, path: $path, routeData: routeData)
-//        //    StationSelection()
-//        //    @Previewable @State var directionField: String? = nil
-//        //    StationSelection(header: CityList.moscow, directionField: $directionField)
-//}
+#Preview {
+    var settlement = Settlement(id: UUID(), name: "Москва")
+    @State var path = [RouteView.stationView(settlement)]
+    @State var whereField = 0
+    var travelViewModel = TravelViewModel()
+    StationSelection(header: (settlement, 0), path: $path, whereField: $whereField, travelViewModel: travelViewModel)
+        .environmentObject(travelViewModel)
+}
 
