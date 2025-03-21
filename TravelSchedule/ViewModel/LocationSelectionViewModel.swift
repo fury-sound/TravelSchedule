@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class LocationSelectionViewModel: ObservableObject {
+final class LocationSelectionViewModel: ObservableObject {
     @Published var searchString: String = ""
     @Published var noInternetError: Bool = false
     @Published var serverError: Bool = false

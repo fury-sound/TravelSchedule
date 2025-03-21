@@ -11,10 +11,17 @@ struct BackButtonView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        Button(action: {
+//        Button(action: {
+//            presentationMode.wrappedValue.dismiss()
+//        })
+//        {
+//            Image(systemName: "chevron.left")
+//                .foregroundColor(.ypBlack)
+//        }
+//    }
+    Button {
             presentationMode.wrappedValue.dismiss()
-        })
-        {
+    } label: {
             Image(systemName: "chevron.left")
                 .foregroundColor(.ypBlack)
         }
